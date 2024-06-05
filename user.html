@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestionale Aziendale</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100 max-w-[430px] mx-auto">
+  <div class="bg-white text-black text-center py-4 flex justify-between items-center px-4">
+    <i class="fas fa-bars"></i>
+    <h1 class="text-2xl font-bold">Gestionale Aziendale</h1>
+    <i class="fas fa-bell"></i>
+  </div>
+
+  <div class="p-4 space-y-4">
+    <section id="dashboard" class="bg-white p-4 rounded-lg shadow">
+      <h2 class="text-xl font-bold mb-2">Dashboard</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-gray-200 p-3 rounded shadow text-center">
+          <span class="block text-sm text-black">Statistiche</span>
+          <p>Alcuni dati statistici...</p>
+        </div>
+        <div class="bg-gray-200 p-3 rounded shadow text-center">
+          <span class="block text-sm text-black">Notifiche</span>
+          <p>Alcune notifiche recenti...</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="employees" class="bg-white p-4 rounded-lg shadow">
+      <h2 class="text-xl font-bold mb-2">Gestione Dipendenti</h2>
+      <div class="mb-4">
+        <form class="space-y-4">
+          <div>
+            <label for="employee-name" class="block text-sm">Nome Dipendente:</label>
+            <input type="text" id="employee-name" name="employee-name" class="w-full p-2 border border-gray-300 rounded" />
+          </div>
+          <div>
+            <label for="employee-role" class="block text-sm">Ruolo:</label>
+            <input type="text" id="employee-role" name="employee-role" class="w-full p-2 border border-gray-300 rounded" />
+          </div>
+          <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-700">Aggiungi Dipendente</button>
+        </form>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="p-2 text-left">Nome</th>
+              <th class="p-2 text-left">Ruolo</th>
+              <th class="p-2 text-left">Azioni</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b">
+              <td class="p-2">Mario Rossi</td>
+              <td class="p-2">Sviluppatore</td>
+              <td class="p-2 flex space-x-2">
+                <button class="bg-yellow-500 text-white p-1 rounded hover:bg-yellow-700">Modifica</button>
+                <button class="bg-red-500 text-white p-1 rounded hover:bg-red-700">Elimina</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="employers" class="bg-white p-4 rounded-lg shadow">
+      <h2 class="text-xl font-bold mb-2">Gestione Datori di Lavoro</h2>
+      <div class="mb-4">
+        <form class="space-y-4">
+          <div>
+            <label for="employer-name" class="block text-sm">Nome Datore di Lavoro:</label>
+            <input type="text" id="employer-name" name="employer-name" class="w-full p-2 border border-gray-300 rounded" />
+          </div>
+          <div>
+            <label for="employer-company" class="block text-sm">Azienda:</label>
+            <input type="text" id="employer-company" name="employer-company" class="w-full p-2 border border-gray-300 rounded" />
+          </div>
+          <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-700">Aggiungi Datore di Lavoro</button>
+        </form>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="p-2 text-left">Nome</th>
+              <th class="p-2 text-left">Azienda</th>
+              <th class="p-2 text-left">Azioni</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b">
+              <td class="p-2">Francesca Pischedda</td>
+              <td class="p-2">Koch Group</td>
+              <td class="p-2 flex space-x-2">
+                <button class="bg-yellow-500 text-white p-1 rounded hover:bg-yellow-700">Modifica</button>
+                <button class="bg-red-500 text-white p-1 rounded hover:bg-red-700">Elimina</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div class="fixed bottom-0 left-0 right-0 bg-green-900 py-4 px-4 flex items-center justify-between text-white">
+    <a class="text-center text-sm" href="#">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a class="text-center text-sm" href="#">
+      <i class="fas fa-tachometer-alt"></i>
+      <span>Dashboard</span>
+    </a>
+    <a class="text-center text-sm" href="#">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+    <a class="text-center text-sm" href="#">
+      <i class="fas fa-cog"></i>
+      <span>Settings</span>
+    </a>
+  </div>
+</body>
+</html>
