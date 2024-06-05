@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Login Design System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        body {
+            background-color: #f0f0f0; /* Changed from #D3D3D3 to a lighter grey color */
+        }
+    </style>
+</head>
+<body class="max-w-[430px] mx-auto text-black bg-cover bg-center">
+<div class="flex flex-col h-screen justify-center items-center px-6">
+    <!-- Logo -->
+    <div class="mb-4">
+        <img src="/src/LogoQL3.png" alt="Company Logo" class="w-32 md:w-48 lg:w-56">
+    </div>
+    <!-- Smart Serve Tagline -->
+    <div class="mb-4 text-center">
+        <h2 class="text-2xl font-semibold">Quando Lavorare</h2>
+        <p class="text-gray-400">Employee Scheduling</p>
+    </div>
+    <!-- Login Form -->
+    <form class="w-full mb-4">
+        <div class="mb-4">
+            <input class="w-full p-3 border border-gray-200 rounded" placeholder="Email" type="email"/>
+            <!-- Changed from border-gray-300 to border-gray-200 for a lighter grey color -->
+        </div>
+        <div class="mb-6">
+            <input class="w-full p-3 border border-gray-200 rounded" placeholder="Password" type="password"/>
+            <!-- Changed from border-gray-300 to border-gray-200 for a lighter grey color -->
+        </div>
+        <button class="w-full p-3 bg-green-800 text-white rounded" type="submit">Login</button>
+    </form>
+    <!-- Forgot Password Link -->
+    <div class="mb-4">
+        <a class="text-sm text-gray-400" href="#">Forgot password?</a>
+        <!-- Changed from text-gray-600 to text-gray-400 for a lighter grey color -->
+</div>
+</body>
+</html>

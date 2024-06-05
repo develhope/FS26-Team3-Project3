@@ -1,0 +1,166 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Smart Serve Dashboard
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+ </head>
+ <body class="bg-gray-100 max-w-[430px] mx-auto">
+  <div class="bg-white text-black text-center py-4 flex justify-between items-center px-4">
+   <i class="fas fa-bars">
+   </i>
+   <h1 class="text-2xl font-bold">
+    Dashboard
+   </h1>
+   <i class="fas fa-bell">
+   </i>
+  </div>
+  <div class="p-4 space-y-4">
+   <div class="bg-white p-4 rounded-lg shadow" id="summary cards">
+    <h2 class="text-xl font-bold mb-2">
+     Summary
+    </h2>
+    <div class="grid grid-cols-2 gap-4">
+     <div class="bg-gray-200 p-3 rounded shadow text-center">
+      <span class="block text-sm text-black">
+       Totale ore lavorate
+      </span>
+      <span class="block text-2xl font-bold text-black">
+       32
+      </span>
+     </div>
+     <div class="bg-gray-200 p-3 rounded shadow text-center">
+      <span class="block text-sm text-black">
+       Turni pendenti
+      </span>
+      <span class="block text-2xl font-bold text-black">
+       1
+      </span>
+     </div>
+     <div class="bg-gray-200 p-3 rounded shadow text-center">
+      <span class="block text-sm text-black">
+       Paga per tempo lavorato
+      </span>
+      <span class="block text-2xl font-bold text-black">
+       $1,250
+      </span>
+     </div>
+     <div class="bg-gray-200 p-3 rounded shadow text-center">
+      <span class="block text-sm text-black">
+       Orari straordinari
+      </span>
+      <span class="block text-2xl font-bold text-black">
+        0
+      </span>
+     </div>
+    </div>
+   </div>
+   <div class="overflow-x-auto flex space-x-4 py-2" id="quick table status tiles">
+    <div class="bg-green-200 p-3 rounded shadow text-center flex-shrink-0">
+     <span class="block text-sm">
+      Lunedi 01
+     </span>
+     <span class="block text-xs">
+      Free
+     </span>
+    </div>
+    <div class="bg-gray-200 p-3 rounded shadow text-center flex-shrink-0">
+     <span class="block text-sm">
+      Martedi 02
+     </span>
+     <span class="block text-xs">
+      Occupied
+     </span>
+    </div>
+    <div class="bg-green-200 p-3 rounded shadow text-center flex-shrink-0">
+     <span class="block text-sm">
+      Mercoledi 03
+     </span>
+     <span class="block text-xs">
+      Free
+     </span>
+    </div>
+    <div class="bg-gray-200 p-3 rounded shadow text-center flex-shrink-0">
+     <span class="block text-sm">
+      Giovedi 04
+     </span>
+     <span class="block text-xs">
+      Occupied
+     </span>
+    </div>
+    <div class="bg-green-200 p-3 rounded shadow text-center flex-shrink-0">
+     <span class="block text-sm">
+      Venerdi 05
+     </span>
+     <span class="block text-xs">
+      Free
+     </span>
+    </div>
+   </div>
+   <div class="bg-white p-4 rounded-lg shadow" id="guest list">
+    <h3 class="text-lg font-semibold mb-2">
+     Lavoratori di turno
+    </h3>
+    <ul class="text-sm space-y-2">
+     <li>
+      Jimmy Saavedra - 7:00 AM
+     </li>
+     <li>
+      Francesca - 8:00 AM
+     </li>
+     <li>
+      Giorgio - 7:00 AM
+     </li>
+     <li>
+        Ricardo -
+     </li>
+    </ul>
+   </div>
+   <div class="bg-white p-4 rounded-lg shadow" id="actionable notifications">
+    <div class="flex justify-between items-center">
+     <h3 class="text-lg font-semibold">
+      Notifications
+     </h3>
+     <i class="fas fa-bell">
+     </i>
+    </div>
+    <p class="text-sm mt-2">
+     Non dimenticare che dobbiamo lavorare in squadra 
+    </p>
+   </div>
+  <div class="fixed bottom-0 left-0 right-0 bg-green-900 py-4 px-4 flex items-center justify-between text-white" id="navigation bar">
+   <a class="text-center text-sm" href="#">
+    <i class="fas fa-home">
+    </i>
+    <span>
+     Home
+    </span>
+   </a>
+   <a class="text-center text-sm" href="#">
+    <i class="">
+    </i>
+    <span>
+     Dashboard
+    </span>
+   </a>
+   <a class="text-center text-sm" href="#">
+    <i class="fas fa-user">
+    </i>
+    <span>
+     Profile
+    </span>
+   </a>
+   <a class="text-center text-sm" href="#">
+    <i class="fas fa-cog">
+    </i>
+    <span>
+     Settings
+    </span>
+   </a>
+  </div>
+ </body>
+</html>

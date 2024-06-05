@@ -1,0 +1,97 @@
+/* style.css */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h2 {
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+.logos img {
+  height: 100px;
+  margin-right: 20px;
+}
+
+.typography-examples .header {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.typography-examples .header-alternate {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #666;
+}
+
+.typography-examples .body-text {
+  font-size: 1rem;
+  color: #333;
+}
+
+.color-palettes {
+  display: flex;
+}
+
+.color-palettes .color-swatch {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+}
+
+.button-examples .btn {
+  padding: 10px 20px;
+  margin-right: 20px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #4CAF50;
+}
+
+.btn-secondary {
+  background-color: #008CBA;
+}
+
+.btn-warning {
+  background-color: #f44336;
+}
+
+.icon-examples i {
+  font-size: 2rem;
+  margin-right: 20px;
+}
+
+.form-examples input {
+  padding: 10px;
+  margin-right: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.component-examples .card {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
