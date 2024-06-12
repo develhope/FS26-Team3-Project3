@@ -3,7 +3,7 @@ import LoginComponent from './LoginComponent';
 
 const users = [
     { email: 'jimmsaav@icloud.com', password: '12345' },
-    { email: 'user2@example.com', password: 'password456' }
+    { email: 'francescapischedda30@gmail.com', password: 'girasole' }
 ];
 
 const EventLogin = () => {
