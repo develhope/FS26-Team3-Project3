@@ -37,9 +37,9 @@ const LoginComponent = ({ onLogin }) => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button className="w-full p-3 text-white rounded custom-button" type="submit">
+                <button className="w-full p-3 text-white rounded custom-button bg-green-700 hover:bg-green-800" type="submit">
                     Login
-                </button>
+                    </button>
             </form>
             <div className="mb-4">
                 <a className="text-sm text-gray-400" href="#">Forgot password?</a>
