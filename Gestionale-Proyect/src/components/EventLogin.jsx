@@ -1,16 +1,24 @@
 import React from "react";
+import useSWR from "swr";
 import LoginComponent from "./LoginComponent";
-
-const users = [
-  { email: "jimmsaav@icloud.com", password: "12345" },
-  { email: "francescapischedda30@gmail.com", password: "girasole" },
-  { email: "cuomo.riccardo@gmail.com", password: "qwerty" },
-];
+import { fetcher } from "../fetcher";
 
 const EventLogin = () => {
+  const { data: users, error } = useSWR('http://127.0.0.1:8000/', fetcher);
+
   const handleLogin = (email, password) => {
+    if (error) {
+      alert("Error fetching users");
+      return;
+    }
+
+    if (!users) {
+      alert("Loading users...");
+      return;
+    }
+
     const user = users.find(
-      (user) => user.email === email && user.password === password
+      (user) => user.Correo === email && user.Password === password
     );
     if (user) {
       window.location.href = "/dashboard";
