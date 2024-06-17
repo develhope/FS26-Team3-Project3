@@ -3,7 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
   const nav = useNavigate();
+  const isAuthenticated = localStorage.getItem('isAuthenticated');
+
+  if (!isAuthenticated) {
+    nav("/login");
+    return null;
+  }
+
   const logout = async () => {
+    localStorage.removeItem('isAuthenticated');
     nav("/");
   };
 
