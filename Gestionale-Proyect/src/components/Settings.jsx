@@ -16,11 +16,11 @@ const Settings = () => {
   };
 
   return (
-    <div>
-      <h1>Ciao</h1>
+    <div className="flex flex-col h-screen justify-center items-center px-6">
+      <h1 className="text-2xl font-semibold mb-4">Settings</h1>
       <button
         onClick={logout}
-        className="w-full p-3 text-white rounded custom-button bg-green-700 hover:bg-green-800"
+        className="w-full max-w-sm p-3 text-white rounded custom-button bg-green-700 hover:bg-green-800"
         type="submit"
       >
         Log-out

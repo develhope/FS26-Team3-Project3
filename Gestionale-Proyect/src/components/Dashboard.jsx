@@ -2,16 +2,16 @@ import React from "react";
 
 const Dashboard = () => {
   return (
-    <div className="bg-gray-100 max-w-[430px] mx-auto">
+    <div className="bg-gray-100 max-w-4xl mx-auto p-4">
       <div className="bg-white text-black text-center py-4 flex justify-between items-center px-4">
         <i className="fas fa-bars"></i>
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <i className="fas fa-bell"></i>
       </div>
-      <div className="p-4 space-y-4">
-        <div className="bg-white p-4 rounded-lg shadow" id="summary cards">
+      <div className="space-y-4">
+        <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-xl font-bold mb-2">Summary</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-gray-200 p-3 rounded shadow text-center">
               <span className="block text-sm text-black">Totale ore lavorate</span>
               <span className="block text-2xl font-bold text-black">32</span>
@@ -30,7 +30,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="overflow-x-auto flex space-x-4 py-2" id="quick table status tiles">
+        <div className="overflow-x-auto flex space-x-4 py-2">
           <div className="bg-green-200 p-3 rounded shadow text-center flex-shrink-0">
             <span className="block text-sm">Lunedi 01</span>
             <span className="block text-xs">Free</span>
@@ -52,7 +52,7 @@ const Dashboard = () => {
             <span className="block text-xs">Free</span>
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow" id="guest list">
+        <div className="bg-white p-4 rounded-lg shadow">
           <h3 className="text-lg font-semibold mb-2">Lavoratori di turno</h3>
           <ul className="text-sm space-y-2">
             <li>Jimmy Saavedra - 7:00 AM</li>
@@ -61,31 +61,31 @@ const Dashboard = () => {
             <li>Ricardo -</li>
           </ul>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow" id="actionable notifications">
+        <div className="bg-white p-4 rounded-lg shadow">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-semibold">Notifications</h3>
             <i className="fas fa-bell"></i>
           </div>
           <p className="text-sm mt-2">Non dimenticare che dobbiamo lavorare in squadra</p>
         </div>
-        <div className="fixed bottom-0 left-0 right-0 bg-green-900 py-4 px-4 flex items-center justify-between text-white" id="navigation bar">
-          <a className="text-center text-sm" href="#">
-            <i className="fas fa-home"></i>
-            <span>Home</span>
-          </a>
-          <a className="text-center text-sm" href="#">
-            <i className=""></i>
-            <span>Dashboard</span>
-          </a>
-          <a className="text-center text-sm" href="#">
-            <i className="fas fa-user"></i>
-            <span>Profile</span>
-          </a>
-          <a className="text-center text-sm" href="/settings">
-            <i className="fas fa-cog"></i>
-            <span>Settings</span>
-          </a>
-        </div>
+      </div>
+      <div className="fixed bottom-0 left-0 right-0 bg-green-900 py-4 px-4 flex items-center justify-between text-white">
+        <a className="text-center text-sm" href="#">
+          <i className="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a className="text-center text-sm" href="#">
+          <i className=""></i>
+          <span>Dashboard</span>
+        </a>
+        <a className="text-center text-sm" href="#">
+          <i className="fas fa-user"></i>
+          <span>Profile</span>
+        </a>
+        <a className="text-center text-sm" href="/settings">
+          <i className="fas fa-cog"></i>
+          <span>Settings</span>
+        </a>
       </div>
     </div>
   );
