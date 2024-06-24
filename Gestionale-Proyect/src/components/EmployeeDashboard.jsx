@@ -1,6 +1,6 @@
 import React from "react";
 
-const Dashboard = () => {
+const EmployeeDashboard = () => {
   return (
     <div className="bg-gray-100 max-w-4xl mx-auto p-4">
       <div className="bg-white text-black text-center py-4 flex justify-between items-center px-4">
@@ -13,7 +13,9 @@ const Dashboard = () => {
           <h2 className="text-xl font-bold mb-2">Summary</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-gray-200 p-3 rounded shadow text-center">
-              <span className="block text-sm text-black">Totale ore lavorate</span>
+              <span className="block text-sm text-black">
+                Totale ore lavorate
+              </span>
               <span className="block text-2xl font-bold text-black">32</span>
             </div>
             <div className="bg-gray-200 p-3 rounded shadow text-center">
@@ -21,11 +23,17 @@ const Dashboard = () => {
               <span className="block text-2xl font-bold text-black">1</span>
             </div>
             <div className="bg-gray-200 p-3 rounded shadow text-center">
-              <span className="block text-sm text-black">Paga per tempo lavorato</span>
-              <span className="block text-2xl font-bold text-black">$1,250</span>
+              <span className="block text-sm text-black">
+                Paga per tempo lavorato
+              </span>
+              <span className="block text-2xl font-bold text-black">
+                $1,250
+              </span>
             </div>
             <div className="bg-gray-200 p-3 rounded shadow text-center">
-              <span className="block text-sm text-black">Orari straordinari</span>
+              <span className="block text-sm text-black">
+                Orari straordinari
+              </span>
               <span className="block text-2xl font-bold text-black">0</span>
             </div>
           </div>
@@ -66,7 +74,9 @@ const Dashboard = () => {
             <h3 className="text-lg font-semibold">Notifications</h3>
             <i className="fas fa-bell"></i>
           </div>
-          <p className="text-sm mt-2">Non dimenticare che dobbiamo lavorare in squadra</p>
+          <p className="text-sm mt-2">
+            Non dimenticare che dobbiamo lavorare in squadra
+          </p>
         </div>
       </div>
       <div className="fixed bottom-0 left-0 right-0 bg-green-900 py-4 px-4 flex items-center justify-between text-white">
@@ -91,4 +101,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default EmployeeDashboard;
