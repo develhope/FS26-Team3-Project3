@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import LoginComponent from "./LoginComponent";
-import { useAuth } from "../App"; // Assicurati di avere il percorso corretto
+import { useAuth } from "./AuthContext";
 
 const EventLogin = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const EventLogin = () => {
     );
 
     if (user) {
-      login(user.Role); // Passa il ruolo alla funzione di login
+      login(user.Role);
       navigate("/dashboard");
     } else {
       alert("Invalid email or password");
