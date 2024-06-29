@@ -4,17 +4,26 @@ import { useAuth } from "./AuthContext";
 
 const EventLogin = () => {
   const navigate = useNavigate();
-  const { login } = useAuth(); // Usa il contesto di autenticazione
+  const { login } = useAuth();
 
   const handleLogin = (email, password) => {
+    console.log("handleLogin called");
+    console.log("Email:", email);
+    console.log("Password:", password);
+
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const user = storedUsers.find(
-      (user) => user.Correo === email && user.Password === password
-    );
+    console.log("Stored users:", storedUsers);
+
+    const user = storedUsers.find((user) => user.email === email && user.password === password);
+    console.log("Found user:", user);
 
     if (user) {
-      login(user.Role);
-      navigate("/dashboard");
+      login(user.role);
+      if (user.role === "supervisor") {
+        navigate("/dashboard-supervisor");
+      } else if (user.role === "user") {
+        navigate("/dashboard-employee");
+      }
     } else {
       alert("Invalid email or password");
     }

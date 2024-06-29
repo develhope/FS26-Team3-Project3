@@ -2,17 +2,19 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
-  const nav = useNavigate();
-  const isAuthenticated = localStorage.getItem('isAuthenticated');
+  const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === "true";
+  console.log("Settings - isAuthenticated:", isAuthenticated);
 
   if (!isAuthenticated) {
-    nav("/login");
+    navigate("/login");
     return null;
   }
 
   const logout = async () => {
     localStorage.removeItem('isAuthenticated');
-    nav("/");
+    localStorage.removeItem('userRole');
+    navigate("/");
   };
 
   return (
@@ -21,7 +23,7 @@ const Settings = () => {
       <button
         onClick={logout}
         className="w-full max-w-sm p-3 text-white rounded custom-button bg-green-700 hover:bg-green-800"
-        type="submit"
+        type="button"
       >
         Log-out
       </button>

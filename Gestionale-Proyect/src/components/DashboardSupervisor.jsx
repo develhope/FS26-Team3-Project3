@@ -10,19 +10,19 @@ const DashboardSupervisor = () => {
 
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+    console.log("Loaded users in DashboardSupervisor:", storedUsers);
 
-    // Verifica l'unicità degli Id
-    const ids = storedUsers.map((user) => user.Id);
+    // Verifica la unicidad de los IDs
+    const ids = storedUsers.map((user) => user.id);
     const uniqueIds = new Set(ids);
+
 
     setUsers(storedUsers);
   }, []);
 
   const totalUsers = users.length;
-  const totalSupervisors = users.filter(
-    (user) => user.Role === "supervisor"
-  ).length;
-  const totalEmployees = users.filter((user) => user.Role === "user").length;
+  const totalSupervisors = users.filter((user) => user.role === "supervisor").length;
+  const totalEmployees = users.filter((user) => user.role === "user").length;
 
   const handleLogout = () => {
     logout();
@@ -41,7 +41,7 @@ const DashboardSupervisor = () => {
       </div>
       <div className="dashboard-container">
         <div className="dashboard-content">
-          <h1>Dashboard Supervisor</h1>
+          <h1>Supervisor Dashboard</h1>
           <div className="dashboard-grid">
             <div className="statistics">
               <h2>Statistics</h2>
@@ -53,15 +53,14 @@ const DashboardSupervisor = () => {
               <h2>User List</h2>
               <ul>
                 {users.map((user, index) => {
-                  const uniqueKey = `${user.Id}-${index}`;
-                  //console.log(`Rendering user with Id: ${user.Id}`);
+                  const uniqueKey = `${user.id}-${index}`;
                   return (
                     <li key={uniqueKey}>
                       <div className="user-name">
-                        {user.Nombre} {user.Apellido}
+                        {user.firstName} {user.lastName}
                       </div>
-                      <div>Email: {user.Correo}</div>
-                      <div>Role: {user.Role}</div>
+                      <div>Email: {user.email}</div>
+                      <div>Role: {user.role}</div>
                     </li>
                   );
                 })}

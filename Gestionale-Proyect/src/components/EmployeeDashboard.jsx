@@ -1,5 +1,5 @@
 import React from "react";
-import "./EmployeeDashboard.css"; // Import the separate CSS file
+import "./EmployeeDashboard.css";
 
 const EmployeeDashboard = () => {
   return (

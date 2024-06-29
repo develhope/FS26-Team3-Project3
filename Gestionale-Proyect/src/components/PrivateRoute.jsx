@@ -6,6 +6,10 @@ import DashboardSupervisor from "./DashboardSupervisor";
 
 const PrivateRoute = ({ role }) => {
   const { isAuthenticated, userRole } = useAuth();
+  console.log("PrivateRoute - isAuthenticated:", isAuthenticated);
+  console.log("PrivateRoute - userRole:", userRole);
+  console.log("PrivateRoute - required role:", role);
+
   if (!isAuthenticated || userRole !== role) {
     return <Navigate to="/" />;
   }

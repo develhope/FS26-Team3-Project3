@@ -3,40 +3,44 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import "./LoginComponent.css";
 import { useAuth } from "./AuthContext";
+
 const LoginComponent = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [activeTab, setActiveTab] = useState("azienda");
+  const [activeTab, setActiveTab] = useState("company");
   const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("handleSubmit called");
+    console.log("Email:", email);
+    console.log("Password:", password);
+
     const users = JSON.parse(localStorage.getItem("users")) || [];
-    const user = users.find(
-      (user) => user.Correo === email && user.Password === password
-    );
+    console.log("Stored users:", users);
+
+    const user = users.find((user) => user.email === email && user.password === password);
+    console.log("Found user:", user);
 
     if (user) {
-      if (activeTab === "azienda" && user.Role === "supervisor") {
-        login(user.Role);
+      if (activeTab === "company" && user.role === "supervisor") {
+        login(user.role);
         navigate("/dashboard-supervisor");
-      } else if (activeTab === "dipendente" && user.Role === "user") {
-        login(user.Role);
+      } else if (activeTab === "employee" && user.role === "user") {
+        login(user.role);
         navigate("/dashboard-employee");
       } else {
-        setError(
-          "Accesso non autorizzato. Controlla le credenziali e riprova."
-        );
+        setError("Unauthorized access. Check credentials and try again.");
       }
     } else {
-      setError("Credenziali non valide. Controlla le credenziali e riprova.");
+      setError("Invalid credentials. Check credentials and try again.");
     }
   };
 
   const handleRegisterClick = () => {
-    // Naviga alla pagina di registrazione quando sarà disponibile
+    // Navigate to registration page when available
   };
 
   return (
@@ -45,17 +49,11 @@ const LoginComponent = ({ onLogin }) => {
         <img src="./Resourse Genie Modificato.png" alt="Company Logo" />
       </div>
       <div className="tabs">
-        <div
-          className={`tab ${activeTab === "azienda" ? "active" : ""}`}
-          onClick={() => setActiveTab("azienda")}
-        >
-          Azienda
+        <div className={`tab ${activeTab === "company" ? "active" : ""}`} onClick={() => setActiveTab("company")}>
+          Company
         </div>
-        <div
-          className={`tab ${activeTab === "dipendente" ? "active" : ""}`}
-          onClick={() => setActiveTab("dipendente")}
-        >
-          Dipendente
+        <div className={`tab ${activeTab === "employee" ? "active" : ""}`} onClick={() => setActiveTab("employee")}>
+          Employee
         </div>
       </div>
       <form className="form" onSubmit={handleSubmit}>
