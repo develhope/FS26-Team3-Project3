@@ -7,8 +7,14 @@ const EmployeeDashboard = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setUser(loggedInUser);
+    if (loggedInUser) {
+      setUser(loggedInUser);
+    }
   }, [loggedInUser]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="container">
@@ -23,28 +29,30 @@ const EmployeeDashboard = () => {
       <div className="content">
         <div className="card">
           <h2>Summary</h2>
-          <div>
-            <div className="grid">
-              <div className="summary-item">
-                <span>Name:</span>
-                <span>
-                  {user.firstName} {user.lastName}
-                </span>
-              </div>
-              <div className="summary-item">
-                <span>Email:</span>
-                <span>{user.email}</span>
-              </div>
-              <div className="summary-item">
-                <span>Role:</span>
-                <span>{user.role}</span>
-              </div>
-              <div className="summary-item">
-                <span>Hours Worked:</span>
-                <span>{user.hoursWorked}</span>
+          {user && (
+            <div>
+              <div className="grid">
+                <div className="summary-item">
+                  <span>Name:</span>
+                  <span>
+                    {user.firstName} {user.lastName}
+                  </span>
+                </div>
+                <div className="summary-item">
+                  <span>Email:</span>
+                  <span>{user.email}</span>
+                </div>
+                <div className="summary-item">
+                  <span>Role:</span>
+                  <span>{user.role}</span>
+                </div>
+                <div className="summary-item">
+                  <span>Hours Worked:</span>
+                  <span>{user.hoursWorked}</span>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
         {/* Altri contenuti della dashboard */}
       </div>

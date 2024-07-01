@@ -27,15 +27,19 @@ const EventLogin = () => {
 
     if (user) {
       if (activeTab === "company" && user.role === "supervisor") {
+        console.log("Logging in as supervisor");
         login(user);
         navigate("/dashboard-supervisor");
       } else if (activeTab === "employee" && user.role === "user") {
+        console.log("Logging in as employee");
         login(user);
         navigate("/dashboard-employee");
       } else {
+        console.log("Unauthorized access");
         setError("Unauthorized access. Check credentials and try again.");
       }
     } else {
+      console.log("Invalid email or password");
       setError("Invalid email or password");
     }
   };
