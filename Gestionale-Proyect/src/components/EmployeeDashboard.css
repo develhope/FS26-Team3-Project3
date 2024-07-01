@@ -1,4 +1,4 @@
-body {
+.w body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
@@ -17,6 +17,9 @@ body {
   max-width: 800px; /* Adjusted to fit larger screens */
   display: flex;
   flex-direction: column;
+}
+.container h3 {
+  font-weight: bold;
 }
 
 .header {

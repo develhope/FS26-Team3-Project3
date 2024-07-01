@@ -15,12 +15,15 @@ const EmployeeDashboard = () => {
       <div className="header">
         <i className="fas fa-bars"></i>
         <h1>Dashboard</h1>
+        <h3>
+          Welcome, {user.firstName} {user.lastName}!
+        </h3>
         <i className="fas fa-bell"></i>
       </div>
       <div className="content">
         <div className="card">
           <h2>Summary</h2>
-          {user && (
+          <div>
             <div className="grid">
               <div className="summary-item">
                 <span>Name:</span>
@@ -41,7 +44,7 @@ const EmployeeDashboard = () => {
                 <span>{user.hoursWorked}</span>
               </div>
             </div>
-          )}
+          </div>
         </div>
         {/* Altri contenuti della dashboard */}
       </div>

@@ -7,7 +7,7 @@ import "./DashboardSupervisor.css";
 const DashboardSupervisor = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-  const { logout } = useAuth();
+  const { loggedInUser, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,6 +34,7 @@ const DashboardSupervisor = () => {
       <div className="header">
         <div className="header-container">
           <h1>Company Management</h1>
+
           <button onClick={handleLogout} className="logout-button">
             Logout
           </button>
@@ -42,6 +43,11 @@ const DashboardSupervisor = () => {
       <div className="dashboard-container">
         <div className="dashboard-content">
           <h1>Supervisor Dashboard</h1>
+          {loggedInUser && (
+            <h3>
+              Welcome, {loggedInUser.firstName} {loggedInUser.lastName}!
+            </h3>
+          )}
           <div className="dashboard-grid">
             <div className="statistics">
               <h2>Statistics</h2>

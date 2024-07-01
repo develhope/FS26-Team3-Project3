@@ -2,18 +2,17 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import "./LoginComponent.css";
 
-const LoginComponent = ({ onLogin }) => {
+const LoginComponent = ({ onLogin, error }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activeTab, setActiveTab] = useState("company");
-  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("handleSubmit called");
     console.log("Email:", email);
     console.log("Password:", password);
-    onLogin(email, password);
+    onLogin(email, password, activeTab);
   };
 
   return (
@@ -48,8 +47,8 @@ const LoginComponent = ({ onLogin }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
         {error && <div className="error">{error}</div>}
+        <button type="submit">Login</button>
         <div className="forgot-password">
           <a href="#">Forgot password?</a>
         </div>
@@ -63,6 +62,7 @@ const LoginComponent = ({ onLogin }) => {
 
 LoginComponent.propTypes = {
   onLogin: PropTypes.func.isRequired,
+  error: PropTypes.string,
 };
 
 export default LoginComponent;
