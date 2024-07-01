@@ -1,9 +1,16 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { AuthProvider, useAuth } from "./components/AuthContext";
 import EventLogin from "./components/EventLogin";
 import Settings from "./components/Settings";
 import PrivateRoute from "./components/PrivateRoute";
+import DashboardSupervisor from "./components/DashboardSupervisor";
+import EmployeeDashboard from "./components/EmployeeDashboard";
 
 const App = () => {
   useEffect(() => {
@@ -15,6 +22,7 @@ const App = () => {
         password: "12345",
         id: "E0941518441",
         role: "user",
+        hoursWorked: 40,
       },
       {
         firstName: "Francesca",
@@ -23,6 +31,7 @@ const App = () => {
         password: "girasole",
         id: "ECARTADIEDENTITA",
         role: "supervisor",
+        hoursWorked: 35,
       },
       {
         firstName: "Riccardo",
@@ -31,6 +40,7 @@ const App = () => {
         password: "qwerty",
         id: "RC",
         role: "user",
+        hoursWorked: 30,
       },
     ];
 
