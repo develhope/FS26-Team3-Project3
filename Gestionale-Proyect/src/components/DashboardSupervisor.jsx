@@ -1,28 +1,28 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import EditEmployee from "./EditEmployee";
 import "./DashboardSupervisor.css";
 
 const DashboardSupervisor = () => {
   const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
   const { logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    console.log("Loaded users in DashboardSupervisor:", storedUsers);
-
-    // Verifica la unicidad de los IDs
-    const ids = storedUsers.map((user) => user.id);
-    const uniqueIds = new Set(ids);
-
-
     setUsers(storedUsers);
   }, []);
 
-  const totalUsers = users.length;
-  const totalSupervisors = users.filter((user) => user.role === "supervisor").length;
-  const totalEmployees = users.filter((user) => user.role === "user").length;
+  const updateUser = (updatedUser) => {
+    const updatedUsers = users.map((user) =>
+      user.id === updatedUser.id ? updatedUser : user
+    );
+    setUsers(updatedUsers);
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+    setSelectedUser(null);
+  };
 
   const handleLogout = () => {
     logout();
@@ -45,28 +45,40 @@ const DashboardSupervisor = () => {
           <div className="dashboard-grid">
             <div className="statistics">
               <h2>Statistics</h2>
-              <div>Total Users: {totalUsers}</div>
-              <div>Total Supervisors: {totalSupervisors}</div>
-              <div>Total Employees: {totalEmployees}</div>
+              <div>Total Users: {users.length}</div>
+              <div>
+                Total Supervisors:{" "}
+                {users.filter((user) => user.role === "supervisor").length}
+              </div>
+              <div>
+                Total Employees:{" "}
+                {users.filter((user) => user.role === "user").length}
+              </div>
             </div>
             <div className="user-list">
               <h2>User List</h2>
               <ul>
-                {users.map((user, index) => {
-                  const uniqueKey = `${user.id}-${index}`;
-                  return (
-                    <li key={uniqueKey}>
-                      <div className="user-name">
-                        {user.firstName} {user.lastName}
-                      </div>
-                      <div>Email: {user.email}</div>
-                      <div>Role: {user.role}</div>
-                    </li>
-                  );
-                })}
+                {users.map((user) => (
+                  <li key={user.id}>
+                    <div className="user-name">
+                      {user.firstName} {user.lastName}
+                    </div>
+                    <div>Email: {user.email}</div>
+                    <div>Role: {user.role}</div>
+                    <div>Hours Worked: {user.hoursWorked}</div>
+                    <button onClick={() => setSelectedUser(user)}>Edit</button>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
+          {selectedUser && (
+            <EditEmployee
+              employee={selectedUser}
+              onSave={updateUser}
+              onCancel={() => setSelectedUser(null)}
+            />
+          )}
         </div>
       </div>
     </div>

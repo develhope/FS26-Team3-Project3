@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
 
-// Creación del contexto de autenticación
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -8,29 +7,37 @@ export const AuthProvider = ({ children }) => {
     !!localStorage.getItem("isAuthenticated")
   );
   const [userRole, setUserRole] = useState(localStorage.getItem("userRole"));
+  const [loggedInUser, setLoggedInUser] = useState(
+    JSON.parse(localStorage.getItem("loggedInUser")) || null
+  );
 
-  const login = (role) => {
-    console.log("Login called with role:", role);
+  const login = (user) => {
+    console.log("Logging in user:", user);
     setIsAuthenticated(true);
-    setUserRole(role);
+    setUserRole(user.role);
+    setLoggedInUser(user);
     localStorage.setItem("isAuthenticated", "true");
-    localStorage.setItem("userRole", role);
+    localStorage.setItem("userRole", user.role);
+    localStorage.setItem("loggedInUser", JSON.stringify(user));
   };
 
   const logout = () => {
-    console.log("Logout called");
+    console.log("Logging out");
     setIsAuthenticated(false);
     setUserRole(null);
+    setLoggedInUser(null);
     localStorage.removeItem("isAuthenticated");
     localStorage.removeItem("userRole");
+    localStorage.removeItem("loggedInUser");
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userRole, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, userRole, loggedInUser, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Hook personalizado para usar el contexto de autenticación
 export const useAuth = () => useContext(AuthContext);

@@ -27,6 +27,11 @@
   align-items: center;
 }
 
+.header h1 {
+  flex-grow: 1;
+  text-align: left;
+}
+
 .logout-button {
   background-color: #0056b3;
   color: white;
@@ -34,6 +39,7 @@
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
+  margin-left: auto;
 }
 
 .logout-button:hover {
