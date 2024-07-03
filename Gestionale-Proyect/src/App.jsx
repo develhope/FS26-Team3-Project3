@@ -9,6 +9,7 @@ import { AuthProvider, useAuth } from "./components/AuthContext";
 import EventLogin from "./components/EventLogin";
 import Settings from "./components/Settings";
 import PrivateRoute from "./components/PrivateRoute";
+import RegistrationComponent from "./components/RegistrationComponent";
 import DashboardSupervisor from "./components/DashboardSupervisor";
 import EmployeeDashboard from "./components/EmployeeDashboard";
 
@@ -64,6 +65,7 @@ const App = () => {
             element={<PrivateRoute role="supervisor" />}
           />
           <Route path="/settings" element={<SettingsRoute />} />
+          <Route path="/registrationForm" element={<RegistrationComponent />} />
         </Routes>
       </Router>
     </AuthProvider>
