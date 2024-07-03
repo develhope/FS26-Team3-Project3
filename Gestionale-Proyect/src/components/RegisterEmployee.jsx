@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RegisterEmployee.css";
-import Header from "./Header";
 
 const RegisterEmployee = () => {
   const [firstName, setFirstName] = useState("");
@@ -35,7 +34,9 @@ const RegisterEmployee = () => {
 
   return (
     <div className="container">
-      <Header />
+      <div className="logo">
+        <img src="./Resourse Genie Modificato.png" alt="Company Logo" />
+      </div>
       <h2>Register Employee</h2>
       <form onSubmit={handleSubmit} className="form">
         <input

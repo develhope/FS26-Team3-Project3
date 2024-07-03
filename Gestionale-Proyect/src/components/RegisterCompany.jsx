@@ -37,7 +37,9 @@ const RegisterCompany = () => {
 
   return (
     <div className="container">
-      <Header />
+      <div className="logo">
+        <img src="./Resourse Genie Modificato.png" alt="Company Logo" />
+      </div>
       <h2>Register Company</h2>
       <form onSubmit={handleSubmit} className="form">
         <input
