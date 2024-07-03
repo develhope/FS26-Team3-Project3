@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from "./components/AuthContext";
 import EventLogin from "./components/EventLogin";
 import Settings from "./components/Settings";
 import PrivateRoute from "./components/PrivateRoute";
+import RegistrationComponent from "./components/RegistrationComponent";
 
 const App = () => {
   useEffect(() => {
@@ -32,6 +33,14 @@ const App = () => {
         id: "RC",
         role: "user",
       },
+      {
+        firstName: "Giorgio",
+        lastName: "Quintavalle",
+        email: "quintavalle.giorgio@yahoo.it",
+        password: "ciaociao",
+        id: "1234",
+        role: "user",
+      },
     ];
 
     const storedUsers = localStorage.getItem("users");
@@ -54,6 +63,7 @@ const App = () => {
             element={<PrivateRoute role="supervisor" />}
           />
           <Route path="/settings" element={<SettingsRoute />} />
+          <Route path="/registrationForm" element={< RegistrationComponent />}/>
         </Routes>
       </Router>
     </AuthProvider>

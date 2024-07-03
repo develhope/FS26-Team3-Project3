@@ -41,6 +41,7 @@ const LoginComponent = ({ onLogin }) => {
 
   const handleRegisterClick = () => {
     // Navigate to registration page when available
+    navigate("/registrationForm")
   };
 
   return (
