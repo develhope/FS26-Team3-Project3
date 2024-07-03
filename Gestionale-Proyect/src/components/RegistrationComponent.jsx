@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './RegistrationComponent.css';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationComponent = ({ onRegister }) => {
   const [form, setForm] = useState({
@@ -10,6 +11,7 @@ const RegistrationComponent = ({ onRegister }) => {
     vatNumber: ''
   });
 
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
