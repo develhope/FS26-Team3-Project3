@@ -1,17 +1,16 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import "./LoginComponent.css";
 
 const LoginComponent = ({ onLogin, error }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activeTab, setActiveTab] = useState("company");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("handleSubmit called");
-    console.log("Email:", email);
-    console.log("Password:", password);
     onLogin(email, password, activeTab);
   };
 
@@ -53,7 +52,15 @@ const LoginComponent = ({ onLogin, error }) => {
           <a href="#">Forgot password?</a>
         </div>
         <div className="register-link">
-          <a href="#">Don't have an account? Register</a>
+          {activeTab === "company" ? (
+            <a href="#" onClick={() => navigate("/register-company")}>
+              Don't have an account? Register
+            </a>
+          ) : (
+            <a href="#" onClick={() => navigate("/register-employee")}>
+              Don't have an account? Register
+            </a>
+          )}
         </div>
       </form>
     </div>
