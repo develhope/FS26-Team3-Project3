@@ -33,8 +33,7 @@ const DashboardSupervisor = () => {
     <div className="dashboard-wrapper">
       <div className="header">
         <div className="header-container">
-          <h1>Company Management</h1>
-
+          <h1>Supervisor Dashboard</h1>
           <button onClick={handleLogout} className="logout-button">
             Logout
           </button>
@@ -42,7 +41,6 @@ const DashboardSupervisor = () => {
       </div>
       <div className="dashboard-container">
         <div className="dashboard-content">
-          <h1>Supervisor Dashboard</h1>
           {loggedInUser && (
             <h3>
               Welcome, {loggedInUser.firstName} {loggedInUser.lastName}!
@@ -86,6 +84,24 @@ const DashboardSupervisor = () => {
             />
           )}
         </div>
+      </div>
+      <div className="footer">
+        <a href="#">
+          <i className="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="#">
+          <i className=""></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#">
+          <i className="fas fa-user"></i>
+          <span>Profile</span>
+        </a>
+        <a href="/settings">
+          <i className="fas fa-cog"></i>
+          <span>Settings</span>
+        </a>
       </div>
     </div>
   );
