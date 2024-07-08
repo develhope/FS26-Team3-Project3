@@ -17,7 +17,7 @@ const EmployeeDashboard = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container-employee">
       <div className="header">
         <i className="fas fa-bars"></i>
         <h1>Dashboard</h1>
