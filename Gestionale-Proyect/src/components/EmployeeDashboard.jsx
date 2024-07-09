@@ -1,5 +1,7 @@
 import React from "react";
 import "./EmployeeDashboard.css";
+import RequestLeave from "./RequestLeave";
+import ViewLeaveRequests from "./ViewLeaveRequests";
 
 const EmployeeDashboard = () => {
   return (
@@ -69,6 +71,14 @@ const EmployeeDashboard = () => {
           </div>
           <p>Don't forget we need to work as a team</p>
         </div>
+        <div className="card">
+          <h3>Richiedi Permesso</h3>
+          <RequestLeave />
+        </div>
+        <div className="card">
+          <h3>Le Mie Richieste di Permesso</h3>
+          <ViewLeaveRequests />
+        </div>
       </div>
       <div className="footer">
         <a href="#">
@@ -76,7 +86,7 @@ const EmployeeDashboard = () => {
           <span>Home</span>
         </a>
         <a href="#">
-          <i className=""></i>
+          <i className="fas fa-tachometer-alt"></i>
           <span>Dashboard</span>
         </a>
         <a href="#">

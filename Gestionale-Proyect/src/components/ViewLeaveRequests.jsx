@@ -23,3 +23,4 @@ const ViewLeaveRequests = () => {
 };
 
 export default ViewLeaveRequests;
+
