@@ -1,47 +1,30 @@
 import React, { useState } from 'react';
-import { useLeaveRequest } from './LeaveRequestContext';
 
 const RequestLeave = () => {
-    const { addRequest } = useLeaveRequest();
-    const [type, setType] = useState('ferie');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [reason, setReason] = useState('');
+  const [date, setDate] = useState('');
+  const [type, setType] = useState(''); // es. ferie, malattia
+  const [reason, setReason] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        addRequest({ type, startDate, endDate, reason });
-        setType('ferie');
-        setStartDate('');
-        setEndDate('');
-        setReason('');
-    };
+  const handleSubmit = async () => {
+    // Invio dei dati al server o salvataggio in localStorage
+    const request = { date, type, reason, status: 'pending' };
+    // Simulazione di invio al server
+    localStorage.setItem('leaveRequest', JSON.stringify(request));
+    alert('Richiesta inviata con successo!');
+  };
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Tipo:
-                <select value={type} onChange={(e) => setType(e.target.value)}>
-                    <option value="ferie">Ferie</option>
-                    <option value="malattia">Malattia</option>
-                    <option value="permesso">Permesso</option>
-                </select>
-            </label>
-            <label>
-                Data Inizio:
-                <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
-            </label>
-            <label>
-                Data Fine:
-                <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
-            </label>
-            <label>
-                Motivo:
-                <textarea value={reason} onChange={(e) => setReason(e.target.value)} required />
-            </label>
-            <button type="submit">Invia Richiesta</button>
-        </form>
-    );
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+      <select value={type} onChange={(e) => setType(e.target.value)} required>
+        <option value="">Seleziona Tipo</option>
+        <option value="ferie">Ferie</option>
+        <option value="malattia">Malattia</option>
+      </select>
+      <textarea value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Motivo" required />
+      <button type="submit">Invia Richiesta</button>
+    </form>
+  );
 };
 
 export default RequestLeave;

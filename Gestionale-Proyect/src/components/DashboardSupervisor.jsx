@@ -5,28 +5,34 @@ import "./DashboardSupervisor.css";
 
 const DashboardSupervisor = () => {
   const [users, setUsers] = useState([]);
+  const [requests, setRequests] = useState([]);  // Aggiunto per gestire le richieste
   const { logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    console.log("Loaded users in DashboardSupervisor:", storedUsers);
-
-    // Verifica la unicidad de los IDs
-    const ids = storedUsers.map((user) => user.id);
-    const uniqueIds = new Set(ids);
-
+    const storedRequests = JSON.parse(localStorage.getItem("days")) || []; // Carica le richieste dai giorni salvati
+    const pendingRequests = storedRequests.filter(day => day.permissionStatus === "pending"); // Filtra solo le richieste pendenti
 
     setUsers(storedUsers);
+    setRequests(pendingRequests); // Imposta le richieste pendenti
   }, []);
-
-  const totalUsers = users.length;
-  const totalSupervisors = users.filter((user) => user.role === "supervisor").length;
-  const totalEmployees = users.filter((user) => user.role === "user").length;
 
   const handleLogout = () => {
     logout();
     navigate("/");
+  };
+
+  const handlePermissionResponse = (day, status) => {
+    // Aggiorna lo stato della richiesta
+    const updatedRequests = requests.map(request => {
+      if (request.day === day) {
+        return { ...request, permissionStatus: status };
+      }
+      return request;
+    });
+    setRequests(updatedRequests.filter(request => request.permissionStatus === "pending")); // Aggiorna l'elenco delle richieste pendenti
+    localStorage.setItem("days", JSON.stringify(updatedRequests)); // Salva l'aggiornamento nello storage
   };
 
   return (
@@ -52,19 +58,25 @@ const DashboardSupervisor = () => {
             <div className="user-list">
               <h2>User List</h2>
               <ul>
-                {users.map((user, index) => {
-                  const uniqueKey = `${user.id}-${index}`;
-                  return (
-                    <li key={uniqueKey}>
-                      <div className="user-name">
-                        {user.firstName} {user.lastName}
-                      </div>
-                      <div>Email: {user.email}</div>
-                      <div>Role: {user.role}</div>
-                    </li>
-                  );
-                })}
+                {users.map((user, index) => (
+                  <li key={`${user.id}-${index}`}>
+                    <div className="user-name">{user.firstName} {user.lastName}</div>
+                    <div>Email: {user.email}</div>
+                    <div>Role: {user.role}</div>
+                  </li>
+                ))}
               </ul>
+            </div>
+            {/* Aggiunto per mostrare le richieste di permesso */}
+            <div className="permission-requests">
+              <h2>Pending Permission Requests</h2>
+              {requests.map(request => (
+                <div key={request.day}>
+                  <p>{request.day} - {request.permissionStatus}</p>
+                  <button onClick={() => handlePermissionResponse(request.day, "approved")}>Approve</button>
+                  <button onClick={() => handlePermissionResponse(request.day, "denied")}>Deny</button>
+                </div>
+              ))}
             </div>
           </div>
         </div>
