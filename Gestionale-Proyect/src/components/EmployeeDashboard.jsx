@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import "./EmployeeDashboard.css";
+import DayCard from "./DayCard";
+import { useAuth } from "./AuthContext";
 
 const EmployeeDashboard = () => {
+  const [days, setDays] = useState([
+    { day: "Monday 01", status: "free" },
+    { day: "Tuesday 02", status: "occupied" },
+    { day: "Wednesday 03", status: "free" },
+    { day: "Thursday 04", status: "occupied" },
+    { day: "Friday 05", status: "free" },
+  ]);
+
+  const { userRole } = useAuth(); // Utilizzato per future logiche di autorizzazione
+
+  // Funzione per gestire la richiesta di permesso per un giorno specifico
+  const handlePermissionRequest = (index) => {
+    const newDays = [...days];
+    newDays[index].permissionStatus = "pending"; // Aggiungi lo stato pending per la richiesta di permesso
+    setDays(newDays);
+  };
+
   return (
     <div className="container">
       <div className="header">
@@ -32,26 +51,15 @@ const EmployeeDashboard = () => {
           </div>
         </div>
         <div className="scrolling-container">
-          <div className="day-card free">
-            <span>Monday 01</span>
-            <span>Free</span>
-          </div>
-          <div className="day-card occupied">
-            <span>Tuesday 02</span>
-            <span>Occupied</span>
-          </div>
-          <div className="day-card free">
-            <span>Wednesday 03</span>
-            <span>Free</span>
-          </div>
-          <div className="day-card occupied">
-            <span>Thursday 04</span>
-            <span>Occupied</span>
-          </div>
-          <div className="day-card free">
-            <span>Friday 05</span>
-            <span>Free</span>
-          </div>
+          {days.map((day, index) => (
+            <DayCard
+              key={index}
+              day={day.day}
+              status={day.status}
+              permissionStatus={day.permissionStatus} // Passa lo stato di permissionStatus al componente DayCard
+              onPermissionRequest={() => handlePermissionRequest(index)} // Passa la funzione per gestire la richiesta di permesso
+            />
+          ))}
         </div>
         <div className="card">
           <h3>On-Duty Workers</h3>
