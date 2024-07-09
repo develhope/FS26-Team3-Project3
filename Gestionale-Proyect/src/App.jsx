@@ -58,14 +58,10 @@ const App = () => {
         <Router>
           <Routes>
             <Route path="/" element={<EventLogin />} />
-            <Route
-              path="/dashboard-employee"
-              element={<PrivateRoute role="user"><DashboardEmployee /></PrivateRoute>}
-            />
-            <Route
-              path="/dashboard-supervisor"
-              element={<PrivateRoute role="supervisor"><DashboardSupervisor /></PrivateRoute>}
-            />
+            <Route path="/dashboard-employee" element={<div>Employee Dashboard</div>} />
+            <Route path="/dashboard-supervisor" element={<div>Supervisor Dashboard</div>} />
+            {/* <Route path="/dashboard-employee" element={<PrivateRoute role="user"><DashboardEmployee /></PrivateRoute>} /> */}
+            {/* <Route path="/dashboard-supervisor" element={<PrivateRoute role="supervisor"><DashboardSupervisor /></PrivateRoute>} /> */}
             <Route path="/settings" element={<SettingsRoute />} />
             <Route path="/registrationForm" element={<RegistrationComponent />} />
           </Routes>
