@@ -5,6 +5,9 @@ import EventLogin from "./components/EventLogin";
 import Settings from "./components/Settings";
 import PrivateRoute from "./components/PrivateRoute";
 import RegistrationComponent from "./components/RegistrationComponent";
+import { LeaveRequestProvider } from './components/LeaveRequestContext';
+import DashboardEmployee from './components/EmployeeDashboard';
+import DashboardSupervisor from './components/DashboardSupervisor';
 
 const App = () => {
   useEffect(() => {
@@ -51,21 +54,23 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<EventLogin />} />
-          <Route
-            path="/dashboard-employee"
-            element={<PrivateRoute role="user" />}
-          />
-          <Route
-            path="/dashboard-supervisor"
-            element={<PrivateRoute role="supervisor" />}
-          />
-          <Route path="/settings" element={<SettingsRoute />} />
-          <Route path="/registrationForm" element={< RegistrationComponent />}/>
-        </Routes>
-      </Router>
+      <LeaveRequestProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<EventLogin />} />
+            <Route
+              path="/dashboard-employee"
+              element={<PrivateRoute role="user"><DashboardEmployee /></PrivateRoute>}
+            />
+            <Route
+              path="/dashboard-supervisor"
+              element={<PrivateRoute role="supervisor"><DashboardSupervisor /></PrivateRoute>}
+            />
+            <Route path="/settings" element={<SettingsRoute />} />
+            <Route path="/registrationForm" element={< RegistrationComponent />}/>
+          </Routes>
+        </Router>
+      </LeaveRequestProvider>
     </AuthProvider>
   );
 };
