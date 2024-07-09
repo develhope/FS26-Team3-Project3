@@ -67,7 +67,7 @@ const App = () => {
               element={<PrivateRoute role="supervisor"><DashboardSupervisor /></PrivateRoute>}
             />
             <Route path="/settings" element={<SettingsRoute />} />
-            <Route path="/registrationForm" element={< RegistrationComponent />}/>
+            <Route path="/registrationForm" element={<RegistrationComponent />} />
           </Routes>
         </Router>
       </LeaveRequestProvider>

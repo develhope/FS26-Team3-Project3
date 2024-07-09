@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import { LeaveRequestContext } from './LeaveRequestContext';
 import "./DashboardSupervisor.css";
 
 const DashboardSupervisor = () => {
   const [users, setUsers] = useState([]);
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const { leaveRequests, updateRequestStatus } = useContext(LeaveRequestContext);
 
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
@@ -15,7 +17,6 @@ const DashboardSupervisor = () => {
     // Verifica la unicidad de los IDs
     const ids = storedUsers.map((user) => user.id);
     const uniqueIds = new Set(ids);
-
 
     setUsers(storedUsers);
   }, []);
@@ -27,6 +28,14 @@ const DashboardSupervisor = () => {
   const handleLogout = () => {
     logout();
     navigate("/");
+  };
+
+  const handleApprove = (id) => {
+    updateRequestStatus(id, 'Approved');
+  };
+
+  const handleReject = (id) => {
+    updateRequestStatus(id, 'Rejected');
   };
 
   return (
@@ -66,6 +75,18 @@ const DashboardSupervisor = () => {
                 })}
               </ul>
             </div>
+          </div>
+          <div className="leave-requests">
+            <h2>Pending Leave Requests</h2>
+            <ul>
+              {leaveRequests.map((request) => (
+                <li key={request.id}>
+                  {request.type} - {request.status}
+                  <button onClick={() => handleApprove(request.id)}>Approve</button>
+                  <button onClick={() => handleReject(request.id)}>Reject</button>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

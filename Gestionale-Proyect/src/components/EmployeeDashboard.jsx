@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./EmployeeDashboard.css";
 import RequestLeave from "./RequestLeave";
 import ViewLeaveRequests from "./ViewLeaveRequests";
+import { LeaveRequestContext } from './LeaveRequestContext';
 
 const EmployeeDashboard = () => {
+  const { leaveRequests } = useContext(LeaveRequestContext);
+
   return (
     <div className="container">
       <div className="header">
@@ -77,7 +80,13 @@ const EmployeeDashboard = () => {
         </div>
         <div className="card">
           <h3>Le Mie Richieste di Permesso</h3>
-          <ViewLeaveRequests />
+          <ul>
+            {leaveRequests.map((request) => (
+              <li key={request.id}>
+                {request.type} - {request.status}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <div className="footer">
