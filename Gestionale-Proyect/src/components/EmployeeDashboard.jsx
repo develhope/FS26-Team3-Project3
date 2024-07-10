@@ -17,13 +17,15 @@ const EmployeeDashboard = () => {
     }
   }, [loggedInUser]);
 
+  useEffect(() => {
+    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    const allRequests = storedRequests.filter(request => request.userId !== loggedInUser?.id);
+    localStorage.setItem("leaveRequests", JSON.stringify([...allRequests, ...leaveRequests]));
+  }, [leaveRequests, loggedInUser]);
+
   const handleRequestSubmit = (request) => {
     const newRequest = { ...request, userId: user.id };
-    const updatedRequests = [...leaveRequests, newRequest];
-    setLeaveRequests(updatedRequests);
-
-    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
-    localStorage.setItem("leaveRequests", JSON.stringify([...storedRequests, newRequest]));
+    setLeaveRequests(prevRequests => [...prevRequests, newRequest]);
   };
 
   if (!user) {
@@ -144,5 +146,6 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
+
 
 
