@@ -1,16 +1,18 @@
 import React from 'react';
-import './LeaveRequestsList.css';
+import './LeaveRequestsList.css'; // Assicurati di importare il file CSS
 
 const LeaveRequestsList = ({ requests, onApprove, onDeny }) => {
   return (
-    <div>
+    <div className="leave-requests-list">
       <h3>Leave Requests</h3>
       <ul>
         {requests.map((request, index) => (
-          <li key={index}>
+          <li key={index} className="request-item">
             {request.leaveType} from {request.startDate} to {request.endDate} - {request.status}
-            <button onClick={() => onApprove(index)}>Approve</button>
-            <button onClick={() => onDeny(index)}>Deny</button>
+            <div className="buttons">
+              <button className="approve-button" onClick={() => onApprove(index)}>Approve</button>
+              <button className="deny-button" onClick={() => onDeny(index)}>Deny</button>
+            </div>
           </li>
         ))}
       </ul>
@@ -19,5 +21,6 @@ const LeaveRequestsList = ({ requests, onApprove, onDeny }) => {
 };
 
 export default LeaveRequestsList;
+
 
 

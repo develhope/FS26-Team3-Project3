@@ -27,27 +27,16 @@
 
 .approve-button,
 .deny-button {
+  background-color: #007bff; /* Colore di sfondo blu */
+  color: white;
   border: none;
   padding: 5px 10px;
-  border-radius: 4px;
+  border-radius: 8px; /* Angoli smussati */
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.approve-button {
-  background-color: #28a745; /* Colore verde per Approve */
-  color: white;
-}
-
-.approve-button:hover {
-  background-color: #218838; /* Colore verde scuro al passaggio del mouse */
-}
-
-.deny-button {
-  background-color: #dc3545; /* Colore rosso per Deny */
-  color: white;
-}
-
+.approve-button:hover,
 .deny-button:hover {
-  background-color: #c82333; /* Colore rosso scuro al passaggio del mouse */
+  background-color: #0056b3; /* Colore di sfondo blu scuro al passaggio del mouse */
 }
