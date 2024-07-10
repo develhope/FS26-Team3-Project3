@@ -1,0 +1,156 @@
+[
+  {
+    "nome": "Jimmy",
+    "cognome": "Saavedra",
+    "email": "jimmsaav@icloud.com",
+    "Password": "12345",
+    "Role": "supervisor"
+  },
+  {
+    "nome": "Francesca",
+    "cognome": "Pischedda",
+    "email": "francescapischedda30@gmail.com",
+    "Password": "girasole",
+    "Role": "supervisor"
+  },
+  {
+    "Nombre": "Riccardo",
+    "Apellido": "Cuomo",
+    "Correo": "cuomo.riccardo@gmail.com",
+    "Password": "qwerty",
+    "Role": "supervisor"
+  },
+  {
+    "nome": "Alessandro",
+    "cognome": "Rossi",
+    "email": "alessandro.rossi@example.com",
+    "password": "password123",
+    "Role": "user"
+  },
+  {
+    "nome": "Giulia",
+    "cognome": "Bianchi",
+    "email": "giulia.bianchi@example.com",
+    "password": "password456",
+    "Role": "user"
+  },
+  {
+    "nome": "Marco",
+    "cognome": "Verdi",
+    "email": "marco.verdi@example.com",
+    "password": "password789",
+    "Role": "supervisor"
+  },
+  {
+    "nome": "Sara",
+    "cognome": "Gialli",
+    "email": "sara.gialli@example.com",
+    "password": "passwordabc",
+    "Role": "user"
+  },
+  {
+    "nome": "Andrea",
+    "cognome": "Neri",
+    "email": "andrea.neri@example.com",
+    "password": "passworddef",
+    "Role": "user"
+  },
+  {
+    "nome": "Francesca",
+    "cognome": "Rossini",
+    "email": "francesca.rossini@example.com",
+    "password": "passwordghi",
+    "Role": "supervisor"
+  },
+  {
+    "nome": "Luca",
+    "cognome": "Berti",
+    "email": "luca.berti@example.com",
+    "password": "passwordjkl",
+    "Role": "user"
+  },
+  {
+    "nome": "Chiara",
+    "cognome": "Ferrari",
+    "email": "chiara.ferrari@example.com",
+    "password": "passwordmno",
+    "Role": "user"
+  },
+  {
+    "nome": "Matteo",
+    "cognome": "Lombardi",
+    "email": "matteo.lombardi@example.com",
+    "password": "passwordpqr",
+    "Role": "supervisor"
+  },
+  {
+    "nome": "Elisa",
+    "cognome": "Moretti",
+    "email": "elisa.moretti@example.com",
+    "password": "passwordstu",
+    "Role": "user"
+  },
+  {
+    "nome": "Gabriele",
+    "cognome": "De Luca",
+    "email": "gabriele.de.luca@example.com",
+    "password": "passwordvwx",
+    "Role": "user"
+  },
+  {
+    "nome": "Valentina",
+    "cognome": "Ricci",
+    "email": "valentina.ricci@example.com",
+    "password": "passwordyz",
+    "Role": "supervisor"
+  },
+  {
+    "nome": "Simone",
+    "cognome": "Conti",
+    "email": "simone.conti@example.com",
+    "password": "password123",
+    "Role": "user"
+  },
+  {
+    "nome": "Laura",
+    "cognome": "Mancini",
+    "email": "laura.mancini@example.com",
+    "password": "password456",
+    "Role": "user"
+  },
+  {
+    "nome": "Riccardo",
+    "cognome": "Benedetti",
+    "email": "riccardo.benedetti@example.com",
+    "password": "password789",
+    "Role": "supervisor"
+  },
+  {
+    "nome": "Giorgio",
+    "cognome": "Ferrari",
+    "email": "giorgio.ferrari@example.com",
+    "password": "passwordabc",
+    "Role": "user"
+  },
+  {
+    "nome": "Cristina",
+    "cognome": "Rossi",
+    "email": "cristina.rossi@example.com",
+    "password": "passworddef",
+    "Role": "user"
+  },
+  {
+    "nome": "Alessia",
+    "cognome": "Bianchi",
+    "email": "alessia.bianchi@example.com",
+    "password": "passwordghi",
+    "Role": "supervisor"
+  },
+  {
+    "nome": "Daniele",
+    "cognome": "Verdi",
+    "email": "daniele.verdi@example.com",
+    "password": "passwordjkl",
+    "Role": "user"
+  }
+]

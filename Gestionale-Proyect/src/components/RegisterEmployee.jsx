@@ -37,7 +37,7 @@ const RegisterEmployee = () => {
       <div className="logo">
         <img src="./Resourse Genie Modificato.png" alt="Company Logo" />
       </div>
-      <h2>Register Employee</h2>
+      <div className="tabs tab-form">Register Form</div>
       <form onSubmit={handleSubmit} className="form">
         <input
           type="text"

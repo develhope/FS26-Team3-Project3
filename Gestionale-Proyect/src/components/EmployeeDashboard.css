@@ -8,16 +8,28 @@
   height: 100vh;
 }
 
-.container-employee {
+/* .container-employee {
   background: white;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  width: 90%; /* Adjusted to be responsive*/
-  max-width: 800px; /* Adjusted to fit larger screens */
+  width: 90%; /* Adjusted to be responsive
+  max-width: 800px; /* Adjusted to fit larger screens 
   display: flex;
   flex-direction: column;
+} */
+
+.container-employee {
+  height: 100vh;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 488px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-grid;
 }
+
 .container-employee h3 {
   font-weight: bold;
 }

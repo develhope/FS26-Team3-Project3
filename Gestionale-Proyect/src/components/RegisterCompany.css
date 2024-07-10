@@ -40,6 +40,14 @@ button {
   cursor: pointer;
 }
 
+.tab-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #335acf;
+  font-size: 20px;
+}
 button:hover {
   background-color: #0056b3;
 }

@@ -40,7 +40,7 @@ const RegisterCompany = () => {
       <div className="logo">
         <img src="./Resourse Genie Modificato.png" alt="Company Logo" />
       </div>
-      <h2>Register Company</h2>
+      <div className="tabs tab-form">Register Form</div>
       <form onSubmit={handleSubmit} className="form">
         <input
           type="text"
@@ -50,7 +50,7 @@ const RegisterCompany = () => {
         />
         <input
           type="text"
-          placeholder="p.IVA"
+          placeholder="P.IVA"
           value={vatNumber}
           onChange={(e) => setVatNumber(e.target.value)}
         />
