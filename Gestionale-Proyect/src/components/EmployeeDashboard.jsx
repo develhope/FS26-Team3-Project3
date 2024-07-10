@@ -19,11 +19,10 @@ const EmployeeDashboard = () => {
 
   const handleRequestSubmit = (request) => {
     const newRequest = { ...request, userId: user.id };
-    const updatedRequests = [...leaveRequests, newRequest];
-    setLeaveRequests(updatedRequests);
-
     const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
-    localStorage.setItem("leaveRequests", JSON.stringify([...storedRequests, newRequest]));
+    const updatedRequests = [...storedRequests, newRequest];
+    localStorage.setItem("leaveRequests", JSON.stringify(updatedRequests));
+    setLeaveRequests(updatedRequests.filter(request => request.userId === user.id));
   };
 
   if (!user) {

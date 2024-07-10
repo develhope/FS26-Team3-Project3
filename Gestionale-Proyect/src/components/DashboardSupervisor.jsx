@@ -19,10 +19,6 @@ const DashboardSupervisor = () => {
     setLeaveRequests(storedRequests);
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("leaveRequests", JSON.stringify(leaveRequests));
-  }, [leaveRequests]);
-
   const updateUser = (updatedUser) => {
     const updatedUsers = users.map((user) =>
       user.id === updatedUser.id ? updatedUser : user
@@ -137,4 +133,5 @@ const DashboardSupervisor = () => {
 };
 
 export default DashboardSupervisor;
+
 
