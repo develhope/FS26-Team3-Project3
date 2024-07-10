@@ -1,13 +1,18 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { AuthProvider, useAuth } from "./components/AuthContext";
 import EventLogin from "./components/EventLogin";
 import Settings from "./components/Settings";
 import PrivateRoute from "./components/PrivateRoute";
-import RegistrationComponent from "./components/RegistrationComponent";
-import { LeaveRequestProvider } from './components/LeaveRequestContext';
-import DashboardEmployee from './components/EmployeeDashboard';
-import DashboardSupervisor from './components/DashboardSupervisor';
+import DashboardSupervisor from "./components/DashboardSupervisor";
+import EmployeeDashboard from "./components/EmployeeDashboard";
+import RegisterCompany from "./components/RegisterCompany";
+import RegisterEmployee from "./components/RegisterEmployee";
 
 const App = () => {
   useEffect(() => {
@@ -19,6 +24,7 @@ const App = () => {
         password: "12345",
         id: "E0941518441",
         role: "user",
+        hoursWorked: 40,
       },
       {
         firstName: "Francesca",
@@ -27,6 +33,7 @@ const App = () => {
         password: "girasole",
         id: "ECARTADIEDENTITA",
         role: "supervisor",
+        hoursWorked: 35,
       },
       {
         firstName: "Riccardo",
@@ -35,14 +42,7 @@ const App = () => {
         password: "qwerty",
         id: "RC",
         role: "user",
-      },
-      {
-        firstName: "Giorgio",
-        lastName: "Quintavalle",
-        email: "quintavalle.giorgio@yahoo.it",
-        password: "ciaociao",
-        id: "1234",
-        role: "user",
+        hoursWorked: 30,
       },
     ];
 
@@ -54,23 +54,22 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <LeaveRequestProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<EventLogin />} />
-            <Route
-              path="/dashboard-employee"
-              element={<PrivateRoute role="user"><DashboardEmployee /></PrivateRoute>}
-            />
-            <Route
-              path="/dashboard-supervisor"
-              element={<PrivateRoute role="supervisor"><DashboardSupervisor /></PrivateRoute>}
-            />
-            <Route path="/settings" element={<SettingsRoute />} />
-            <Route path="/registrationForm" element={< RegistrationComponent />}/>
-          </Routes>
-        </Router>
-      </LeaveRequestProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<EventLogin />} />
+          <Route path="/register-company" element={<RegisterCompany />} />
+          <Route path="/register-employee" element={<RegisterEmployee />} />
+          <Route
+            path="/dashboard-employee"
+            element={<PrivateRoute role="user" />}
+          />
+          <Route
+            path="/dashboard-supervisor"
+            element={<PrivateRoute role="supervisor" />}
+          />
+          <Route path="/settings" element={<SettingsRoute />} />
+        </Routes>
+      </Router>
     </AuthProvider>
   );
 };
