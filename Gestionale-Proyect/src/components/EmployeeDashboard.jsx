@@ -11,11 +11,19 @@ const EmployeeDashboard = () => {
   useEffect(() => {
     if (loggedInUser) {
       setUser(loggedInUser);
+      const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+      const userRequests = storedRequests.filter(request => request.userId === loggedInUser.id);
+      setLeaveRequests(userRequests);
     }
   }, [loggedInUser]);
 
   const handleRequestSubmit = (request) => {
-    setLeaveRequests([...leaveRequests, request]);
+    const newRequest = { ...request, userId: user.id };
+    const updatedRequests = [...leaveRequests, newRequest];
+    setLeaveRequests(updatedRequests);
+
+    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    localStorage.setItem("leaveRequests", JSON.stringify([...storedRequests, newRequest]));
   };
 
   if (!user) {
