@@ -2,18 +2,26 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import EditEmployee from "./EditEmployee";
+import LeaveRequestsList from "./LeaveRequestsList";
 import "./DashboardSupervisor.css";
 
 const DashboardSupervisor = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [leaveRequests, setLeaveRequests] = useState([]);
   const { loggedInUser, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
     setUsers(storedUsers);
+    setLeaveRequests(storedRequests);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("leaveRequests", JSON.stringify(leaveRequests));
+  }, [leaveRequests]);
 
   const updateUser = (updatedUser) => {
     const updatedUsers = users.map((user) =>
@@ -27,6 +35,18 @@ const DashboardSupervisor = () => {
   const handleLogout = () => {
     logout();
     navigate("/");
+  };
+
+  const handleApprove = (index) => {
+    const newRequests = [...leaveRequests];
+    newRequests[index].status = 'Approved';
+    setLeaveRequests(newRequests);
+  };
+
+  const handleDeny = (index) => {
+    const newRequests = [...leaveRequests];
+    newRequests[index].status = 'Denied';
+    setLeaveRequests(newRequests);
   };
 
   return (
@@ -75,6 +95,13 @@ const DashboardSupervisor = () => {
                 ))}
               </ul>
             </div>
+          </div>
+          <div className="dashboard-grid">
+            <LeaveRequestsList 
+              requests={leaveRequests} 
+              onApprove={handleApprove} 
+              onDeny={handleDeny} 
+            />
           </div>
           {selectedUser && (
             <EditEmployee

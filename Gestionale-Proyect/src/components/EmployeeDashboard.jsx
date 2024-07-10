@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import "./EmployeeDashboard.css";
+import RequestLeaveForm from "./RequestLeaveForm";
 
 const EmployeeDashboard = () => {
   const { loggedInUser } = useAuth();
   const [user, setUser] = useState(null);
+  const [leaveRequests, setLeaveRequests] = useState([]);
 
   useEffect(() => {
     if (loggedInUser) {
       setUser(loggedInUser);
     }
   }, [loggedInUser]);
+
+  const handleRequestSubmit = (request) => {
+    setLeaveRequests([...leaveRequests, request]);
+  };
 
   if (!user) {
     return <div>Loading...</div>;
@@ -91,6 +97,20 @@ const EmployeeDashboard = () => {
             <i className="fas fa-bell"></i>
           </div>
           <p>Don't forget we need to work as a team</p>
+        </div>
+        <div className="card">
+          <h3>Request Leave</h3>
+          <RequestLeaveForm onSubmit={handleRequestSubmit} />
+        </div>
+        <div className="card">
+          <h3>My Leave Requests</h3>
+          <ul>
+            {leaveRequests.map((request, index) => (
+              <li key={index}>
+                {request.leaveType} from {request.startDate} to {request.endDate} - {request.status}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <div className="footer">
