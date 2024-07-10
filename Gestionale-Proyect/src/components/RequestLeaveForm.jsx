@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './RequestLeaveForm.css'; 
 
 const RequestLeaveForm = ({ onSubmit }) => {
   const [leaveType, setLeaveType] = useState('Vacation');
@@ -17,10 +18,10 @@ const RequestLeaveForm = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="request-leave-form">
       <div>
         <label>Leave Type:</label>
-        <select value={leaveType} onChange={(e) => setLeaveType(e.target.value)}>
+        <select value={leaveType} onChange={(e) => setLeaveType(e.target.value)} className="input-field">
           <option value="Vacation">Vacation</option>
           <option value="Sick Leave">Sick Leave</option>
           <option value="Personal Leave">Personal Leave</option>
@@ -28,17 +29,17 @@ const RequestLeaveForm = ({ onSubmit }) => {
       </div>
       <div>
         <label>Start Date:</label>
-        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
+        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required className="input-field" />
       </div>
       <div>
         <label>End Date:</label>
-        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
+        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required className="input-field" />
       </div>
       <div>
         <label>Reason:</label>
-        <textarea value={reason} onChange={(e) => setReason(e.target.value)} required />
+        <textarea value={reason} onChange={(e) => setReason(e.target.value)} required className="input-field textarea-field" />
       </div>
-      <button type="submit">Submit Request</button>
+      <button type="submit" className="submit-button">Submit Request</button>
     </form>
   );
 };
