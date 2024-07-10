@@ -1,0 +1,53 @@
+/* LeaveRequestsList.css */
+
+.leave-requests-list {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.leave-requests-list h3 {
+  margin-top: 0;
+}
+
+.request-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.approve-button,
+.deny-button {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.approve-button {
+  background-color: #28a745; /* Colore verde per Approve */
+  color: white;
+}
+
+.approve-button:hover {
+  background-color: #218838; /* Colore verde scuro al passaggio del mouse */
+}
+
+.deny-button {
+  background-color: #dc3545; /* Colore rosso per Deny */
+  color: white;
+}
+
+.deny-button:hover {
+  background-color: #c82333; /* Colore rosso scuro al passaggio del mouse */
+}
