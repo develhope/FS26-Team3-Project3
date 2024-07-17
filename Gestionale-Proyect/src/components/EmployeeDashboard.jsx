@@ -2,24 +2,93 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import "./EmployeeDashboard.css";
 import RequestLeaveForm from "./RequestLeaveForm";
+import { addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, format } from "date-fns";
 
 const EmployeeDashboard = () => {
   const { loggedInUser } = useAuth();
   const [user, setUser] = useState(null);
   const [leaveRequests, setLeaveRequests] = useState([]);
+  const [daysOff, setDaysOff] = useState([]);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
   useEffect(() => {
     if (loggedInUser) {
       setUser(loggedInUser);
       const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
-      const userRequests = storedRequests.filter(request => request.employee === loggedInUser.email);
+      const userRequests = storedRequests.filter(request => request.employee === loggedInUser.email && request.status === 'Approved');
       setLeaveRequests(userRequests);
+
+      const offDays = [];
+      userRequests.forEach(request => {
+        let currentDate = new Date(request.startDate);
+        const endDate = new Date(request.endDate);
+        while (currentDate <= endDate) {
+          offDays.push(currentDate.toISOString().split('T')[0]);
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      });
+      setDaysOff(offDays);
     }
   }, [loggedInUser]);
 
   const handleRequestSubmit = (request) => {
     const newRequest = { ...request, employee: user.email };
-    setLeaveRequests([...leaveRequests, newRequest]);
+    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    const updatedRequests = [...storedRequests, newRequest];
+    const uniqueRequests = updatedRequests.filter(
+      (req, index, self) =>
+        index === self.findIndex(
+          (r) => r.startDate === req.startDate && r.endDate === req.endDate && r.employee === req.employee
+        )
+    );
+    localStorage.setItem("leaveRequests", JSON.stringify(uniqueRequests));
+    setLeaveRequests(uniqueRequests.filter(request => request.employee === user.email && request.status === 'Approved'));
+  };
+
+  const renderCalendar = () => {
+    const monthStart = startOfMonth(currentMonth);
+    const monthEnd = endOfMonth(monthStart);
+    const startDate = startOfWeek(monthStart);
+    const endDate = endOfWeek(monthEnd);
+    const dateFormat = "d";
+    const rows = [];
+
+    let days = [];
+    let day = startDate;
+    let formattedDate = "";
+
+    while (day <= endDate) {
+      for (let i = 0; i < 7; i++) {
+        formattedDate = format(day, dateFormat);
+        const cloneDay = day;
+        const isOffDay = daysOff.includes(day.toISOString().split('T')[0]);
+        days.push(
+          <div
+            className={`day-card ${isOffDay ? 'free' : 'occupied'}`}
+            key={day}
+          >
+            <span>{formattedDate}</span>
+            <span>{isOffDay ? 'Free' : 'Occupied'}</span>
+          </div>
+        );
+        day = addDays(day, 1);
+      }
+      rows.push(
+        <div className="row" key={day}>
+          {days}
+        </div>
+      );
+      days = [];
+    }
+    return <div className="body">{rows}</div>;
+  };
+
+  const nextMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, 1));
+  };
+
+  const prevMonth = () => {
+    setCurrentMonth(subMonths(currentMonth, 1));
   };
 
   if (!user) {
@@ -64,27 +133,13 @@ const EmployeeDashboard = () => {
             </div>
           )}
         </div>
+        <div className="calendar-nav">
+          <button onClick={prevMonth}>Prev</button>
+          <h2>{format(currentMonth, "MMMM yyyy")}</h2>
+          <button onClick={nextMonth}>Next</button>
+        </div>
         <div className="scrolling-container">
-          <div className="day-card free">
-            <span>Monday 01</span>
-            <span>Free</span>
-          </div>
-          <div className="day-card occupied">
-            <span>Tuesday 02</span>
-            <span>Occupied</span>
-          </div>
-          <div className="day-card free">
-            <span>Wednesday 03</span>
-            <span>Free</span>
-          </div>
-          <div className="day-card occupied">
-            <span>Thursday 04</span>
-            <span>Occupied</span>
-          </div>
-          <div className="day-card free">
-            <span>Friday 05</span>
-            <span>Free</span>
-          </div>
+          {renderCalendar()}
         </div>
         <div className="card">
           <h3>On-Duty Workers</h3>
