@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from './AuthContext'; 
+import { AuthContext } from './AuthContext';
 import './RequestLeaveForm.css';
 
 const RequestLeaveForm = ({ onSubmit }) => {
@@ -7,7 +7,7 @@ const RequestLeaveForm = ({ onSubmit }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [reason, setReason] = useState('');
-  const { loggedInUser } = useContext(AuthContext); 
+  const { loggedInUser } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
