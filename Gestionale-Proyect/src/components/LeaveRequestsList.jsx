@@ -8,7 +8,10 @@ const LeaveRequestsList = ({ requests, onApprove, onDeny }) => {
       <ul>
         {requests.map((request, index) => (
           <li key={index} className="request-item">
-            {request.leaveType} from {request.startDate} to {request.endDate} - {request.status}
+            <p><strong>Leave Type:</strong> {request.leaveType}</p>
+            <p><strong>Period:</strong> from {request.startDate} to {request.endDate}</p>
+            <p><strong>Status:</strong> {request.status}</p>
+            <p><strong>Reason:</strong> {request.reason}</p>
             <div className="buttons">
               <button className="approve-button" onClick={() => onApprove(index)}>Approve</button>
               <button className="deny-button" onClick={() => onDeny(index)}>Deny</button>
@@ -21,6 +24,4 @@ const LeaveRequestsList = ({ requests, onApprove, onDeny }) => {
 };
 
 export default LeaveRequestsList;
-
-
 
