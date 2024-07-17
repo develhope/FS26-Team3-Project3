@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import './LeaveRequestsList.css';
 
-Modal.setAppElement('#root'); // Necessario per accessibilità
+Modal.setAppElement('#root'); 
 
 const LeaveRequestsList = ({ requests, onApprove, onDeny }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
