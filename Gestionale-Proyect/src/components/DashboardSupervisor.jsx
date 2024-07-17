@@ -3,13 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import EditEmployee from "./EditEmployee";
 import LeaveRequestsList from "./LeaveRequestsList";
-import "./DashboardSupervisor.css";
+import './DashboardSupervisor.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 
 const DashboardSupervisor = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [leaveRequests, setLeaveRequests] = useState([]);
   const { loggedInUser, logout } = useAuth();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,15 +50,25 @@ const DashboardSupervisor = () => {
     localStorage.setItem("leaveRequests", JSON.stringify(newRequests));
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <div className="dashboard-wrapper">
       <div className="header">
         <div className="header-container">
           <h1>Supervisor Dashboard</h1>
-          <button onClick={handleLogout} className="logout-button">
-            Logout
-          </button>
+          <div className="header-right">
+            <FontAwesomeIcon icon={faBell} className="bell-icon" onClick={toggleDropdown} />
+            <button onClick={handleLogout} className="logout-button">Logout</button>
+          </div>
         </div>
+        {dropdownOpen && (
+          <div className="dropdown-menu">
+            <LeaveRequestsList requests={leaveRequests} onApprove={handleApprove} onDeny={handleDeny} />
+          </div>
+        )}
       </div>
       <div className="dashboard-container">
         <div className="dashboard-content">
@@ -94,13 +107,6 @@ const DashboardSupervisor = () => {
               </ul>
             </div>
           </div>
-          <div className="dashboard-grid">
-            <LeaveRequestsList 
-              requests={leaveRequests} 
-              onApprove={handleApprove} 
-              onDeny={handleDeny} 
-            />
-          </div>
           {selectedUser && (
             <EditEmployee
               employee={selectedUser}
@@ -133,4 +139,3 @@ const DashboardSupervisor = () => {
 };
 
 export default DashboardSupervisor;
-
