@@ -37,19 +37,21 @@ const EmployeeDashboard = () => {
     setLeaveRequests(updatedRequests.filter(request => request.employee === user.email && request.status === 'Approved'));
   };
 
-  const renderCalendar = () => {
-    const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-    const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-    return daysArray.map(day => {
-      const date = new Date(new Date().getFullYear(), new Date().getMonth(), day).toISOString().split('T')[0];
+  const renderCurrentWeek = () => {
+    const currentDate = new Date();
+    const startOfWeek = currentDate.getDate() - currentDate.getDay();
+    const daysArray = Array.from({ length: 7 }, (_, i) => {
+      const day = new Date(currentDate.setDate(startOfWeek + i));
+      const date = day.toISOString().split('T')[0];
       const isOffDay = daysOff.includes(date);
       return (
-        <div key={day} className={`day-card ${isOffDay ? 'free' : 'occupied'}`}>
-          <span>{new Date(new Date().getFullYear(), new Date().getMonth(), day).toDateString()}</span>
+        <div key={i} className={`day-card ${isOffDay ? 'free' : 'occupied'}`}>
+          <span>{day.toDateString().split(' ')[0]} {day.getDate()}</span>
           <span>{isOffDay ? 'Free' : 'Occupied'}</span>
         </div>
       );
     });
+    return daysArray;
   };
 
   if (!user) {
@@ -95,7 +97,7 @@ const EmployeeDashboard = () => {
           )}
         </div>
         <div className="scrolling-container">
-          {renderCalendar()}
+          {renderCurrentWeek()}
         </div>
         <div className="card">
           <h3>On-Duty Workers</h3>

@@ -30,13 +30,13 @@
 
 .scrolling-container {
   display: flex;
-  flex-wrap: wrap;
+  overflow-x: scroll;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
 .day-card {
-  flex: 1 0 21%;
+  min-width: 100px;
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
