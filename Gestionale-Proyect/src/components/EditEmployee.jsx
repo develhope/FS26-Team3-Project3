@@ -21,7 +21,7 @@ const EditEmployee = ({ employee, onSave, onCancel }) => {
       <form onSubmit={handleSubmit}>
         <label>
           First Name:
-          <input
+          <input 
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
