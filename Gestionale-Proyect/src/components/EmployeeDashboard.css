@@ -1,181 +1,70 @@
-.w body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-/* .container-employee {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 90%; /* Adjusted to be responsive
-  max-width: 800px; /* Adjusted to fit larger screens 
+.container-employee {
   display: flex;
   flex-direction: column;
-} */
-
-.container-employee {
-  height: 100vh;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  max-width: 488px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: inline-grid;
-}
-
-.container-employee h3 {
-  font-weight: bold;
+  align-items: center;
+  padding: 1rem;
 }
 
 .header {
-  background-color: #007bff;
-  color: white;
-  text-align: center;
-  padding: 10px 20px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.header i {
-  cursor: pointer;
-}
-
-.header h1 {
-  font-size: 24px;
-  margin: 0;
+  padding: 1rem;
+  background-color: #007bff;
+  color: white;
 }
 
 .content {
-  padding: 20px;
-  flex: 1;
-  overflow-y: auto;
+  width: 100%;
+  max-width: 800px;
 }
 
 .card {
-  background: white;
+  background: #fff;
+  padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  padding: 20px;
+  margin-bottom: 1rem;
 }
 
-.card h2,
-.card h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.summary-item {
-  background-color: #f8f8f8;
-  border-radius: 4px;
-  text-align: center;
-}
-
-.summary-item span:first-child {
-  display: block;
-  font-size: 12px;
-  color: #666;
-}
-
-.summary-item span:last-child {
-  display: block;
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-}
-
-.scrolling-container {
-  overflow-x: auto;
-  display: flex;
-  gap: 10px;
-  padding: 10px 0;
-}
-
-.day-card {
-  background-color: #e8f5e9;
-  padding: 10px;
-  border-radius: 4px;
-  text-align: center;
-  min-width: 80px;
-}
-
-.day-card.free {
-  background-color: #e8f5e9;
-}
-
-.day-card.occupied {
-  background-color: #f8f8f8;
-}
-
-.day-card span:first-child {
-  display: block;
-  font-size: 12px;
-}
-
-.day-card span:last-child {
-  display: block;
-  font-size: 14px;
-}
-
-.card-header {
+.calendar-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
+}
+
+.scrolling-container {
+  display: flex;
+  overflow-x: scroll;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.day-card {
+  min-width: 100px;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.day-card.free {
+  background-color: #c8e6c9;
+}
+
+.day-card.occupied {
+  background-color: #ffcdd2;
 }
 
 .footer {
-  background-color: #007bff;
-  color: white;
   display: flex;
   justify-content: space-around;
-  padding: 10px 0;
-  position: relative;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  align-items: center;
-}
-
-.footer a {
+  padding: 1rem;
+  background-color: #007bff;
   color: white;
-  text-align: center;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.footer a span {
-  display: block;
-  font-size: 12px;
-}
-
-@media (max-width: 600px) {
-  .container {
-    width: 100%; /* Make container fill the screen width */
-  }
-
-  .grid {
-    grid-template-columns: 1fr; /* Make grid single column on small screens */
-  }
-
-  .header {
-    flex-direction: column; /* Stack items in header vertically */
-  }
-
-  .footer {
-    flex-direction: column; /* Stack items in footer vertically */
-  }
+  width: 100%;
+  position: fixed;
+  bottom: 0;
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import "./EmployeeDashboard.css";
 import RequestLeaveForm from "./RequestLeaveForm";
-import { addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, format } from "date-fns";
+import { addMonths, subMonths, startOfMonth, endOfMonth, addDays, format } from "date-fns";
 
 const EmployeeDashboard = () => {
   const { loggedInUser } = useAuth();
@@ -16,8 +16,7 @@ const EmployeeDashboard = () => {
       setUser(loggedInUser);
       const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
       const userRequests = storedRequests.filter(
-        (request) =>
-          request.employee === loggedInUser.email && request.status === "Approved"
+        (request) => request.employee === loggedInUser.email && request.status === "Approved"
       );
       setLeaveRequests(userRequests);
 
@@ -51,40 +50,31 @@ const EmployeeDashboard = () => {
     localStorage.setItem("leaveRequests", JSON.stringify(uniqueRequests));
     setLeaveRequests(
       uniqueRequests.filter(
-        (request) =>
-          request.employee === user.email && request.status === "Approved"
+        (request) => request.employee === user.email && request.status === "Approved"
       )
     );
   };
 
-  const renderCurrentWeek = (startDate) => {
+  const renderMonth = () => {
+    const monthStart = startOfMonth(currentMonth);
+    const monthEnd = endOfMonth(monthStart);
+    const dateFormat = "d";
     const daysArray = [];
-    for (let i = 0; i < 7; i++) {
-      const day = addDays(startDate, i);
+
+    let day = monthStart;
+
+    while (day <= monthEnd) {
       const date = day.toISOString().split("T")[0];
       const isOffDay = daysOff.includes(date);
       daysArray.push(
-        <div key={i} className={`day-card ${isOffDay ? "free" : "occupied"}`}>
-          <span>{day.toDateString().split(" ")[0]} {day.getDate()}</span>
+        <div key={day} className={`day-card ${isOffDay ? "free" : "occupied"}`}>
+          <span>{format(day, dateFormat)}</span>
           <span>{isOffDay ? "Free" : "Occupied"}</span>
         </div>
       );
+      day = addDays(day, 1);
     }
     return daysArray;
-  };
-
-  const renderMonth = () => {
-    const monthStart = startOfMonth(currentMonth);
-    const startDate = startOfWeek(monthStart);
-    const weeks = [];
-    let day = startDate;
-
-    while (day < endOfMonth(monthStart)) {
-      weeks.push(<div className="week-row" key={day}>{renderCurrentWeek(day)}</div>);
-      day = addDays(day, 7);
-    }
-
-    return weeks;
   };
 
   const nextMonth = () => {
