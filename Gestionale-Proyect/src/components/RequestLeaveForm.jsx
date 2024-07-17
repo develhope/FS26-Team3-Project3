@@ -20,13 +20,6 @@ const RequestLeaveForm = ({ onSubmit }) => {
       employee: loggedInUser.email 
     };
     onSubmit(request);
-
-    
-    const storedRequests = localStorage.getItem('leaveRequests');
-    const requests = storedRequests ? JSON.parse(storedRequests) : [];
-    requests.push(request);
-    localStorage.setItem('leaveRequests', JSON.stringify(requests));
-
     setLeaveType('Vacation');
     setStartDate('');
     setEndDate('');
@@ -37,7 +30,7 @@ const RequestLeaveForm = ({ onSubmit }) => {
     <form onSubmit={handleSubmit} className="request-leave-form">
       <div>
         <label>Leave Type:</label>
-        <select value={leaveType} onChange={(e) => setLeaveType(e.target.value)} className="input-field">
+        <select value={leaveType} onChange={(e) => setLeaveType(e.target.value)} className="select-field">
           <option value="Vacation">Vacation</option>
           <option value="Sick Leave">Sick Leave</option>
           <option value="Personal Leave">Personal Leave</option>
@@ -53,7 +46,7 @@ const RequestLeaveForm = ({ onSubmit }) => {
       </div>
       <div>
         <label>Reason:</label>
-        <textarea value={reason} onChange={(e) => setReason(e.target.value)} required className="input-field textarea-field" />
+        <textarea value={reason} onChange={(e) => setReason(e.target.value)} required className="textarea-field" />
       </div>
       <button type="submit" className="submit-button">Submit Request</button>
     </form>
@@ -61,3 +54,4 @@ const RequestLeaveForm = ({ onSubmit }) => {
 };
 
 export default RequestLeaveForm;
+
