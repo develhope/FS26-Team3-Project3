@@ -201,15 +201,6 @@
   z-index: 1000;
 }
 
-.input-field {
-  width: 100%;
-  max-width: 300px;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
 .textarea-field {
   width: 100%;
   max-width: 300px;
