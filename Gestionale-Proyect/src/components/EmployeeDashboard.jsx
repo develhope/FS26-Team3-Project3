@@ -36,7 +36,7 @@ const EmployeeDashboard = () => {
         const endDate = new Date(request.endDate);
         while (currentDate <= endDate) {
           offDays.push(new Date(currentDate).toISOString().split("T")[0]);
-          currentDate.setDate(currentDate.getDate() + 1);
+          currentDate = addDays(currentDate, 1);
         }
       });
       setDaysOff(offDays);
@@ -205,3 +205,4 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
+
