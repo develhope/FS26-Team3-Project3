@@ -7,49 +7,19 @@ const EmployeeDashboard = () => {
   const { loggedInUser } = useAuth();
   const [user, setUser] = useState(null);
   const [leaveRequests, setLeaveRequests] = useState([]);
-  const [daysOff, setDaysOff] = useState([]);
 
   useEffect(() => {
     if (loggedInUser) {
       setUser(loggedInUser);
       const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
-      const userRequests = storedRequests.filter(request => request.employee === loggedInUser.email && request.status === 'Approved');
+      const userRequests = storedRequests.filter(request => request.employee === loggedInUser.email);
       setLeaveRequests(userRequests);
-
-      const offDays = [];
-      userRequests.forEach(request => {
-        let currentDate = new Date(request.startDate);
-        const endDate = new Date(request.endDate);
-        while (currentDate <= endDate) {
-          offDays.push(currentDate.toISOString().split('T')[0]);
-          currentDate.setDate(currentDate.getDate() + 1);
-        }
-      });
-      setDaysOff(offDays);
     }
   }, [loggedInUser]);
 
   const handleRequestSubmit = (request) => {
     const newRequest = { ...request, employee: user.email };
-    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
-    const updatedRequests = [...storedRequests, newRequest];
-    localStorage.setItem("leaveRequests", JSON.stringify(updatedRequests));
-    setLeaveRequests(updatedRequests.filter(request => request.employee === user.email && request.status === 'Approved'));
-  };
-
-  const renderCalendar = () => {
-    const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-    const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-    return daysArray.map(day => {
-      const date = new Date(new Date().getFullYear(), new Date().getMonth(), day).toISOString().split('T')[0];
-      const isOffDay = daysOff.includes(date);
-      return (
-        <div key={day} className={`day-card ${isOffDay ? 'free' : 'occupied'}`}>
-          <span>{new Date(new Date().getFullYear(), new Date().getMonth(), day).toDateString()}</span>
-          <span>{isOffDay ? 'Free' : 'Occupied'}</span>
-        </div>
-      );
-    });
+    setLeaveRequests([...leaveRequests, newRequest]);
   };
 
   if (!user) {
@@ -95,7 +65,26 @@ const EmployeeDashboard = () => {
           )}
         </div>
         <div className="scrolling-container">
-          {renderCalendar()}
+          <div className="day-card free">
+            <span>Monday 01</span>
+            <span>Free</span>
+          </div>
+          <div className="day-card occupied">
+            <span>Tuesday 02</span>
+            <span>Occupied</span>
+          </div>
+          <div className="day-card free">
+            <span>Wednesday 03</span>
+            <span>Free</span>
+          </div>
+          <div className="day-card occupied">
+            <span>Thursday 04</span>
+            <span>Occupied</span>
+          </div>
+          <div className="day-card free">
+            <span>Friday 05</span>
+            <span>Free</span>
+          </div>
         </div>
         <div className="card">
           <h3>On-Duty Workers</h3>

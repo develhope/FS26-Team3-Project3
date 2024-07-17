@@ -36,15 +36,15 @@ const DashboardSupervisor = () => {
   const handleApprove = (index) => {
     const newRequests = [...leaveRequests];
     newRequests[index].status = 'Approved';
-    setLeaveRequests([...new Set(newRequests)]);
-    localStorage.setItem("leaveRequests", JSON.stringify([...new Set(newRequests)]));
+    setLeaveRequests(newRequests);
+    localStorage.setItem("leaveRequests", JSON.stringify(newRequests));
   };
 
   const handleDeny = (index) => {
     const newRequests = [...leaveRequests];
     newRequests[index].status = 'Denied';
-    setLeaveRequests([...new Set(newRequests)]); 
-    localStorage.setItem("leaveRequests", JSON.stringify([...new Set(newRequests)]));
+    setLeaveRequests(newRequests);
+    localStorage.setItem("leaveRequests", JSON.stringify(newRequests));
   };
 
   return (
