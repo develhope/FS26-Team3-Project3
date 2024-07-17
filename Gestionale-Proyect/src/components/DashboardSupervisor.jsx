@@ -15,6 +15,8 @@ const DashboardSupervisor = () => {
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
     const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    console.log("Stored Users:", storedUsers);
+    console.log("Stored Requests:", storedRequests);
     setUsers(storedUsers);
     setLeaveRequests(storedRequests);
   }, []);
@@ -133,4 +135,3 @@ const DashboardSupervisor = () => {
 };
 
 export default DashboardSupervisor;
-

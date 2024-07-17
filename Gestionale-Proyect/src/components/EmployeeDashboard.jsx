@@ -40,6 +40,7 @@ const EmployeeDashboard = () => {
         }
       });
       setDaysOff(offDays);
+      console.log("Updated Days Off:", offDays);
     }
   }, [loggedInUser]);
 
@@ -80,6 +81,7 @@ const EmployeeDashboard = () => {
       }
     });
     setDaysOff(offDays);
+    console.log("Updated Days Off after submission:", offDays);
   };
 
   const renderMonth = () => {
