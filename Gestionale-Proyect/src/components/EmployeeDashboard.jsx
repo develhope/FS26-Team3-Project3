@@ -2,16 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import "./EmployeeDashboard.css";
 import RequestLeaveForm from "./RequestLeaveForm";
-import {
-  addMonths,
-  subMonths,
-  startOfMonth,
-  endOfMonth,
-  startOfWeek,
-  endOfWeek,
-  addDays,
-  format,
-} from "date-fns";
+import { addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, format } from "date-fns";
 
 const EmployeeDashboard = () => {
   const { loggedInUser } = useAuth();
@@ -23,9 +14,7 @@ const EmployeeDashboard = () => {
   useEffect(() => {
     if (loggedInUser) {
       setUser(loggedInUser);
-      const storedRequests = JSON.parse(
-        localStorage.getItem("leaveRequests")
-      ) || [];
+      const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
       const userRequests = storedRequests.filter(
         (request) =>
           request.employee === loggedInUser.email && request.status === "Approved"
@@ -47,9 +36,7 @@ const EmployeeDashboard = () => {
 
   const handleRequestSubmit = (request) => {
     const newRequest = { ...request, employee: user.email };
-    const storedRequests = JSON.parse(
-      localStorage.getItem("leaveRequests")
-    ) || [];
+    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
     const updatedRequests = [...storedRequests, newRequest];
     const uniqueRequests = updatedRequests.filter(
       (req, index, self) =>
@@ -70,39 +57,34 @@ const EmployeeDashboard = () => {
     );
   };
 
-  const renderCalendar = () => {
-    const monthStart = startOfMonth(currentMonth);
-    const monthEnd = endOfMonth(monthStart);
-    const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
-    const dateFormat = "d";
-    const rows = [];
-
-    let days = [];
-    let day = startDate;
-    let formattedDate = "";
-
-    while (day <= endDate) {
-      for (let i = 0; i < 7; i++) {
-        formattedDate = format(day, dateFormat);
-        const cloneDay = day;
-        const isOffDay = daysOff.includes(day.toISOString().split("T")[0]);
-        days.push(
-          <div className={`day-card ${isOffDay ? "free" : "occupied"}`} key={day}>
-            <span>{formattedDate}</span>
-            <span>{isOffDay ? "Free" : "Occupied"}</span>
-          </div>
-        );
-        day = addDays(day, 1);
-      }
-      rows.push(
-        <div className="row" key={day}>
-          {days}
+  const renderCurrentWeek = (startDate) => {
+    const daysArray = [];
+    for (let i = 0; i < 7; i++) {
+      const day = addDays(startDate, i);
+      const date = day.toISOString().split("T")[0];
+      const isOffDay = daysOff.includes(date);
+      daysArray.push(
+        <div key={i} className={`day-card ${isOffDay ? "free" : "occupied"}`}>
+          <span>{day.toDateString().split(" ")[0]} {day.getDate()}</span>
+          <span>{isOffDay ? "Free" : "Occupied"}</span>
         </div>
       );
-      days = [];
     }
-    return <div className="body">{rows}</div>;
+    return daysArray;
+  };
+
+  const renderMonth = () => {
+    const monthStart = startOfMonth(currentMonth);
+    const startDate = startOfWeek(monthStart);
+    const weeks = [];
+    let day = startDate;
+
+    while (day < endOfMonth(monthStart)) {
+      weeks.push(<div className="week-row" key={day}>{renderCurrentWeek(day)}</div>);
+      day = addDays(day, 7);
+    }
+
+    return weeks;
   };
 
   const nextMonth = () => {
@@ -160,7 +142,9 @@ const EmployeeDashboard = () => {
           <h2>{format(currentMonth, "MMMM yyyy")}</h2>
           <button onClick={nextMonth}>Next</button>
         </div>
-        <div className="scrolling-container">{renderCalendar()}</div>
+        <div className="scrolling-container">
+          {renderMonth()}
+        </div>
         <div className="card">
           <h3>On-Duty Workers</h3>
           <ul>
@@ -218,4 +202,3 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
-
