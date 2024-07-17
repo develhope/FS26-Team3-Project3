@@ -155,9 +155,9 @@ const EmployeeDashboard = () => {
           )}
         </div>
         <div className="calendar-nav">
-          <button onClick={prevMonth}>Prev</button>
+          <button className="nav-button" onClick={prevMonth}>Prev</button>
           <h2>{format(currentMonth, "MMMM yyyy")}</h2>
-          <button onClick={nextMonth}>Next</button>
+          <button className="nav-button" onClick={nextMonth}>Next</button>
         </div>
         <div className="scrolling-container">
           {renderMonth()}
@@ -219,5 +219,3 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
-
-
