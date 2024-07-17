@@ -213,7 +213,7 @@
 }
 
 .select-field option {
-  max-width: 200px;
+  max-width: 300px;
   word-wrap: break-word;
   white-space: nowrap;
   overflow: hidden;
