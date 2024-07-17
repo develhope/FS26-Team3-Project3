@@ -14,9 +14,26 @@ const DashboardSupervisor = () => {
 
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    let storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+
+    storedRequests = storedRequests.filter(
+      (req, index, self) =>
+        index ===
+        self.findIndex(
+          (r) =>
+            r.startDate === req.startDate &&
+            r.endDate === req.endDate &&
+            r.employee === req.employee &&
+            r.reason === req.reason &&
+            r.status === req.status
+        )
+    );
+
+    localStorage.setItem("leaveRequests", JSON.stringify(storedRequests));
+
     console.log("Stored Users:", storedUsers);
     console.log("Stored Requests:", storedRequests);
+
     setUsers(storedUsers);
     setLeaveRequests(storedRequests);
   }, []);

@@ -57,9 +57,12 @@ const EmployeeDashboard = () => {
           (r) =>
             r.startDate === req.startDate &&
             r.endDate === req.endDate &&
-            r.employee === req.employee
+            r.employee === req.employee &&
+            r.reason === req.reason &&
+            r.status === req.status
         )
     );
+
     localStorage.setItem("leaveRequests", JSON.stringify(uniqueRequests));
     setLeaveRequests(
       uniqueRequests.filter(
