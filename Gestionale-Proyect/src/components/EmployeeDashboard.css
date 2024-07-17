@@ -162,6 +162,32 @@
   font-size: 12px;
 }
 
+.calendar-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.calendar-nav h2 {
+  margin: 0 1rem;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.nav-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.nav-button:hover {
+  background-color: #0056b3;
+}
+
 @media (max-width: 600px) {
   .container {
     width: 100%; /* Make container fill the screen width */
