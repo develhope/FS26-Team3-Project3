@@ -1,40 +1,53 @@
 .leave-requests-list {
+  padding: 1rem;
   background-color: #fff;
   border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-.leave-requests-list h3 {
-  margin-top: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .request-item {
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 1rem;
+}
+
+.request-details {
+  margin-bottom: 0.5rem;
+}
+
+.request-details p {
+  margin: 0.25rem 0;
 }
 
 .buttons {
   display: flex;
-  gap: 10px;
+  gap: 0.5rem;
 }
 
 .approve-button,
 .deny-button {
-  background-color: #007bff;
-  color: white;
+  padding: 0.5rem 1rem;
   border: none;
-  padding: 5px 10px;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
 
-.approve-button:hover,
-.deny-button:hover {
+.approve-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.deny-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.approve-button:hover {
   background-color: #0056b3;
+}
+
+.deny-button:hover {
+  background-color: #c82333;
 }
