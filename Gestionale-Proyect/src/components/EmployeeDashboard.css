@@ -203,7 +203,7 @@
 
 .select-field {
   width: 100%;
-  max-width: 100px;
+  max-width: 200px;
   padding: 0.5rem;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -213,7 +213,7 @@
 }
 
 .select-field option {
-  max-width: 100px;
+  max-width: 200px;
   word-wrap: break-word;
   white-space: nowrap;
   overflow: hidden;
