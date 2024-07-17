@@ -230,6 +230,16 @@
   resize: vertical;
 }
 
+.select-field {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none;
+}
+
 .select-field option {
   max-width: 300px;
   padding: 0.5rem;
