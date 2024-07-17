@@ -2,7 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import "./EmployeeDashboard.css";
 import RequestLeaveForm from "./RequestLeaveForm";
-import { addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, format } from "date-fns";
+import {
+  addMonths,
+  subMonths,
+  startOfMonth,
+  endOfMonth,
+  startOfWeek,
+  endOfWeek,
+  addDays,
+  format,
+} from "date-fns";
 
 const EmployeeDashboard = () => {
   const { loggedInUser } = useAuth();
@@ -14,16 +23,21 @@ const EmployeeDashboard = () => {
   useEffect(() => {
     if (loggedInUser) {
       setUser(loggedInUser);
-      const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
-      const userRequests = storedRequests.filter(request => request.employee === loggedInUser.email && request.status === 'Approved');
+      const storedRequests = JSON.parse(
+        localStorage.getItem("leaveRequests")
+      ) || [];
+      const userRequests = storedRequests.filter(
+        (request) =>
+          request.employee === loggedInUser.email && request.status === "Approved"
+      );
       setLeaveRequests(userRequests);
 
       const offDays = [];
-      userRequests.forEach(request => {
+      userRequests.forEach((request) => {
         let currentDate = new Date(request.startDate);
         const endDate = new Date(request.endDate);
         while (currentDate <= endDate) {
-          offDays.push(currentDate.toISOString().split('T')[0]);
+          offDays.push(currentDate.toISOString().split("T")[0]);
           currentDate.setDate(currentDate.getDate() + 1);
         }
       });
@@ -33,16 +47,27 @@ const EmployeeDashboard = () => {
 
   const handleRequestSubmit = (request) => {
     const newRequest = { ...request, employee: user.email };
-    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    const storedRequests = JSON.parse(
+      localStorage.getItem("leaveRequests")
+    ) || [];
     const updatedRequests = [...storedRequests, newRequest];
     const uniqueRequests = updatedRequests.filter(
       (req, index, self) =>
-        index === self.findIndex(
-          (r) => r.startDate === req.startDate && r.endDate === req.endDate && r.employee === req.employee
+        index ===
+        self.findIndex(
+          (r) =>
+            r.startDate === req.startDate &&
+            r.endDate === req.endDate &&
+            r.employee === req.employee
         )
     );
     localStorage.setItem("leaveRequests", JSON.stringify(uniqueRequests));
-    setLeaveRequests(uniqueRequests.filter(request => request.employee === user.email && request.status === 'Approved'));
+    setLeaveRequests(
+      uniqueRequests.filter(
+        (request) =>
+          request.employee === user.email && request.status === "Approved"
+      )
+    );
   };
 
   const renderCalendar = () => {
@@ -61,14 +86,11 @@ const EmployeeDashboard = () => {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, dateFormat);
         const cloneDay = day;
-        const isOffDay = daysOff.includes(day.toISOString().split('T')[0]);
+        const isOffDay = daysOff.includes(day.toISOString().split("T")[0]);
         days.push(
-          <div
-            className={`day-card ${isOffDay ? 'free' : 'occupied'}`}
-            key={day}
-          >
+          <div className={`day-card ${isOffDay ? "free" : "occupied"}`} key={day}>
             <span>{formattedDate}</span>
-            <span>{isOffDay ? 'Free' : 'Occupied'}</span>
+            <span>{isOffDay ? "Free" : "Occupied"}</span>
           </div>
         );
         day = addDays(day, 1);
@@ -138,9 +160,7 @@ const EmployeeDashboard = () => {
           <h2>{format(currentMonth, "MMMM yyyy")}</h2>
           <button onClick={nextMonth}>Next</button>
         </div>
-        <div className="scrolling-container">
-          {renderCalendar()}
-        </div>
+        <div className="scrolling-container">{renderCalendar()}</div>
         <div className="card">
           <h3>On-Duty Workers</h3>
           <ul>
@@ -166,7 +186,8 @@ const EmployeeDashboard = () => {
           <ul>
             {leaveRequests.map((request, index) => (
               <li key={index}>
-                {request.leaveType} from {request.startDate} to {request.endDate} - {request.status}
+                {request.leaveType} from {request.startDate} to {request.endDate} -{" "}
+                {request.status}
                 <br />
                 Reason: {request.reason}
               </li>
@@ -197,3 +218,4 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
+
