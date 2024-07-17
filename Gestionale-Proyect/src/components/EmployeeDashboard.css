@@ -209,15 +209,15 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   appearance: none;
+  box-sizing: border-box;
 }
 
 .select-field option {
   max-width: 300px;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 600px) {
