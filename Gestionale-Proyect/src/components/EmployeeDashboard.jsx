@@ -12,17 +12,17 @@ const EmployeeDashboard = () => {
     if (loggedInUser) {
       setUser(loggedInUser);
       const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
-      const userRequests = storedRequests.filter(request => request.userId === loggedInUser.id);
+      const userRequests = storedRequests.filter(request => request.employee === loggedInUser.email);
       setLeaveRequests(userRequests);
     }
   }, [loggedInUser]);
 
   const handleRequestSubmit = (request) => {
-    const newRequest = { ...request, userId: user.id };
+    const newRequest = { ...request, employee: user.email };
     const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
     const updatedRequests = [...storedRequests, newRequest];
     localStorage.setItem("leaveRequests", JSON.stringify(updatedRequests));
-    setLeaveRequests(updatedRequests.filter(request => request.userId === user.id));
+    setLeaveRequests(updatedRequests.filter(request => request.employee === user.email));
   };
 
   if (!user) {
@@ -115,6 +115,8 @@ const EmployeeDashboard = () => {
             {leaveRequests.map((request, index) => (
               <li key={index}>
                 {request.leaveType} from {request.startDate} to {request.endDate} - {request.status}
+                <br />
+                Reason: {request.reason}
               </li>
             ))}
           </ul>
@@ -143,5 +145,3 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
-
-

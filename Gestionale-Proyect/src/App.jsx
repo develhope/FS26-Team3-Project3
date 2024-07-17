@@ -13,6 +13,8 @@ import DashboardSupervisor from "./components/DashboardSupervisor";
 import EmployeeDashboard from "./components/EmployeeDashboard";
 import RegisterCompany from "./components/RegisterCompany";
 import RegisterEmployee from "./components/RegisterEmployee";
+import RequestLeaveForm from './components/RequestLeaveForm';
+import LeaveRequestsList from './components/LeaveRequestsList';
 
 const App = () => {
   useEffect(() => {
@@ -59,19 +61,35 @@ const App = () => {
           <Route path="/" element={<EventLogin />} />
           <Route path="/register-company" element={<RegisterCompany />} />
           <Route path="/register-employee" element={<RegisterEmployee />} />
-          <Route
-            path="/dashboard-employee"
-            element={<PrivateRoute role="user" />}
-          />
-          <Route
-            path="/dashboard-supervisor"
-            element={<PrivateRoute role="supervisor" />}
-          />
+          <Route path="/dashboard-employee" element={<EmployeeDashboardRoute />} />
+          <Route path="/dashboard-supervisor" element={<DashboardSupervisorRoute />} />
           <Route path="/settings" element={<SettingsRoute />} />
         </Routes>
       </Router>
     </AuthProvider>
   );
+};
+
+const EmployeeDashboardRoute = () => {
+  const { isAuthenticated, userRole } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/" />;
+  }
+  if (userRole === "user") {
+    return <EmployeeDashboard />;
+  }
+  return <Navigate to="/" />;
+};
+
+const DashboardSupervisorRoute = () => {
+  const { isAuthenticated, userRole } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/" />;
+  }
+  if (userRole === "supervisor") {
+    return <DashboardSupervisor />;
+  }
+  return <Navigate to="/" />;
 };
 
 const SettingsRoute = () => {

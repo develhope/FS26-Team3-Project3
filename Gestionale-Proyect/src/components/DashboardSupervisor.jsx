@@ -133,5 +133,3 @@ const DashboardSupervisor = () => {
 };
 
 export default DashboardSupervisor;
-
-
