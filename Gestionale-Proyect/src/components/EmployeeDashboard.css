@@ -188,6 +188,19 @@
   background-color: #0056b3;
 }
 
+.popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #007bff;
+  color: white;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
 @media (max-width: 600px) {
   .container {
     width: 100%; /* Make container fill the screen width */

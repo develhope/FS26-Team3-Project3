@@ -17,6 +17,7 @@ const EmployeeDashboard = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [daysOff, setDaysOff] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [showPopup, setShowPopup] = useState(false); 
 
   useEffect(() => {
     if (loggedInUser) {
@@ -71,6 +72,9 @@ const EmployeeDashboard = () => {
       )
     );
     updateDaysOff(uniqueRequests.filter(request => request.employee === user.email && request.status === "Approved"));
+
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 3000);
   };
 
   const updateDaysOff = (requests) => {
@@ -201,6 +205,11 @@ const EmployeeDashboard = () => {
           </ul>
         </div>
       </div>
+      {showPopup && (
+        <div className="popup">
+          <p>Your request has been sent!</p>
+        </div>
+      )}
       <div className="footer">
         <a href="#">
           <i className="fas fa-home"></i>
@@ -224,3 +233,4 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
+
