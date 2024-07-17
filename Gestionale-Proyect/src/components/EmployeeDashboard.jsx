@@ -105,9 +105,11 @@ const EmployeeDashboard = () => {
 
     while (day <= monthEnd) {
       const date = format(day, "yyyy-MM-dd");
+      const dayOfWeek = format(day, "EEEE"); // Aggiungi il giorno della settimana
       const isOffDay = daysOff.includes(date) || getDay(day) === 0; // Include le domeniche come giorni liberi
       daysArray.push(
         <div key={date} className={`day-card ${isOffDay ? "free" : "occupied"}`}>
+          <span>{dayOfWeek}</span> {/* Aggiungi il giorno della settimana */}
           <span>{format(day, dateFormat)}</span>
           <span>{isOffDay ? "Free" : "Occupied"}</span>
         </div>
@@ -237,4 +239,3 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
-
