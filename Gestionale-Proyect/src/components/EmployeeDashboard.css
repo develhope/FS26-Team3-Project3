@@ -162,64 +162,6 @@
   font-size: 12px;
 }
 
-.calendar-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.calendar-nav h2 {
-  margin: 0 1rem;
-  flex-grow: 1;
-  text-align: center;
-}
-
-.nav-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.nav-button:hover {
-  background-color: #0056b3;
-}
-
-.popup {
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #007bff;
-  color: white;
-  padding: 1rem;
-  border-radius: 4px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-.select-field {
-  width: 300%;
-  max-width: 200px;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  appearance: none;
-  box-sizing: border-box;
-}
-
-.select-field option {
-  max-width: 300px;
-  word-wrap: break-word;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 @media (max-width: 600px) {
   .container {
     width: 100%; /* Make container fill the screen width */
