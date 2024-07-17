@@ -54,4 +54,3 @@ const RequestLeaveForm = ({ onSubmit }) => {
 };
 
 export default RequestLeaveForm;
-
