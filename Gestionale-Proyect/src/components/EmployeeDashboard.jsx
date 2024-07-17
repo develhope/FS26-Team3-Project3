@@ -35,7 +35,7 @@ const EmployeeDashboard = () => {
         let currentDate = new Date(request.startDate);
         const endDate = new Date(request.endDate);
         while (currentDate <= endDate) {
-          offDays.push(new Date(currentDate).toISOString().split("T")[0]);
+          offDays.push(format(currentDate, "yyyy-MM-dd"));
           currentDate = addDays(currentDate, 1);
         }
       });
@@ -66,6 +66,20 @@ const EmployeeDashboard = () => {
           request.employee === user.email && request.status === "Approved"
       )
     );
+    updateDaysOff(uniqueRequests.filter(request => request.employee === user.email && request.status === "Approved"));
+  };
+
+  const updateDaysOff = (requests) => {
+    const offDays = [];
+    requests.forEach((request) => {
+      let currentDate = new Date(request.startDate);
+      const endDate = new Date(request.endDate);
+      while (currentDate <= endDate) {
+        offDays.push(format(currentDate, "yyyy-MM-dd"));
+        currentDate = addDays(currentDate, 1);
+      }
+    });
+    setDaysOff(offDays);
   };
 
   const renderMonth = () => {
@@ -77,10 +91,10 @@ const EmployeeDashboard = () => {
     let day = monthStart;
 
     while (day <= monthEnd) {
-      const date = new Date(day).toISOString().split("T")[0];
+      const date = format(day, "yyyy-MM-dd");
       const isOffDay = daysOff.includes(date);
       daysArray.push(
-        <div key={day} className={`day-card ${isOffDay ? "free" : "occupied"}`}>
+        <div key={date} className={`day-card ${isOffDay ? "free" : "occupied"}`}>
           <span>{format(day, dateFormat)}</span>
           <span>{isOffDay ? "Free" : "Occupied"}</span>
         </div>
@@ -205,4 +219,5 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
+
 
