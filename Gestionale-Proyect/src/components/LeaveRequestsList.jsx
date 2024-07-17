@@ -1,7 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Modal from 'react-modal';
 import './LeaveRequestsList.css';
 
+Modal.setAppElement('#root'); // Necessario per accessibilità
+
 const LeaveRequestsList = ({ requests, onApprove, onDeny }) => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [actionType, setActionType] = useState('');
+
+  const openModal = (request, action) => {
+    setSelectedRequest(request);
+    setActionType(action);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setSelectedRequest(null);
+    setActionType('');
+  };
+
+  const handleConfirm = () => {
+    const index = requests.indexOf(selectedRequest);
+    if (actionType === 'approve') {
+      onApprove(index);
+    } else if (actionType === 'deny') {
+      onDeny(index);
+    }
+    closeModal();
+  };
+
   return (
     <div className="leave-requests-list">
       <h3>Leave Requests</h3>
@@ -15,12 +44,27 @@ const LeaveRequestsList = ({ requests, onApprove, onDeny }) => {
               <p><strong>Status:</strong> {request.status}</p>
             </div>
             <div className="buttons">
-              <button className="approve-button" onClick={() => onApprove(index)}>Approve</button>
-              <button className="deny-button" onClick={() => onDeny(index)}>Deny</button>
+              <button className="approve-button" onClick={() => openModal(request, 'approve')}>Approve</button>
+              <button className="deny-button" onClick={() => openModal(request, 'deny')}>Deny</button>
             </div>
           </li>
         ))}
       </ul>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Confirm Action"
+        className="Modal"
+        overlayClassName="Overlay"
+      >
+        <h2>Confirm {actionType === 'approve' ? 'Approval' : 'Denial'}</h2>
+        <p>Are you sure you want to {actionType} this request?</p>
+        <div className="modal-buttons">
+          <button onClick={handleConfirm} className="confirm-button">Yes</button>
+          <button onClick={closeModal} className="cancel-button">No</button>
+        </div>
+      </Modal>
     </div>
   );
 };
