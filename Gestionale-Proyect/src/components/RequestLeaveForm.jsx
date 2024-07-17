@@ -1,24 +1,15 @@
-import React, { useState, useContext } from 'react';
-import AuthContext from './AuthContext';
-import './RequestLeaveForm.css';
+import React, { useState } from 'react';
+import './RequestLeaveForm.css'; 
 
 const RequestLeaveForm = ({ onSubmit }) => {
   const [leaveType, setLeaveType] = useState('Vacation');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [reason, setReason] = useState('');
-  const { currentUser } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const request = { 
-      leaveType, 
-      startDate, 
-      endDate, 
-      reason, 
-      status: 'Pending', 
-      employee: currentUser.email 
-    };
+    const request = { leaveType, startDate, endDate, reason, status: 'Pending' };
     onSubmit(request);
     setLeaveType('Vacation');
     setStartDate('');
