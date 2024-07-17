@@ -26,6 +26,7 @@ const App = () => {
         password: "12345",
         id: "E0941518441",
         role: "user",
+        gender: "Male",
         hoursWorked: 40,
       },
       {
@@ -35,6 +36,7 @@ const App = () => {
         password: "girasole",
         id: "ECARTADIEDENTITA",
         role: "supervisor",
+        gender: "Female",
         hoursWorked: 35,
       },
       {
@@ -44,6 +46,7 @@ const App = () => {
         password: "qwerty",
         id: "RC",
         role: "user",
+        gender: "Male",
         hoursWorked: 30,
       },
     ];

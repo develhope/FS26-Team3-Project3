@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import EditEmployee from "./EditEmployee";
 import LeaveRequestsList from "./LeaveRequestsList";
-import "./DashboardSupervisor.css";
+import './DashboardSupervisor.css';
 
 const DashboardSupervisor = () => {
   const [users, setUsers] = useState([]);
@@ -33,28 +33,12 @@ const DashboardSupervisor = () => {
     navigate("/");
   };
 
-  const handleApprove = (index) => {
-    const newRequests = [...leaveRequests];
-    newRequests[index].status = 'Approved';
-    setLeaveRequests(newRequests);
-    localStorage.setItem("leaveRequests", JSON.stringify(newRequests));
-  };
-
-  const handleDeny = (index) => {
-    const newRequests = [...leaveRequests];
-    newRequests[index].status = 'Denied';
-    setLeaveRequests(newRequests);
-    localStorage.setItem("leaveRequests", JSON.stringify(newRequests));
-  };
-
   return (
     <div className="dashboard-wrapper">
       <div className="header">
         <div className="header-container">
           <h1>Supervisor Dashboard</h1>
-          <button onClick={handleLogout} className="logout-button">
-            Logout
-          </button>
+          <button onClick={handleLogout} className="logout-button">Logout</button>
         </div>
       </div>
       <div className="dashboard-container">
@@ -88,18 +72,12 @@ const DashboardSupervisor = () => {
                     <div>Email: {user.email}</div>
                     <div>Role: {user.role}</div>
                     <div>Hours Worked: {user.hoursWorked}</div>
+                    <div>Gender: {user.gender}</div> {/* Aggiungi il campo Gender */}
                     <button onClick={() => setSelectedUser(user)}>Edit</button>
                   </li>
                 ))}
               </ul>
             </div>
-          </div>
-          <div className="dashboard-grid">
-            <LeaveRequestsList 
-              requests={leaveRequests} 
-              onApprove={handleApprove} 
-              onDeny={handleDeny} 
-            />
           </div>
           {selectedUser && (
             <EditEmployee
@@ -109,24 +87,6 @@ const DashboardSupervisor = () => {
             />
           )}
         </div>
-      </div>
-      <div className="footer">
-        <a href="#">
-          <i className="fas fa-home"></i>
-          <span>Home</span>
-        </a>
-        <a href="#">
-          <i className=""></i>
-          <span>Dashboard</span>
-        </a>
-        <a href="#">
-          <i className="fas fa-user"></i>
-          <span>Profile</span>
-        </a>
-        <a href="/settings">
-          <i className="fas fa-cog"></i>
-          <span>Settings</span>
-        </a>
       </div>
     </div>
   );
