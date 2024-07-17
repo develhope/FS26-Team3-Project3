@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './LeaveRequestsList.css'; // Assicurati di importare il file CSS
 
@@ -24,4 +25,3 @@ const LeaveRequestsList = ({ requests, onApprove, onDeny }) => {
 };
 
 export default LeaveRequestsList;
-

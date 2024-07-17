@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import AuthContext from './AuthContext';
+import { AuthContext } from './AuthContext'; // Modifica qui
 import './RequestLeaveForm.css';
 
 const RequestLeaveForm = ({ onSubmit }) => {
@@ -7,7 +7,7 @@ const RequestLeaveForm = ({ onSubmit }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [reason, setReason] = useState('');
-  const { currentUser } = useContext(AuthContext);
+  const { loggedInUser } = useContext(AuthContext); // Modifica qui
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,7 +17,7 @@ const RequestLeaveForm = ({ onSubmit }) => {
       endDate, 
       reason, 
       status: 'Pending', 
-      employee: currentUser.email 
+      employee: loggedInUser.email // Modifica qui
     };
     onSubmit(request);
     setLeaveType('Vacation');
