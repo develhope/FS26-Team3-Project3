@@ -7,19 +7,59 @@ const EmployeeDashboard = () => {
   const { loggedInUser } = useAuth();
   const [user, setUser] = useState(null);
   const [leaveRequests, setLeaveRequests] = useState([]);
+  const [daysOff, setDaysOff] = useState([]);
 
   useEffect(() => {
     if (loggedInUser) {
       setUser(loggedInUser);
       const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
-      const userRequests = storedRequests.filter(request => request.employee === loggedInUser.email);
+      const userRequests = storedRequests.filter(
+        request => request.employee === loggedInUser.email && request.status === 'Approved'
+      );
       setLeaveRequests(userRequests);
+
+      const offDays = [];
+      userRequests.forEach(request => {
+        let currentDate = new Date(request.startDate);
+        const endDate = new Date(request.endDate);
+        while (currentDate <= endDate) {
+          offDays.push(currentDate.toISOString().split('T')[0]);
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      });
+      setDaysOff(offDays);
     }
   }, [loggedInUser]);
 
   const handleRequestSubmit = (request) => {
     const newRequest = { ...request, employee: user.email };
-    setLeaveRequests([...leaveRequests, newRequest]);
+    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    const updatedRequests = [...storedRequests, newRequest];
+    const uniqueRequests = updatedRequests.filter(
+      (req, index, self) =>
+        index === self.findIndex(
+          (r) => r.startDate === req.startDate && r.endDate === req.endDate && r.employee === req.employee
+        )
+    );
+    localStorage.setItem("leaveRequests", JSON.stringify(uniqueRequests));
+    setLeaveRequests(uniqueRequests.filter(request => request.employee === user.email && request.status === 'Approved'));
+  };
+
+  const renderCurrentWeek = () => {
+    const currentDate = new Date();
+    const startOfWeek = currentDate.getDate() - currentDate.getDay();
+    const daysArray = Array.from({ length: 7 }, (_, i) => {
+      const day = new Date(currentDate.setDate(startOfWeek + i));
+      const date = day.toISOString().split('T')[0];
+      const isOffDay = daysOff.includes(date);
+      return (
+        <div key={i} className={`day-card ${isOffDay ? 'free' : 'occupied'}`}>
+          <span>{day.toDateString().split(' ')[0]} {day.getDate()}</span>
+          <span>{isOffDay ? 'Free' : 'Occupied'}</span>
+        </div>
+      );
+    });
+    return daysArray;
   };
 
   if (!user) {
@@ -65,26 +105,7 @@ const EmployeeDashboard = () => {
           )}
         </div>
         <div className="scrolling-container">
-          <div className="day-card free">
-            <span>Monday 01</span>
-            <span>Free</span>
-          </div>
-          <div className="day-card occupied">
-            <span>Tuesday 02</span>
-            <span>Occupied</span>
-          </div>
-          <div className="day-card free">
-            <span>Wednesday 03</span>
-            <span>Free</span>
-          </div>
-          <div className="day-card occupied">
-            <span>Thursday 04</span>
-            <span>Occupied</span>
-          </div>
-          <div className="day-card free">
-            <span>Friday 05</span>
-            <span>Free</span>
-          </div>
+          {renderCurrentWeek()}
         </div>
         <div className="card">
           <h3>On-Duty Workers</h3>
