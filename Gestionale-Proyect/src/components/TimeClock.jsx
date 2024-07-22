@@ -21,6 +21,18 @@ const TimeClock = () => {
     if (storedEndTime) setEndTime(new Date(storedEndTime));
   }, [loggedInUser]);
 
+  const updateOnDutyWorkers = (email, action) => {
+    let onDutyWorkers = JSON.parse(localStorage.getItem("onDutyWorkers")) || [];
+    if (action === "clockIn") {
+      if (!onDutyWorkers.includes(email)) {
+        onDutyWorkers.push(email);
+      }
+    } else if (action === "clockOut") {
+      onDutyWorkers = onDutyWorkers.filter(workerEmail => workerEmail !== email);
+    }
+    localStorage.setItem("onDutyWorkers", JSON.stringify(onDutyWorkers));
+  };
+
   const handleClockIn = () => {
     setModalMessage("Ready to start your workday?");
     setConfirmAction(() => clockIn);
@@ -37,6 +49,7 @@ const TimeClock = () => {
     const now = new Date();
     setStartTime(now);
     localStorage.setItem(`${loggedInUser.email}-startTime`, now);
+    updateOnDutyWorkers(loggedInUser.email, "clockIn");
     setPopupMessage("Let's get started!");
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 3000); // Aumentare il tempo a 3 secondi
@@ -46,6 +59,7 @@ const TimeClock = () => {
     const now = new Date();
     setEndTime(now);
     localStorage.setItem(`${loggedInUser.email}-endTime`, now);
+    updateOnDutyWorkers(loggedInUser.email, "clockOut");
     calculateHoursWorked(now);
     setPopupMessage("Have a nice day!");
     setShowPopup(true);

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import "./EmployeeDashboard.css";
-import "./TimeClock.css";  // Importa gli stili di TimeClock
 import RequestLeaveForm from "./RequestLeaveForm";
 import TimeClock from "./TimeClock";  // Importa il nuovo componente
 import {
@@ -21,6 +20,7 @@ const EmployeeDashboard = () => {
   const [daysOff, setDaysOff] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showPopup, setShowPopup] = useState(false); // Stato per il pop-up
+  const [onDutyWorkers, setOnDutyWorkers] = useState([]);
 
   useEffect(() => {
     if (loggedInUser) {
@@ -46,6 +46,15 @@ const EmployeeDashboard = () => {
       setDaysOff(offDays);
       console.log("Updated Days Off:", offDays);
     }
+
+    const fetchOnDutyWorkers = () => {
+      const allUsers = JSON.parse(localStorage.getItem("users")) || [];
+      const onDutyEmails = JSON.parse(localStorage.getItem("onDutyWorkers")) || [];
+      const onDuty = allUsers.filter(user => onDutyEmails.includes(user.email));
+      setOnDutyWorkers(onDuty);
+    };
+
+    fetchOnDutyWorkers();
   }, [loggedInUser]);
 
   const handleRequestSubmit = (request) => {
@@ -179,6 +188,16 @@ const EmployeeDashboard = () => {
         </div>
         <div className="scrolling-container">
           {renderMonth()}
+        </div>
+        <div className="card">
+          <h3>On-Duty Workers</h3>
+          <ul>
+            {onDutyWorkers.map(worker => (
+              <li key={worker.email}>
+                {worker.firstName} {worker.lastName} - Clocked in at: {new Date(localStorage.getItem(`${worker.email}-startTime`)).toLocaleTimeString()}
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="card">
           <h3>On-Duty Workers</h3>
