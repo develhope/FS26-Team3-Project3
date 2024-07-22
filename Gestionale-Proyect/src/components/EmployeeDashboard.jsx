@@ -200,15 +200,6 @@ const EmployeeDashboard = () => {
           </ul>
         </div>
         <div className="card">
-          <h3>On-Duty Workers</h3>
-          <ul>
-            <li>Jimmy Saavedra - 7:00 AM</li>
-            <li>Francesca - 8:00 AM</li>
-            <li>Giorgio - 7:00 AM</li>
-            <li>Ricardo -</li>
-          </ul>
-        </div>
-        <div className="card">
           <div className="card-header">
             <h3>Notifications</h3>
             <i className="fas fa-bell"></i>
