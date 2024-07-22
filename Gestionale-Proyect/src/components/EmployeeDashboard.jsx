@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import "./EmployeeDashboard.css";
-import "./TimeClock.css";  // Importa gli stili di TimeClock
 import RequestLeaveForm from "./RequestLeaveForm";
 import TimeClock from "./TimeClock";  // Importa il nuovo componente
 import {
