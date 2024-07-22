@@ -1,3 +1,4 @@
+// src/components/TimeClock.jsx
 import React, { useState } from 'react';
 
 const TimeClock = () => {
@@ -6,14 +7,18 @@ const TimeClock = () => {
   const [hoursWorked, setHoursWorked] = useState(0);
 
   const handleClockIn = () => {
-    const now = new Date();
-    setStartTime(now);
+    if (window.confirm("Ready to start your workday?")) {
+      const now = new Date();
+      setStartTime(now);
+    }
   };
 
   const handleClockOut = () => {
-    const now = new Date();
-    setEndTime(now);
-    calculateHoursWorked(now);
+    if (window.confirm("Ending your workday?")) {
+      const now = new Date();
+      setEndTime(now);
+      calculateHoursWorked(now);
+    }
   };
 
   const calculateHoursWorked = (end) => {
@@ -48,3 +53,4 @@ const TimeClock = () => {
 };
 
 export default TimeClock;
+
