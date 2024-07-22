@@ -201,13 +201,6 @@ const EmployeeDashboard = () => {
           </ul>
         </div>
         <div className="card">
-          <div className="card-header">
-            <h3>Notifications</h3>
-            <i className="fas fa-bell"></i>
-          </div>
-          <p>Don't forget we need to work as a team</p>
-        </div>
-        <div className="card">
           <h3>Request Leave</h3>
           <RequestLeaveForm onSubmit={handleRequestSubmit} />
         </div>
