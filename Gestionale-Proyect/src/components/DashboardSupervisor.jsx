@@ -9,12 +9,14 @@ const DashboardSupervisor = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [leaveRequests, setLeaveRequests] = useState([]);
+  const [showSidebar, setShowSidebar] = useState(false);
   const { loggedInUser, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    let storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    let storedRequests =
+      JSON.parse(localStorage.getItem("leaveRequests")) || [];
 
     storedRequests = storedRequests.filter(
       (req, index, self) =>
@@ -30,9 +32,6 @@ const DashboardSupervisor = () => {
     );
 
     localStorage.setItem("leaveRequests", JSON.stringify(storedRequests));
-
-    console.log("Stored Users:", storedUsers);
-    console.log("Stored Requests:", storedRequests);
 
     setUsers(storedUsers);
     setLeaveRequests(storedRequests);
@@ -54,26 +53,49 @@ const DashboardSupervisor = () => {
 
   const handleApprove = (index) => {
     const newRequests = [...leaveRequests];
-    newRequests[index].status = 'Approved';
+    newRequests[index].status = "Approved";
     setLeaveRequests(newRequests);
     localStorage.setItem("leaveRequests", JSON.stringify(newRequests));
   };
 
   const handleDeny = (index) => {
     const newRequests = [...leaveRequests];
-    newRequests[index].status = 'Denied';
+    newRequests[index].status = "Denied";
     setLeaveRequests(newRequests);
     localStorage.setItem("leaveRequests", JSON.stringify(newRequests));
   };
+
+  const pendingRequests = leaveRequests.filter(
+    (request) => request.status === "Pending"
+  );
 
   return (
     <div className="dashboard-wrapper">
       <div className="header">
         <div className="header-container">
           <h1>Supervisor Dashboard</h1>
-          <button onClick={handleLogout} className="logout-button">
-            Logout
-          </button>
+          <div
+            className="bell-icon"
+            onClick={() => setShowSidebar(!showSidebar)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+              />
+            </svg>
+            {pendingRequests.length > 0 && (
+              <div className="notification-dot"></div>
+            )}
+          </div>
         </div>
       </div>
       <div className="dashboard-container">
@@ -113,13 +135,6 @@ const DashboardSupervisor = () => {
               </ul>
             </div>
           </div>
-          <div className="dashboard-grid">
-            <LeaveRequestsList 
-              requests={leaveRequests} 
-              onApprove={handleApprove} 
-              onDeny={handleDeny} 
-            />
-          </div>
           {selectedUser && (
             <EditEmployee
               employee={selectedUser}
@@ -129,6 +144,13 @@ const DashboardSupervisor = () => {
           )}
         </div>
       </div>
+      <div className={`sidebar ${showSidebar ? "open" : ""}`}>
+        <LeaveRequestsList
+          requests={leaveRequests}
+          onApprove={handleApprove}
+          onDeny={handleDeny}
+        />
+      </div>
       <div className="footer">
         <a href="#">
           <i className="fas fa-home"></i>
@@ -136,10 +158,6 @@ const DashboardSupervisor = () => {
         </a>
         <a href="#">
           <i className=""></i>
-          <span>Dashboard</span>
-        </a>
-        <a href="#">
-          <i className="fas fa-user"></i>
           <span>Profile</span>
         </a>
         <a href="/settings">
