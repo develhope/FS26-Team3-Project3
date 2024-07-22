@@ -80,7 +80,7 @@
 
 .popup {
   position: fixed;
-  top: 20%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #007bff;
@@ -89,7 +89,7 @@
   border-radius: 4px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  animation: fadeOut 3s forwards;
+  animation: fadeOut 2.5s forwards;
 }
 
 @keyframes fadeOut {
