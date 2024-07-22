@@ -127,7 +127,7 @@ const DashboardSupervisor = () => {
           </div>
           <div className="dashboard-grid">
             <div className="card">
-              <h2>On-Duty Workers</h2>
+              <h2>On Duty Workers</h2>
               <ul>
                 {onDutyWorkers.map(worker => (
                   <li key={worker.email}>

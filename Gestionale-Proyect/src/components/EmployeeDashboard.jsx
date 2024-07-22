@@ -188,7 +188,7 @@ const EmployeeDashboard = () => {
           {renderMonth()}
         </div>
         <div className="card">
-          <h3>On-Duty Workers</h3>
+          <h3>On Duty Workers</h3>
           <ul>
             {onDutyWorkers.map(worker => (
               <li key={worker.email}>
