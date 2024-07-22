@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import "./EmployeeDashboard.css";
 import RequestLeaveForm from "./RequestLeaveForm";
-import TimeClock from "./TimeClock";  // Importa il nuovo componente
+import TimeClock from "./TimeClock";  
 import {
   addMonths,
   subMonths,
@@ -19,7 +19,7 @@ const EmployeeDashboard = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [daysOff, setDaysOff] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [showPopup, setShowPopup] = useState(false); // Stato per il pop-up
+  const [showPopup, setShowPopup] = useState(false); 
   const [onDutyWorkers, setOnDutyWorkers] = useState([]);
 
   useEffect(() => {
@@ -64,8 +64,6 @@ const EmployeeDashboard = () => {
       localStorage.getItem("leaveRequests")
     ) || [];
     const updatedRequests = [...storedRequests, newRequest];
-    
-    // Rimuovi duplicati
     const uniqueRequests = updatedRequests.filter(
       (req, index, self) =>
         index ===
@@ -88,7 +86,6 @@ const EmployeeDashboard = () => {
     );
     updateDaysOff(uniqueRequests.filter(request => request.employee === user.email && request.status === "Approved"));
 
-    // Mostra il pop-up e nascondilo dopo 3 secondi
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 3000);
   };
@@ -117,11 +114,11 @@ const EmployeeDashboard = () => {
 
     while (day <= monthEnd) {
       const date = format(day, "yyyy-MM-dd");
-      const dayOfWeek = format(day, "EEEE"); // Aggiungi il giorno della settimana
-      const isOffDay = daysOff.includes(date) || getDay(day) === 0; // Include le domeniche come giorni liberi
+      const dayOfWeek = format(day, "EEEE"); 
+      const isOffDay = daysOff.includes(date) || getDay(day) === 0; 
       daysArray.push(
         <div key={date} className={`day-card ${isOffDay ? "free" : "occupied"}`}>
-          <span>{dayOfWeek}</span> {/* Aggiungi il giorno della settimana */}
+          <span>{dayOfWeek}</span> 
           <span>{format(day, dateFormat)}</span>
           <span>{isOffDay ? "Free" : "Occupied"}</span>
         </div>
@@ -181,7 +178,7 @@ const EmployeeDashboard = () => {
             </div>
           )}
         </div>
-        <TimeClock />  {/* Aggiungi il componente TimeClock */}
+        <TimeClock />
         <div className="calendar-nav">
           <button className="nav-button" onClick={prevMonth}>Prev</button>
           <h2>{format(currentMonth, "MMMM yyyy")}</h2>

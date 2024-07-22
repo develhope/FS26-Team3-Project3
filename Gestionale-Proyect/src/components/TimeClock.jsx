@@ -1,6 +1,5 @@
-// src/components/TimeClock.jsx
 import React, { useState, useEffect } from 'react';
-import { useAuth } from "./AuthContext"; // Assumendo che useAuth fornisca informazioni sull'utente loggato
+import { useAuth } from "./AuthContext"; 
 import './TimeClock.css';
 
 const TimeClock = () => {
@@ -52,7 +51,7 @@ const TimeClock = () => {
     updateOnDutyWorkers(loggedInUser.email, "clockIn");
     setPopupMessage("Let's get started!");
     setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 3000); // Aumentare il tempo a 3 secondi
+    setTimeout(() => setShowPopup(false), 3000); 
   };
 
   const clockOut = () => {
@@ -63,12 +62,12 @@ const TimeClock = () => {
     calculateHoursWorked(now);
     setPopupMessage("Have a nice day!");
     setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 3000); // Aumentare il tempo a 3 secondi
+    setTimeout(() => setShowPopup(false), 3000); 
   };
 
   const calculateHoursWorked = (end) => {
     if (startTime) {
-      const diff = (end - startTime) / (1000 * 60 * 60); // Differenza in ore
+      const diff = (end - startTime) / (1000 * 60 * 60); 
       setHoursWorked(diff.toFixed(2));
     }
   };

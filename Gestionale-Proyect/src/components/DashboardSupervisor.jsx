@@ -38,7 +38,6 @@ const DashboardSupervisor = () => {
     setUsers(storedUsers);
     setLeaveRequests(storedRequests);
 
-    // Aggiorna i lavoratori in servizio
     const workers = storedUsers.map(user => {
       const startTime = localStorage.getItem(`${user.email}-startTime`);
       const endTime = localStorage.getItem(`${user.email}-endTime`);
