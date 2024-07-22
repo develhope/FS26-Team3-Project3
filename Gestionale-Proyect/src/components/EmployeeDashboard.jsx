@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import "./EmployeeDashboard.css";
 import RequestLeaveForm from "./RequestLeaveForm";
+import TimeClock from "./TimeClock";  // Importa il nuovo componente
 import {
   addMonths,
   subMonths,
@@ -169,6 +170,7 @@ const EmployeeDashboard = () => {
             </div>
           )}
         </div>
+        <TimeClock />  
         <div className="calendar-nav">
           <button className="nav-button" onClick={prevMonth}>Prev</button>
           <h2>{format(currentMonth, "MMMM yyyy")}</h2>
