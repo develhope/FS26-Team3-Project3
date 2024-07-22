@@ -1,8 +1,10 @@
 // src/components/TimeClock.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from "./AuthContext"; // Assumendo che useAuth fornisca informazioni sull'utente loggato
 import './TimeClock.css';
 
 const TimeClock = () => {
+  const { loggedInUser } = useAuth();
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [hoursWorked, setHoursWorked] = useState(0);
@@ -11,6 +13,13 @@ const TimeClock = () => {
   const [confirmAction, setConfirmAction] = useState(null);
   const [popupMessage, setPopupMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const storedStartTime = localStorage.getItem(`${loggedInUser.email}-startTime`);
+    const storedEndTime = localStorage.getItem(`${loggedInUser.email}-endTime`);
+    if (storedStartTime) setStartTime(new Date(storedStartTime));
+    if (storedEndTime) setEndTime(new Date(storedEndTime));
+  }, [loggedInUser]);
 
   const handleClockIn = () => {
     setModalMessage("Ready to start your workday?");
@@ -27,18 +36,20 @@ const TimeClock = () => {
   const clockIn = () => {
     const now = new Date();
     setStartTime(now);
+    localStorage.setItem(`${loggedInUser.email}-startTime`, now);
     setPopupMessage("Let's get started!");
     setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 3000); // Ridurre il tempo a 1.5 secondi
+    setTimeout(() => setShowPopup(false), 3000); // Aumentare il tempo a 3 secondi
   };
 
   const clockOut = () => {
     const now = new Date();
     setEndTime(now);
+    localStorage.setItem(`${loggedInUser.email}-endTime`, now);
     calculateHoursWorked(now);
     setPopupMessage("Have a nice day!");
     setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 3000); // Ridurre il tempo a 1.5 secondi
+    setTimeout(() => setShowPopup(false), 3000); // Aumentare il tempo a 3 secondi
   };
 
   const calculateHoursWorked = (end) => {
