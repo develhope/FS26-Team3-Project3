@@ -29,7 +29,7 @@ const TimeClock = () => {
     setStartTime(now);
     setPopupMessage("Let's get started!");
     setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 1500); // Ridurre il tempo a 1.5 secondi
+    setTimeout(() => setShowPopup(false), 2000); // Ridurre il tempo a 1.5 secondi
   };
 
   const clockOut = () => {
@@ -38,7 +38,7 @@ const TimeClock = () => {
     calculateHoursWorked(now);
     setPopupMessage("Have a nice day!");
     setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 1500); // Ridurre il tempo a 1.5 secondi
+    setTimeout(() => setShowPopup(false), 2000); // Ridurre il tempo a 1.5 secondi
   };
 
   const calculateHoursWorked = (end) => {
