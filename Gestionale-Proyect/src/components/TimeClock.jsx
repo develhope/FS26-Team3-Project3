@@ -1,24 +1,36 @@
 // src/components/TimeClock.jsx
 import React, { useState } from 'react';
+import './TimeClock.css';
 
 const TimeClock = () => {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [hoursWorked, setHoursWorked] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [confirmAction, setConfirmAction] = useState(null);
 
   const handleClockIn = () => {
-    if (window.confirm("Ready to start your workday?")) {
-      const now = new Date();
-      setStartTime(now);
-    }
+    setModalMessage("Ready to start your workday?");
+    setConfirmAction(() => clockIn);
+    setShowModal(true);
   };
 
   const handleClockOut = () => {
-    if (window.confirm("Ending your workday?")) {
-      const now = new Date();
-      setEndTime(now);
-      calculateHoursWorked(now);
-    }
+    setModalMessage("Ending your workday?");
+    setConfirmAction(() => clockOut);
+    setShowModal(true);
+  };
+
+  const clockIn = () => {
+    const now = new Date();
+    setStartTime(now);
+  };
+
+  const clockOut = () => {
+    const now = new Date();
+    setEndTime(now);
+    calculateHoursWorked(now);
   };
 
   const calculateHoursWorked = (end) => {
@@ -26,6 +38,15 @@ const TimeClock = () => {
       const diff = (end - startTime) / (1000 * 60 * 60); // Differenza in ore
       setHoursWorked(diff.toFixed(2));
     }
+  };
+
+  const handleConfirm = () => {
+    confirmAction();
+    setShowModal(false);
+  };
+
+  const handleCancel = () => {
+    setShowModal(false);
   };
 
   return (
@@ -47,6 +68,17 @@ const TimeClock = () => {
       </div>
       {hoursWorked > 0 && (
         <p>Hours worked: {hoursWorked}</p>
+      )}
+      {showModal && (
+        <div className="Overlay">
+          <div className="Modal">
+            <p>{modalMessage}</p>
+            <div className="modal-buttons">
+              <button className="confirm-button" onClick={handleConfirm}>Yes</button>
+              <button className="cancel-button" onClick={handleCancel}>No</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
