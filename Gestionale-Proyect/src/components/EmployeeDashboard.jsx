@@ -51,7 +51,8 @@ const EmployeeDashboard = () => {
       const allUsers = JSON.parse(localStorage.getItem("users")) || [];
       const onDutyEmails = JSON.parse(localStorage.getItem("onDutyWorkers")) || [];
       const onDuty = allUsers.filter(user => onDutyEmails.includes(user.email));
-      setOnDutyWorkers(onDuty);
+      const onDutyExcludingSelf = onDuty.filter(worker => worker.email !== loggedInUser.email);
+      setOnDutyWorkers(onDutyExcludingSelf);
     };
 
     fetchOnDutyWorkers();
@@ -252,3 +253,4 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
+
