@@ -9,6 +9,8 @@ const TimeClock = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [confirmAction, setConfirmAction] = useState(null);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleClockIn = () => {
     setModalMessage("Ready to start your workday?");
@@ -25,12 +27,18 @@ const TimeClock = () => {
   const clockIn = () => {
     const now = new Date();
     setStartTime(now);
+    setPopupMessage("Let's get started!");
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 3000);
   };
 
   const clockOut = () => {
     const now = new Date();
     setEndTime(now);
     calculateHoursWorked(now);
+    setPopupMessage("Have a nice day!");
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 3000);
   };
 
   const calculateHoursWorked = (end) => {
@@ -80,9 +88,13 @@ const TimeClock = () => {
           </div>
         </div>
       )}
+      {showPopup && (
+        <div className="popup">
+          <p>{popupMessage}</p>
+        </div>
+      )}
     </div>
   );
 };
 
 export default TimeClock;
-
