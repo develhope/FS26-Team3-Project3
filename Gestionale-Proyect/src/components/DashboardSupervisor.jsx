@@ -9,6 +9,7 @@ const DashboardSupervisor = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [leaveRequests, setLeaveRequests] = useState([]);
+  const [showSidebar, setShowSidebar] = useState(false);
 
 
   const [onDutyWorkers, setOnDutyWorkers] = useState([]);
