@@ -9,8 +9,6 @@ import { AuthProvider, useAuth } from "./components/AuthContext";
 import EventLogin from "./components/EventLogin";
 import Settings from "./components/Settings";
 import PrivateRoute from "./components/PrivateRoute";
-import DashboardSupervisor from "./components/DashboardSupervisor";
-import EmployeeDashboard from "./components/EmployeeDashboard";
 import RegisterCompany from "./components/RegisterCompany";
 import RegisterEmployee from "./components/RegisterEmployee";
 

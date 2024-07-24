@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import "./EmployeeDashboard.css";
 import RequestLeaveForm from "./RequestLeaveForm";
+import TimeClock from "./TimeClock";  
 import {
   addMonths,
   subMonths,
@@ -18,7 +19,10 @@ const EmployeeDashboard = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [daysOff, setDaysOff] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [showPopup, setShowPopup] = useState(false);
+
+  const [showPopup, setShowPopup] = useState(false); 
+  const [onDutyWorkers, setOnDutyWorkers] = useState([]);
+
 
   useEffect(() => {
     if (loggedInUser) {
@@ -44,6 +48,16 @@ const EmployeeDashboard = () => {
       setDaysOff(offDays);
       console.log("Updated Days Off:", offDays);
     }
+
+    const fetchOnDutyWorkers = () => {
+      const allUsers = JSON.parse(localStorage.getItem("users")) || [];
+      const onDutyEmails = JSON.parse(localStorage.getItem("onDutyWorkers")) || [];
+      const onDuty = allUsers.filter(user => onDutyEmails.includes(user.email));
+      const onDutyExcludingSelf = onDuty.filter(worker => worker.email !== loggedInUser.email);
+      setOnDutyWorkers(onDutyExcludingSelf);
+    };
+
+    fetchOnDutyWorkers();
   }, [loggedInUser]);
 
   const handleRequestSubmit = (request) => {
@@ -106,6 +120,7 @@ const EmployeeDashboard = () => {
 
     while (day <= monthEnd) {
       const date = format(day, "yyyy-MM-dd");
+
       const dayOfWeek = format(day, "EEEE");
       const isOffDay = daysOff.includes(date) || getDay(day) === 0;
       daysArray.push(
@@ -114,6 +129,7 @@ const EmployeeDashboard = () => {
           className={`day-card ${isOffDay ? "free" : "occupied"}`}
         >
           <span>{dayOfWeek}</span>
+
           <span>{format(day, dateFormat)}</span>
           <span>{isOffDay ? "Free" : "Occupied"}</span>
         </div>
@@ -173,16 +189,29 @@ const EmployeeDashboard = () => {
             </div>
           )}
         </div>
+        <TimeClock />
         <div className="calendar-nav">
           <button className="nav-button" onClick={prevMonth}>
             Prev
           </button>
           <h2>{format(currentMonth, "MMMM yyyy")}</h2>
-          <button className="nav-button" onClick={nextMonth}>
-            Next
-          </button>
+
+          <button className="nav-button" onClick={nextMonth}>Next</button>
         </div>
-        <div className="scrolling-container">{renderMonth()}</div>
+        <div className="scrolling-container">
+          {renderMonth()}
+        </div>
+        <div className="card">
+          <h3>On Duty Workers</h3>
+          <ul>
+            {onDutyWorkers.map(worker => (
+              <li key={worker.email}>
+                {worker.firstName} {worker.lastName} - Clocked in at: {new Date(localStorage.getItem(`${worker.email}-startTime`)).toLocaleTimeString()}
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <div className="card">
           <h3>Request Leave</h3>
           <RequestLeaveForm onSubmit={handleRequestSubmit} />
@@ -225,3 +254,4 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
+

@@ -224,18 +224,18 @@
 
 @media (max-width: 600px) {
   .container {
-    width: 100%; /* Make container fill the screen width */
+    width: 100%;
   }
 
   .grid {
-    grid-template-columns: 1fr; /* Make grid single column on small screens */
+    grid-template-columns: 1fr;
   }
 
   .header {
-    flex-direction: column; /* Stack items in header vertically */
+    flex-direction: column;
   }
 
   .footer {
-    flex-direction: column; /* Stack items in footer vertically */
+    flex-direction: column;
   }
 }

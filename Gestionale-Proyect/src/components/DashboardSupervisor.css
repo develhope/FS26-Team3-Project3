@@ -154,6 +154,12 @@
   font-size: 12px;
 }
 
+
+.footer i {
+  font-size: 18px;
+}
+
+
 @media (max-width: 600px) {
   .header-container {
     flex-direction: row;

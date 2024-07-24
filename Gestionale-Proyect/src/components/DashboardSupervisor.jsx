@@ -9,7 +9,10 @@ const DashboardSupervisor = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [leaveRequests, setLeaveRequests] = useState([]);
-  const [showSidebar, setShowSidebar] = useState(false);
+
+
+  const [onDutyWorkers, setOnDutyWorkers] = useState([]);
+
   const { loggedInUser, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -35,6 +38,17 @@ const DashboardSupervisor = () => {
 
     setUsers(storedUsers);
     setLeaveRequests(storedRequests);
+
+    const workers = storedUsers.map(user => {
+      const startTime = localStorage.getItem(`${user.email}-startTime`);
+      const endTime = localStorage.getItem(`${user.email}-endTime`);
+      return {
+        ...user,
+        startTime: startTime ? new Date(startTime) : null,
+        endTime: endTime ? new Date(endTime) : null
+      };
+    });
+    setOnDutyWorkers(workers.filter(worker => worker.startTime && !worker.endTime));
   }, []);
 
   const updateUser = (updatedUser) => {
@@ -135,6 +149,27 @@ const DashboardSupervisor = () => {
               </ul>
             </div>
           </div>
+
+          <div className="dashboard-grid">
+            <div className="card">
+              <h2>On Duty Workers</h2>
+              <ul>
+                {onDutyWorkers.map(worker => (
+                  <li key={worker.email}>
+                    {worker.firstName} {worker.lastName} - Clocked in at: {worker.startTime.toLocaleTimeString()}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="dashboard-grid">
+            <LeaveRequestsList 
+              requests={leaveRequests} 
+              onApprove={handleApprove} 
+              onDeny={handleDeny} 
+            />
+          </div>
+
           {selectedUser && (
             <EditEmployee
               employee={selectedUser}
