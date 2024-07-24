@@ -19,28 +19,30 @@ const EmployeeDashboard = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [daysOff, setDaysOff] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+
   const [showPopup, setShowPopup] = useState(false); 
   const [onDutyWorkers, setOnDutyWorkers] = useState([]);
+
 
   useEffect(() => {
     if (loggedInUser) {
       setUser(loggedInUser);
-      const storedRequests = JSON.parse(
-        localStorage.getItem("leaveRequests")
-      ) || [];
+      const storedRequests =
+        JSON.parse(localStorage.getItem("leaveRequests")) || [];
       const userRequests = storedRequests.filter(
-        (request) =>
-          request.employee === loggedInUser.email && request.status === "Approved"
+        (request) => request.employee === loggedInUser.email
       );
       setLeaveRequests(userRequests);
 
       const offDays = [];
       userRequests.forEach((request) => {
-        let currentDate = new Date(request.startDate);
-        const endDate = new Date(request.endDate);
-        while (currentDate <= endDate) {
-          offDays.push(format(currentDate, "yyyy-MM-dd"));
-          currentDate = addDays(currentDate, 1);
+        if (request.status === "Approved") {
+          let currentDate = new Date(request.startDate);
+          const endDate = new Date(request.endDate);
+          while (currentDate <= endDate) {
+            offDays.push(format(currentDate, "yyyy-MM-dd"));
+            currentDate = addDays(currentDate, 1);
+          }
         }
       });
       setDaysOff(offDays);
@@ -60,10 +62,10 @@ const EmployeeDashboard = () => {
 
   const handleRequestSubmit = (request) => {
     const newRequest = { ...request, employee: user.email };
-    const storedRequests = JSON.parse(
-      localStorage.getItem("leaveRequests")
-    ) || [];
+    const storedRequests =
+      JSON.parse(localStorage.getItem("leaveRequests")) || [];
     const updatedRequests = [...storedRequests, newRequest];
+
     const uniqueRequests = updatedRequests.filter(
       (req, index, self) =>
         index ===
@@ -79,12 +81,14 @@ const EmployeeDashboard = () => {
 
     localStorage.setItem("leaveRequests", JSON.stringify(uniqueRequests));
     setLeaveRequests(
+      uniqueRequests.filter((request) => request.employee === user.email)
+    );
+    updateDaysOff(
       uniqueRequests.filter(
         (request) =>
           request.employee === user.email && request.status === "Approved"
       )
     );
-    updateDaysOff(uniqueRequests.filter(request => request.employee === user.email && request.status === "Approved"));
 
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 3000);
@@ -93,11 +97,13 @@ const EmployeeDashboard = () => {
   const updateDaysOff = (requests) => {
     const offDays = [];
     requests.forEach((request) => {
-      let currentDate = new Date(request.startDate);
-      const endDate = new Date(request.endDate);
-      while (currentDate <= endDate) {
-        offDays.push(format(currentDate, "yyyy-MM-dd"));
-        currentDate = addDays(currentDate, 1);
+      if (request.status === "Approved") {
+        let currentDate = new Date(request.startDate);
+        const endDate = new Date(request.endDate);
+        while (currentDate <= endDate) {
+          offDays.push(format(currentDate, "yyyy-MM-dd"));
+          currentDate = addDays(currentDate, 1);
+        }
       }
     });
     setDaysOff(offDays);
@@ -114,11 +120,16 @@ const EmployeeDashboard = () => {
 
     while (day <= monthEnd) {
       const date = format(day, "yyyy-MM-dd");
-      const dayOfWeek = format(day, "EEEE"); 
-      const isOffDay = daysOff.includes(date) || getDay(day) === 0; 
+
+      const dayOfWeek = format(day, "EEEE");
+      const isOffDay = daysOff.includes(date) || getDay(day) === 0;
       daysArray.push(
-        <div key={date} className={`day-card ${isOffDay ? "free" : "occupied"}`}>
-          <span>{dayOfWeek}</span> 
+        <div
+          key={date}
+          className={`day-card ${isOffDay ? "free" : "occupied"}`}
+        >
+          <span>{dayOfWeek}</span>
+
           <span>{format(day, dateFormat)}</span>
           <span>{isOffDay ? "Free" : "Occupied"}</span>
         </div>
@@ -180,8 +191,11 @@ const EmployeeDashboard = () => {
         </div>
         <TimeClock />
         <div className="calendar-nav">
-          <button className="nav-button" onClick={prevMonth}>Prev</button>
+          <button className="nav-button" onClick={prevMonth}>
+            Prev
+          </button>
           <h2>{format(currentMonth, "MMMM yyyy")}</h2>
+
           <button className="nav-button" onClick={nextMonth}>Next</button>
         </div>
         <div className="scrolling-container">
@@ -197,6 +211,7 @@ const EmployeeDashboard = () => {
             ))}
           </ul>
         </div>
+
         <div className="card">
           <h3>Request Leave</h3>
           <RequestLeaveForm onSubmit={handleRequestSubmit} />
@@ -206,8 +221,8 @@ const EmployeeDashboard = () => {
           <ul>
             {leaveRequests.map((request, index) => (
               <li key={index}>
-                {request.leaveType} from {request.startDate} to {request.endDate} -{" "}
-                {request.status}
+                {request.leaveType} from {request.startDate} to{" "}
+                {request.endDate} - {request.status}
                 <br />
                 Reason: {request.reason}
               </li>
@@ -224,10 +239,6 @@ const EmployeeDashboard = () => {
         <a href="#">
           <i className="fas fa-home"></i>
           <span>Home</span>
-        </a>
-        <a href="#">
-          <i className=""></i>
-          <span>Dashboard</span>
         </a>
         <a href="#">
           <i className="fas fa-user"></i>
