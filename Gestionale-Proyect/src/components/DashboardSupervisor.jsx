@@ -163,13 +163,7 @@ const DashboardSupervisor = () => {
               </ul>
             </div>
           </div>
-          <div className="dashboard-grid">
-            <LeaveRequestsList 
-              requests={leaveRequests} 
-              onApprove={handleApprove} 
-              onDeny={handleDeny} 
-            />
-          </div>
+      
 
           {selectedUser && (
             <EditEmployee
