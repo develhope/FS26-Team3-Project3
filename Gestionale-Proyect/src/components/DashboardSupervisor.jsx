@@ -10,10 +10,7 @@ const DashboardSupervisor = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
-
-
   const [onDutyWorkers, setOnDutyWorkers] = useState([]);
-
   const { loggedInUser, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -40,16 +37,18 @@ const DashboardSupervisor = () => {
     setUsers(storedUsers);
     setLeaveRequests(storedRequests);
 
-    const workers = storedUsers.map(user => {
+    const workers = storedUsers.map((user) => {
       const startTime = localStorage.getItem(`${user.email}-startTime`);
       const endTime = localStorage.getItem(`${user.email}-endTime`);
       return {
         ...user,
         startTime: startTime ? new Date(startTime) : null,
-        endTime: endTime ? new Date(endTime) : null
+        endTime: endTime ? new Date(endTime) : null,
       };
     });
-    setOnDutyWorkers(workers.filter(worker => worker.startTime && !worker.endTime));
+    setOnDutyWorkers(
+      workers.filter((worker) => worker.startTime && !worker.endTime)
+    );
   }, []);
 
   const updateUser = (updatedUser) => {
@@ -84,6 +83,23 @@ const DashboardSupervisor = () => {
     (request) => request.status === "Pending"
   );
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        showSidebar &&
+        !document.querySelector(".sidebar").contains(event.target) &&
+        !document.querySelector(".bell-icon").contains(event.target)
+      ) {
+        setShowSidebar(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showSidebar]);
+
   return (
     <div className="dashboard-wrapper">
       <div className="header">
@@ -116,9 +132,9 @@ const DashboardSupervisor = () => {
       <div className="dashboard-container">
         <div className="dashboard-content">
           {loggedInUser && (
-            <h3>
+            <h2>
               Welcome, {loggedInUser.firstName} {loggedInUser.lastName}!
-            </h3>
+            </h2>
           )}
           <div className="dashboard-grid">
             <div className="statistics">
@@ -136,17 +152,23 @@ const DashboardSupervisor = () => {
             <div className="user-list">
               <h2>User List</h2>
               <ul>
-                {users.map((user) => (
-                  <li key={user.id}>
-                    <div className="user-name">
-                      {user.firstName} {user.lastName}
-                    </div>
-                    <div>Email: {user.email}</div>
-                    <div>Role: {user.role}</div>
-                    <div>Hours Worked: {user.hoursWorked}</div>
-                    <button onClick={() => setSelectedUser(user)}>Edit</button>
-                  </li>
-                ))}
+                {users
+                  .filter((user) => user.role !== "supervisor")
+                  .map((user) => (
+                    <li key={user.id}>
+                      <div className="user-name">
+                        {user.firstName} {user.lastName}
+                      </div>
+                      <div>Email: {user.email}</div>
+                      <div>Role: {user.role}</div>
+                      <div className="hours-edit">
+                        <div>Hours Worked: {user.hoursWorked}</div>
+                        <button onClick={() => setSelectedUser(user)}>
+                          Edit
+                        </button>
+                      </div>
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>
@@ -155,15 +177,15 @@ const DashboardSupervisor = () => {
             <div className="card">
               <h2>On Duty Workers</h2>
               <ul>
-                {onDutyWorkers.map(worker => (
+                {onDutyWorkers.map((worker) => (
                   <li key={worker.email}>
-                    {worker.firstName} {worker.lastName} - Clocked in at: {worker.startTime.toLocaleTimeString()}
+                    {worker.firstName} {worker.lastName} - Clocked in at:{" "}
+                    {worker.startTime.toLocaleTimeString()}
                   </li>
                 ))}
               </ul>
             </div>
           </div>
-      
 
           {selectedUser && (
             <EditEmployee

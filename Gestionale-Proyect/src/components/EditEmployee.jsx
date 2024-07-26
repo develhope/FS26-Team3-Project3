@@ -2,16 +2,12 @@ import React, { useState } from "react";
 import "./EditEmployee.css";
 
 const EditEmployee = ({ employee, onSave, onCancel }) => {
-  const [firstName, setFirstName] = useState(employee.firstName);
-  const [lastName, setLastName] = useState(employee.lastName);
   const [hoursWorked, setHoursWorked] = useState(employee.hoursWorked || 0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave({
       ...employee,
-      firstName,
-      lastName,
       hoursWorked,
     });
   };
@@ -21,19 +17,11 @@ const EditEmployee = ({ employee, onSave, onCancel }) => {
       <form onSubmit={handleSubmit}>
         <label>
           First Name:
-          <input 
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
+          <input type="text" value={employee.firstName} readOnly />
         </label>
         <label>
           Last Name:
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
+          <input type="text" value={employee.lastName} readOnly />
         </label>
         <label>
           Hours Worked:
