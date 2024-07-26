@@ -212,18 +212,17 @@
 }
 
 .on-duty-workers {
-  background-color: white; /* Aggiungi questa riga */
-  padding: 20px; /* Aggiungi questa riga se non c'è padding */
-  border-radius: 8px; /* Aggiungi questa riga per arrotondare i bordi */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi questa riga per l'ombra */
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Modifica il contenitore Request Leave */
 .request-leave {
-  background-color: white; /* Aggiungi questa riga */
-  padding: 20px; /* Aggiungi questa riga se non c'è padding */
-  border-radius: 8px; /* Aggiungi questa riga per arrotondare i bordi */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi questa riga per l'ombra */
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 600px) {
