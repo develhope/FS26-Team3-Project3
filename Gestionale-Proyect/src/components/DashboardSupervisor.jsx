@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
-import EditEmployee from "./EditEmployee";
 import LeaveRequestsList from "./LeaveRequestsList";
 import "./DashboardSupervisor.css";
 
 const DashboardSupervisor = () => {
   const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
   const [onDutyWorkers, setOnDutyWorkers] = useState([]);
@@ -55,16 +53,6 @@ const DashboardSupervisor = () => {
     console.log("On duty workers:", workers.filter((worker) => worker.startTime && !worker.endTime));
   }, []);
 
-  const updateUser = (updatedUser) => {
-    console.log("Updating user:", updatedUser);
-    const updatedUsers = users.map((user) =>
-      user.id === updatedUser.id ? updatedUser : user
-    );
-    setUsers(updatedUsers);
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
-    setSelectedUser(null);
-  };
-
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -107,24 +95,20 @@ const DashboardSupervisor = () => {
     };
   }, [showSidebar]);
 
-  const calculateMonthlyHours = (email) => {
-    const startTimeKey = `${email}-startTimes`;
-    const endTimeKey = `${email}-endTimes`;
-    const monthlyStartTimes = JSON.parse(localStorage.getItem(startTimeKey)) || [];
-    const monthlyEndTimes = JSON.parse(localStorage.getItem(endTimeKey)) || [];
-    let totalHours = 0;
-  
-    for (let i = 0; i < monthlyStartTimes.length; i++) {
-      const startTime = new Date(monthlyStartTimes[i]);
-      const endTime = new Date(monthlyEndTimes[i]);
-      if (!isNaN(startTime) && !isNaN(endTime)) {
-        const hoursWorked = (endTime - startTime) / 1000 / 60 / 60;
-        totalHours += hoursWorked;
-      } else {
-        console.warn(`Invalid date format for start or end time: ${startTime}, ${endTime}`);
-      }
+  const calculateDailyHours = (email) => {
+    const startTimeKey = `${email}-startTime`;
+    const endTimeKey = `${email}-endTime`;
+    const startTime = new Date(localStorage.getItem(startTimeKey));
+    const endTime = new Date(localStorage.getItem(endTimeKey));
+    let dailyHours = 0;
+
+    if (!isNaN(startTime) && !isNaN(endTime)) {
+      dailyHours = ((endTime - startTime) / 1000 / 60 / 60).toFixed(2);
+    } else {
+      console.warn(`Invalid date format for start or end time: ${startTime}, ${endTime}`);
     }
-    return totalHours.toFixed(2); // Keep two decimal places for hours
+
+    return dailyHours;
   };
 
   return (
@@ -188,12 +172,7 @@ const DashboardSupervisor = () => {
                       </div>
                       <div>Email: {user.email}</div>
                       <div>Role: {user.role}</div>
-                      <div className="hours-edit">
-                        <div>Hours Worked: {user.hoursWorked}</div>
-                        <button onClick={() => setSelectedUser(user)}>
-                          Edit
-                        </button>
-                      </div>
+                      <div>Daily Hours Worked: {calculateDailyHours(user.email)}</div>
                     </li>
                   ))}
               </ul>
@@ -220,20 +199,12 @@ const DashboardSupervisor = () => {
               <ul>
                 {users.map((user) => (
                   <li key={user.email}>
-                    {user.firstName} {user.lastName} - Hours Worked: {calculateMonthlyHours(user.email)}
+                    {user.firstName} {user.lastName} - Hours Worked: {calculateDailyHours(user.email)}
                   </li>
                 ))}
               </ul>
             </div>
           </div>
-
-          {selectedUser && (
-            <EditEmployee
-              employee={selectedUser}
-              onSave={updateUser}
-              onCancel={() => setSelectedUser(null)}
-            />
-          )}
         </div>
       </div>
       <div className={`sidebar ${showSidebar ? "open" : ""}`}>
@@ -262,5 +233,6 @@ const DashboardSupervisor = () => {
 };
 
 export default DashboardSupervisor;
+
 
 
