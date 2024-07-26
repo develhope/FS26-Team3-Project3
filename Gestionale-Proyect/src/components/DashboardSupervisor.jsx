@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import EditEmployee from "./EditEmployee";
 import LeaveRequestsList from "./LeaveRequestsList";
+import ManagePaySlips from "./ManagePaySlips";  
 import "./DashboardSupervisor.css";
 
 const DashboardSupervisor = () => {
@@ -124,7 +125,7 @@ const DashboardSupervisor = () => {
         console.warn(`Invalid date format for start or end time: ${startTime}, ${endTime}`);
       }
     }
-    return totalHours.toFixed(2); // Keep two decimal places for hours
+    return totalHours.toFixed(2); 
   };
 
   return (
@@ -223,12 +224,11 @@ const DashboardSupervisor = () => {
               </ul>
             </div>
           </div>
-          
+
           <div className="dashboard-grid">
-            <div className="manage-pay-slips card">
-              <button onClick={() => navigate('/manage-pay-slips')}>
-                Manage Pay Slips
-              </button>
+            <div className="pay-slips card">
+              <h2>Manage Pay Slips</h2>
+              <ManagePaySlips />
             </div>
           </div>
 

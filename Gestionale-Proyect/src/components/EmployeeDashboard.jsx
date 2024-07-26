@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
-import "./EmployeeDashboard.css";
 import RequestLeaveForm from "./RequestLeaveForm";
 import TimeClock from "./TimeClock";  
+import PaySlip from "./PaySlip";  
 import {
   addMonths,
   subMonths,
@@ -12,6 +12,7 @@ import {
   format,
   getDay,
 } from "date-fns";
+import "./EmployeeDashboard.css";
 
 const EmployeeDashboard = () => {
   const { loggedInUser } = useAuth();
@@ -19,10 +20,8 @@ const EmployeeDashboard = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [daysOff, setDaysOff] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-
   const [showPopup, setShowPopup] = useState(false); 
   const [onDutyWorkers, setOnDutyWorkers] = useState([]);
-
 
   useEffect(() => {
     if (loggedInUser) {
@@ -129,7 +128,6 @@ const EmployeeDashboard = () => {
           className={`day-card ${isOffDay ? "free" : "occupied"}`}
         >
           <span>{dayOfWeek}</span>
-
           <span>{format(day, dateFormat)}</span>
           <span>{isOffDay ? "Free" : "Occupied"}</span>
         </div>
@@ -162,7 +160,7 @@ const EmployeeDashboard = () => {
         <i className="fas fa-bell"></i>
       </div>
       <div className="content">
-        <div className="summary card">
+        <div className="card">
           <h2>Summary</h2>
           {user && (
             <div>
@@ -195,13 +193,12 @@ const EmployeeDashboard = () => {
             Prev
           </button>
           <h2>{format(currentMonth, "MMMM yyyy")}</h2>
-
           <button className="nav-button" onClick={nextMonth}>Next</button>
         </div>
         <div className="scrolling-container">
           {renderMonth()}
         </div>
-        <div className="on-duty-workers card">
+        <div className="card">
           <h3>On Duty Workers</h3>
           <ul>
             {onDutyWorkers.map(worker => (
@@ -211,12 +208,11 @@ const EmployeeDashboard = () => {
             ))}
           </ul>
         </div>
-
-        <div className="request-leave card">
+        <div className="card">
           <h3>Request Leave</h3>
           <RequestLeaveForm onSubmit={handleRequestSubmit} />
         </div>
-        <div className="my-leave-requests card">
+        <div className="card">
           <h3>My Leave Requests</h3>
           <ul>
             {leaveRequests.map((request, index) => (
@@ -228,6 +224,10 @@ const EmployeeDashboard = () => {
               </li>
             ))}
           </ul>
+        </div>
+        <div className="card">
+          <h3>My Pay Slips</h3>
+          <PaySlip />
         </div>
       </div>
       {showPopup && (
@@ -254,5 +254,3 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
-
-
