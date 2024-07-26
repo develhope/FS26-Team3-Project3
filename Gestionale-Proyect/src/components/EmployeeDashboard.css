@@ -84,7 +84,7 @@
   display: block;
   font-size: 24px;
   font-weight: bold;
-  color: white;
+  color: #333;
 }
 
 .scrolling-container {
@@ -95,7 +95,7 @@
 }
 
 .day-card {
-  background-color: #e8f5e9;
+  background-color: white;
   padding: 10px;
   border-radius: 4px;
   text-align: center;
