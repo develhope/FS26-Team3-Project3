@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import EditEmployee from "./EditEmployee";
 import LeaveRequestsList from "./LeaveRequestsList";
 import "./DashboardSupervisor.css";
 
 const DashboardSupervisor = () => {
   const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
   const [onDutyWorkers, setOnDutyWorkers] = useState([]);
@@ -41,8 +43,8 @@ const DashboardSupervisor = () => {
       const endTime = localStorage.getItem(`${user.email}-endTime`);
       return {
         ...user,
-        startTime: startTime ? new Date(startTime).toISOString() : null,
-        endTime: endTime ? new Date(endTime).toISOString() : null,
+        startTime: startTime ? new Date(startTime) : null,
+        endTime: endTime ? new Date(endTime) : null,
       };
     });
     setOnDutyWorkers(
@@ -52,6 +54,16 @@ const DashboardSupervisor = () => {
     console.log("Leave requests loaded:", storedRequests);
     console.log("On duty workers:", workers.filter((worker) => worker.startTime && !worker.endTime));
   }, []);
+
+  const updateUser = (updatedUser) => {
+    console.log("Updating user:", updatedUser);
+    const updatedUsers = users.map((user) =>
+      user.id === updatedUser.id ? updatedUser : user
+    );
+    setUsers(updatedUsers);
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+    setSelectedUser(null);
+  };
 
   const handleLogout = () => {
     logout();
@@ -94,22 +106,6 @@ const DashboardSupervisor = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showSidebar]);
-
-  const calculateDailyHours = (email) => {
-    const startTimeKey = `${email}-startTime`;
-    const endTimeKey = `${email}-endTime`;
-    const startTime = new Date(localStorage.getItem(startTimeKey));
-    const endTime = new Date(localStorage.getItem(endTimeKey));
-    let dailyHours = 0;
-
-    if (!isNaN(startTime) && !isNaN(endTime)) {
-      dailyHours = ((endTime - startTime) / 1000 / 60 / 60).toFixed(2);
-    } else {
-      console.warn(`Invalid date format for start or end time: ${startTime}, ${endTime}`);
-    }
-
-    return dailyHours;
-  };
 
   const calculateMonthlyHours = (email) => {
     const startTimeKey = `${email}-startTimes`;
@@ -192,7 +188,9 @@ const DashboardSupervisor = () => {
                       </div>
                       <div>Email: {user.email}</div>
                       <div>Role: {user.role}</div>
-                      <div>Daily Hours Worked: {calculateDailyHours(user.email)}</div>
+                      <div className="hours-edit">
+                        <div>Daily Hours Worked: {user.hoursWorked}</div>
+                      </div>
                     </li>
                   ))}
               </ul>
@@ -206,7 +204,7 @@ const DashboardSupervisor = () => {
                 {onDutyWorkers.map((worker) => (
                   <li key={worker.email}>
                     {worker.firstName} {worker.lastName} - Clocked in at:{" "}
-                    {worker.startTime ? new Date(worker.startTime).toLocaleTimeString() : 'N/A'}
+                    {worker.startTime.toLocaleTimeString()}
                   </li>
                 ))}
               </ul>
@@ -217,16 +215,30 @@ const DashboardSupervisor = () => {
             <div className="history card">
               <h2>Monthly Work Hours</h2>
               <ul>
-                {users
-                  .filter((user) => user.role !== "supervisor")
-                  .map((user) => (
-                    <li key={user.email}>
-                      {user.firstName} {user.lastName} - Hours Worked: {calculateMonthlyHours(user.email)}
-                    </li>
-                  ))}
+                {users.map((user) => (
+                  <li key={user.email}>
+                    {user.firstName} {user.lastName} - Hours Worked: {calculateMonthlyHours(user.email)}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
+          
+          <div className="dashboard-grid">
+            <div className="manage-pay-slips card">
+              <button onClick={() => navigate('/manage-pay-slips')}>
+                Manage Pay Slips
+              </button>
+            </div>
+          </div>
+
+          {selectedUser && (
+            <EditEmployee
+              employee={selectedUser}
+              onSave={updateUser}
+              onCancel={() => setSelectedUser(null)}
+            />
+          )}
         </div>
       </div>
       <div className={`sidebar ${showSidebar ? "open" : ""}`}>
@@ -255,6 +267,3 @@ const DashboardSupervisor = () => {
 };
 
 export default DashboardSupervisor;
-
-
-

@@ -11,6 +11,10 @@ import Settings from "./components/Settings";
 import PrivateRoute from "./components/PrivateRoute";
 import RegisterCompany from "./components/RegisterCompany";
 import RegisterEmployee from "./components/RegisterEmployee";
+import EmployeeDashboard from "./components/EmployeeDashboard";
+import DashboardSupervisor from "./components/DashboardSupervisor";
+import PaySlip from "./components/PaySlip";
+import ManagePaySlips from "./components/ManagePaySlips";
 
 const App = () => {
   useEffect(() => {
@@ -48,6 +52,14 @@ const App = () => {
     if (!storedUsers) {
       localStorage.setItem("users", JSON.stringify(members));
     }
+
+    // Resetta i dati di clock in/out e leave requests per la modalità sviluppo
+    if (process.env.NODE_ENV === "development") {
+      localStorage.removeItem("clockInTimes");
+      localStorage.removeItem("clockOutTimes");
+      localStorage.removeItem("leaveRequests");
+      localStorage.setItem("onDutyWorkers", JSON.stringify([]));
+    }
   }, []);
 
   return (
@@ -59,13 +71,21 @@ const App = () => {
           <Route path="/register-employee" element={<RegisterEmployee />} />
           <Route
             path="/dashboard-employee"
-            element={<PrivateRoute role="user" />}
+            element={<PrivateRoute role="user" component={EmployeeDashboard} />}
           />
           <Route
             path="/dashboard-supervisor"
-            element={<PrivateRoute role="supervisor" />}
+            element={<PrivateRoute role="supervisor" component={DashboardSupervisor} />}
           />
           <Route path="/settings" element={<SettingsRoute />} />
+          <Route
+            path="/pay-slip"
+            element={<PrivateRoute role="user" component={PaySlip} />}
+          />
+          <Route
+            path="/manage-pay-slips"
+            element={<PrivateRoute role="supervisor" component={ManagePaySlips} />}
+          />
         </Routes>
       </Router>
     </AuthProvider>
