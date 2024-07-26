@@ -6,10 +6,9 @@ import reportWebVitals from './reportWebVitals';
 
 // Funzione per resettare i dati di localStorage
 const resetLocalStorage = () => {
+  console.log('Resetting localStorage for development environment');
   localStorage.removeItem('leaveRequests');
   localStorage.removeItem('onDutyWorkers');
-  localStorage.removeItem('startTime');
-  localStorage.removeItem('endTime');
   const users = JSON.parse(localStorage.getItem('users')) || [];
   users.forEach(user => {
     localStorage.removeItem(`${user.email}-startTime`);
@@ -17,7 +16,7 @@ const resetLocalStorage = () => {
     localStorage.removeItem(`${user.email}-startTimes`);
     localStorage.removeItem(`${user.email}-endTimes`);
   });
-  localStorage.setItem('clockInStatus', 'false'); // Aggiungi questo per resettare lo stato di ClockIn
+  localStorage.setItem('clockInStatus', 'false'); // Resetta lo stato di ClockIn
 };
 
 // Resetta i dati di localStorage se l'app è in modalità sviluppo
@@ -33,4 +32,5 @@ ReactDOM.render(
 );
 
 reportWebVitals();
+
 
