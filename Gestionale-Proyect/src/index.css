@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .custom-button {
-  background-color: #095f84;
+  background-color: #095f84; /* Este es el color de fondo personalizado */
 }
