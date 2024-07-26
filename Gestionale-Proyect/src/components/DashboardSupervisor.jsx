@@ -43,8 +43,8 @@ const DashboardSupervisor = () => {
       const endTime = localStorage.getItem(`${user.email}-endTime`);
       return {
         ...user,
-        startTime: startTime ? new Date(startTime) : null,
-        endTime: endTime ? new Date(endTime) : null,
+        startTime: startTime ? new Date(startTime).toISOString() : null,
+        endTime: endTime ? new Date(endTime).toISOString() : null,
       };
     });
     setOnDutyWorkers(
@@ -108,12 +108,12 @@ const DashboardSupervisor = () => {
   }, [showSidebar]);
 
   const calculateMonthlyHours = (email) => {
-    const startTimeKey = `${email}-startTime`;
-    const endTimeKey = `${email}-endTime`;
+    const startTimeKey = `${email}-startTimes`;
+    const endTimeKey = `${email}-endTimes`;
     const monthlyStartTimes = JSON.parse(localStorage.getItem(startTimeKey)) || [];
     const monthlyEndTimes = JSON.parse(localStorage.getItem(endTimeKey)) || [];
     let totalHours = 0;
-
+  
     for (let i = 0; i < monthlyStartTimes.length; i++) {
       const startTime = new Date(monthlyStartTimes[i]);
       const endTime = new Date(monthlyEndTimes[i]);
@@ -207,7 +207,7 @@ const DashboardSupervisor = () => {
                 {onDutyWorkers.map((worker) => (
                   <li key={worker.email}>
                     {worker.firstName} {worker.lastName} - Clocked in at:{" "}
-                    {worker.startTime.toLocaleTimeString()}
+                    {worker.startTime ? new Date(worker.startTime).toLocaleTimeString() : 'N/A'}
                   </li>
                 ))}
               </ul>
