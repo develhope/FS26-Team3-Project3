@@ -201,7 +201,7 @@ const EmployeeDashboard = () => {
         <div className="scrolling-container">
           {renderMonth()}
         </div>
-        <div className="card">
+        <div className="on-duty-workers card">
           <h3>On Duty Workers</h3>
           <ul>
             {onDutyWorkers.map(worker => (
@@ -212,7 +212,7 @@ const EmployeeDashboard = () => {
           </ul>
         </div>
 
-        <div className="card">
+        <div className="request-leave card">
           <h3>Request Leave</h3>
           <RequestLeaveForm onSubmit={handleRequestSubmit} />
         </div>
@@ -254,4 +254,5 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
+
 
