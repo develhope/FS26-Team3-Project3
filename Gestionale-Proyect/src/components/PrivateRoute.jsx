@@ -1,19 +1,22 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
-const PrivateRoute = ({ component: Component, role, ...rest }) => {
+const PrivateRoute = ({ role, component: Component, ...rest }) => {
   const { isAuthenticated, userRole } = useAuth();
 
-  console.log("PrivateRoute - isAuthenticated:", isAuthenticated);
-  console.log("PrivateRoute - userRole:", userRole);
-  console.log("PrivateRoute - required role:", role);
-
-  if (!isAuthenticated || userRole !== role) {
-    return <Navigate to="/" />;
-  }
-
-  return <Component {...rest} />;
+  return (
+    <Route
+      {...rest}
+      element={
+        isAuthenticated && userRole === role ? (
+          <Component />
+        ) : (
+          <Navigate to="/" />
+        )
+      }
+    />
+  );
 };
 
 export default PrivateRoute;
