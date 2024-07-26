@@ -190,17 +190,6 @@
   background-color: #0056b3;
 }
 
-.select-field {
-  width: 100%;
-  max-width: 300px;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  appearance: none;
-  box-sizing: border-box;
-}
-
 @media (max-width: 600px) {
   .container {
     width: 100%;
