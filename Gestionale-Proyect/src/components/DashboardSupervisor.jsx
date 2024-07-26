@@ -137,7 +137,7 @@ const DashboardSupervisor = () => {
             </h2>
           )}
           <div className="dashboard-grid">
-            <div className="statistics">
+            <div className="statistics card">
               <h2>Statistics</h2>
               <div>Total Users: {users.length}</div>
               <div>
@@ -149,7 +149,7 @@ const DashboardSupervisor = () => {
                 {users.filter((user) => user.role === "user").length}
               </div>
             </div>
-            <div className="user-list">
+            <div className="user-list card">
               <h2>User List</h2>
               <ul>
                 {users
@@ -174,7 +174,7 @@ const DashboardSupervisor = () => {
           </div>
 
           <div className="dashboard-grid">
-            <div className="card">
+            <div className="on-duty-workers card">
               <h2>On Duty Workers</h2>
               <ul>
                 {onDutyWorkers.map((worker) => (
@@ -209,7 +209,7 @@ const DashboardSupervisor = () => {
           <span>Home</span>
         </a>
         <a href="#">
-          <i className=""></i>
+          <i className="fas fa-user"></i>
           <span>Profile</span>
         </a>
         <a href="/settings">
@@ -222,3 +222,4 @@ const DashboardSupervisor = () => {
 };
 
 export default DashboardSupervisor;
+
