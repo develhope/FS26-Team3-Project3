@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
-import './PaySlip.css';
+import "./PaySlip.css";
 
 const PaySlip = () => {
   const { loggedInUser } = useAuth();
@@ -8,22 +8,30 @@ const PaySlip = () => {
 
   useEffect(() => {
     const storedPaySlips = JSON.parse(localStorage.getItem("paySlips")) || [];
-    const userPaySlips = storedPaySlips.filter(paySlip => paySlip.email === loggedInUser.email);
+    const userPaySlips = storedPaySlips.filter(
+      (paySlip) => paySlip.employee === loggedInUser.email
+    );
     setPaySlips(userPaySlips);
   }, [loggedInUser]);
 
   return (
-    <div className="pay-slip">
-      <h2>My Pay Slips</h2>
+    <div className="payslip-card">
       {paySlips.length === 0 ? (
         <p>No pay slips available</p>
       ) : (
         <ul>
           {paySlips.map((paySlip, index) => (
-            <li key={index} className="pay-slip-item">
-              <p><strong>Month:</strong> {paySlip.month}</p>
-              <p><strong>Year:</strong> {paySlip.year}</p>
-              <p><strong>Amount:</strong> ${paySlip.amount}</p>
+            <li key={index}>
+              <p>
+                <strong>Month:</strong> {paySlip.month}
+              </p>
+              <p>
+                <strong>Year:</strong> {paySlip.year}
+              </p>
+              <p>
+                <strong>Amount:</strong> ${paySlip.amount}
+              </p>
+              {index < paySlips.length - 1 && <hr />} 
             </li>
           ))}
         </ul>
