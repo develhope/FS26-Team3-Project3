@@ -53,7 +53,6 @@ const App = () => {
       localStorage.setItem("users", JSON.stringify(members));
     }
 
-    // Resetta i dati di clock in/out e leave requests per la modalità sviluppo
     if (process.env.NODE_ENV === "development") {
       localStorage.removeItem("clockInTimes");
       localStorage.removeItem("clockOutTimes");
@@ -77,7 +76,6 @@ const App = () => {
             path="/dashboard-supervisor"
             element={<PrivateRoute role="supervisor" component={DashboardSupervisor} />}
           />
-          <Route path="/settings" element={<SettingsRoute />} />
           <Route
             path="/pay-slip"
             element={<PrivateRoute role="user" component={PaySlip} />}
@@ -86,6 +84,7 @@ const App = () => {
             path="/manage-pay-slips"
             element={<PrivateRoute role="supervisor" component={ManagePaySlips} />}
           />
+          <Route path="/settings" element={<SettingsRoute />} />
         </Routes>
       </Router>
     </AuthProvider>
