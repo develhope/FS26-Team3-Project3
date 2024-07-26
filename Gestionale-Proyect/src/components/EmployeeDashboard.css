@@ -177,17 +177,29 @@
   text-align: center;
 }
 
-.nav-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 .nav-button:hover {
   background-color: #0056b3;
+}
+
+.select-field {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none;
+  box-sizing: border-box;
+}
+
+.select-field option {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
 }
 
 @media (max-width: 600px) {
