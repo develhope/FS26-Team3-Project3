@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import EditEmployee from "./EditEmployee";
 import LeaveRequestsList from "./LeaveRequestsList";
 import "./DashboardSupervisor.css";
 
@@ -111,6 +112,26 @@ const DashboardSupervisor = () => {
     return dailyHours;
   };
 
+  const calculateMonthlyHours = (email) => {
+    const startTimeKey = `${email}-startTimes`;
+    const endTimeKey = `${email}-endTimes`;
+    const monthlyStartTimes = JSON.parse(localStorage.getItem(startTimeKey)) || [];
+    const monthlyEndTimes = JSON.parse(localStorage.getItem(endTimeKey)) || [];
+    let totalHours = 0;
+  
+    for (let i = 0; i < monthlyStartTimes.length; i++) {
+      const startTime = new Date(monthlyStartTimes[i]);
+      const endTime = new Date(monthlyEndTimes[i]);
+      if (!isNaN(startTime) && !isNaN(endTime)) {
+        const hoursWorked = (endTime - startTime) / 1000 / 60 / 60;
+        totalHours += hoursWorked;
+      } else {
+        console.warn(`Invalid date format for start or end time: ${startTime}, ${endTime}`);
+      }
+    }
+    return totalHours.toFixed(2); // Keep two decimal places for hours
+  };
+
   return (
     <div className="dashboard-wrapper">
       <div className="header">
@@ -197,11 +218,13 @@ const DashboardSupervisor = () => {
             <div className="history card">
               <h2>Monthly Work Hours</h2>
               <ul>
-                {users.map((user) => (
-                  <li key={user.email}>
-                    {user.firstName} {user.lastName} - Hours Worked: {calculateDailyHours(user.email)}
-                  </li>
-                ))}
+                {users
+                  .filter((user) => user.role !== "supervisor")
+                  .map((user) => (
+                    <li key={user.email}>
+                      {user.firstName} {user.lastName} - Hours Worked: {calculateMonthlyHours(user.email)}
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>
