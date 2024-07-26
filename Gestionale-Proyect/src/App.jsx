@@ -70,19 +70,25 @@ const App = () => {
           <Route path="/register-employee" element={<RegisterEmployee />} />
           <Route
             path="/dashboard-employee"
-            element={<PrivateRoute role="user" component={EmployeeDashboard} />}
+            element={
+              <PrivateRoute role="user" element={<EmployeeDashboard />} />
+            }
           />
           <Route
             path="/dashboard-supervisor"
-            element={<PrivateRoute role="supervisor" component={DashboardSupervisor} />}
+            element={
+              <PrivateRoute role="supervisor" element={<DashboardSupervisor />} />
+            }
           />
           <Route
             path="/pay-slip"
-            element={<PrivateRoute role="user" component={PaySlip} />}
+            element={<PrivateRoute role="user" element={<PaySlip />} />}
           />
           <Route
             path="/manage-pay-slips"
-            element={<PrivateRoute role="supervisor" component={ManagePaySlips} />}
+            element={
+              <PrivateRoute role="supervisor" element={<ManagePaySlips />} />
+            }
           />
           <Route path="/settings" element={<SettingsRoute />} />
         </Routes>
