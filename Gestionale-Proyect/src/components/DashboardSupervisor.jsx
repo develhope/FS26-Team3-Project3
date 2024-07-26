@@ -15,6 +15,7 @@ const DashboardSupervisor = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("Fetching users and leave requests from local storage");
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
     let storedRequests =
       JSON.parse(localStorage.getItem("leaveRequests")) || [];
@@ -49,9 +50,13 @@ const DashboardSupervisor = () => {
     setOnDutyWorkers(
       workers.filter((worker) => worker.startTime && !worker.endTime)
     );
+    console.log("Users loaded:", storedUsers);
+    console.log("Leave requests loaded:", storedRequests);
+    console.log("On duty workers:", workers.filter((worker) => worker.startTime && !worker.endTime));
   }, []);
 
   const updateUser = (updatedUser) => {
+    console.log("Updating user:", updatedUser);
     const updatedUsers = users.map((user) =>
       user.id === updatedUser.id ? updatedUser : user
     );
@@ -66,6 +71,7 @@ const DashboardSupervisor = () => {
   };
 
   const handleApprove = (index) => {
+    console.log("Approving leave request at index:", index);
     const newRequests = [...leaveRequests];
     newRequests[index].status = "Approved";
     setLeaveRequests(newRequests);
@@ -73,6 +79,7 @@ const DashboardSupervisor = () => {
   };
 
   const handleDeny = (index) => {
+    console.log("Denying leave request at index:", index);
     const newRequests = [...leaveRequests];
     newRequests[index].status = "Denied";
     setLeaveRequests(newRequests);
@@ -110,8 +117,12 @@ const DashboardSupervisor = () => {
     for (let i = 0; i < monthlyStartTimes.length; i++) {
       const startTime = new Date(monthlyStartTimes[i]);
       const endTime = new Date(monthlyEndTimes[i]);
-      const hoursWorked = (endTime - startTime) / 1000 / 60 / 60;
-      totalHours += hoursWorked;
+      if (!isNaN(startTime) && !isNaN(endTime)) {
+        const hoursWorked = (endTime - startTime) / 1000 / 60 / 60;
+        totalHours += hoursWorked;
+      } else {
+        console.warn(`Invalid date format for start or end time: ${startTime}, ${endTime}`);
+      }
     }
     return totalHours.toFixed(2); // Keep two decimal places for hours
   };
