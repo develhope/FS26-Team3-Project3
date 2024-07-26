@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
-import EditEmployee from "./EditEmployee";
 import LeaveRequestsList from "./LeaveRequestsList";
 import "./DashboardSupervisor.css";
 
