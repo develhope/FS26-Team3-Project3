@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import RequestLeaveForm from "./RequestLeaveForm";
-import TimeClock from "./TimeClock";  
-import PaySlip from "./PaySlip";  
+import TimeClock from "./TimeClock";
+import PaySlip from "./PaySlip"; // Importa PaySlip
 import {
   addMonths,
   subMonths,
@@ -13,6 +13,7 @@ import {
   getDay,
 } from "date-fns";
 import "./EmployeeDashboard.css";
+import "./PaySlip.css"; 
 
 const EmployeeDashboard = () => {
   const { loggedInUser } = useAuth();
@@ -20,7 +21,7 @@ const EmployeeDashboard = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [daysOff, setDaysOff] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [showPopup, setShowPopup] = useState(false); 
+  const [showPopup, setShowPopup] = useState(false);
   const [onDutyWorkers, setOnDutyWorkers] = useState([]);
 
   useEffect(() => {
