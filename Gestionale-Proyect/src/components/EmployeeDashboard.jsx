@@ -162,7 +162,7 @@ const EmployeeDashboard = () => {
         <i className="fas fa-bell"></i>
       </div>
       <div className="content">
-        <div className="card">
+        <div className="summary card">
           <h2>Summary</h2>
           {user && (
             <div>
@@ -216,7 +216,7 @@ const EmployeeDashboard = () => {
           <h3>Request Leave</h3>
           <RequestLeaveForm onSubmit={handleRequestSubmit} />
         </div>
-        <div className="card">
+        <div className="my-leave-requests card">
           <h3>My Leave Requests</h3>
           <ul>
             {leaveRequests.map((request, index) => (

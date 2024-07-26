@@ -211,18 +211,14 @@
   background-color: white;
 }
 
-.on-duty-workers {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.request-leave {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.on-duty-workers,
+.request-leave,
+.summary,
+.my-leave-requests {
+  background-color: white; /* Aggiungi questa riga */
+  padding: 20px; /* Aggiungi questa riga se non c'è padding */
+  border-radius: 8px; /* Aggiungi questa riga per arrotondare i bordi */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi questa riga per l'ombra */
 }
 
 @media (max-width: 600px) {
