@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css'; 
-import App from './App'; 
+import './index.css'; // Importa il CSS principale
+import App from './App'; // Importa il componente principale
 import reportWebVitals from './reportWebVitals';
 
+// Funzione per resettare i dati di localStorage
 const resetLocalStorage = () => {
   localStorage.removeItem('leaveRequests');
   localStorage.removeItem('onDutyWorkers');
@@ -14,8 +15,10 @@ const resetLocalStorage = () => {
     localStorage.removeItem(`${user.email}-startTimes`);
     localStorage.removeItem(`${user.email}-endTimes`);
   });
+  localStorage.setItem('clockInStatus', 'false'); // Aggiungi questo per resettare lo stato di ClockIn
 };
 
+// Resetta i dati di localStorage se l'app è in modalità sviluppo
 if (process.env.NODE_ENV === 'development') {
   resetLocalStorage();
 }
