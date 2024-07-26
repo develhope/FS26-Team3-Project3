@@ -1,3 +1,4 @@
+/* Codice esistente */
 .dashboard-wrapper {
   display: flex;
   flex-direction: column;
@@ -98,20 +99,20 @@
 }
 
 .statistics,
-.user-list {
-  flex: 1;
-  background-color: #f8f8f8;
-  padding: 20px;
-  border-radius: 8px;
-  box-sizing: border-box;
+.user-list,
+.on-duty-workers,
+.history {
+  background-color: white; /* Sfondo bianco */
+  padding: 20px; /* Padding */
+  border-radius: 8px; /* Bordi arrotondati */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra */
+  border: 1px solid #ddd; /* Bordo per definire i contenitori */
 }
 
-.statistics h2 {
-  color: #007bff;
-  font-weight: bold;
-}
-
-.user-list h2 {
+.statistics h2,
+.user-list h2,
+.on-duty-workers h2,
+.history h2 {
   color: #007bff;
   font-weight: bold;
 }
@@ -134,14 +135,11 @@
 .user-name {
   font-weight: bold;
 }
+
 .card {
   margin-top: 20px;
 }
 
-.card h2 {
-  color: #007bff;
-  font-weight: bold;
-}
 .hours-edit {
   display: flex;
   align-items: center;
@@ -157,15 +155,6 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
-}
-
-.statistics,
-.user-list,
-.on-duty-workers {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .footer {
