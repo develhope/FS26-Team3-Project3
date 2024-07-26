@@ -47,7 +47,7 @@ const TimeClock = () => {
   const clockIn = () => {
     const now = new Date();
     setStartTime(now);
-    localStorage.setItem(`${loggedInUser.email}-startTime`, now);
+    localStorage.setItem(`${loggedInUser.email}-startTime`, now.toISOString());
     updateOnDutyWorkers(loggedInUser.email, "clockIn");
     setPopupMessage("Let's get started!");
     setShowPopup(true);
@@ -57,7 +57,7 @@ const TimeClock = () => {
   const clockOut = () => {
     const now = new Date();
     setEndTime(now);
-    localStorage.setItem(`${loggedInUser.email}-endTime`, now);
+    localStorage.setItem(`${loggedInUser.email}-endTime`, now.toISOString());
     updateOnDutyWorkers(loggedInUser.email, "clockOut");
     calculateHoursWorked(now);
     setPopupMessage("Have a nice day!");
@@ -122,4 +122,5 @@ const TimeClock = () => {
 };
 
 export default TimeClock;
+
  

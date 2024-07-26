@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import "./LeaveRequestsList.css";
 
 Modal.setAppElement("#root");
 
-const LeaveRequestsList = ({ requests, onApprove, onDeny }) => {
+const LeaveRequestsList = ({ onApprove, onDeny }) => {
+  const [requests, setRequests] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [actionType, setActionType] = useState("");
+
+  // Carica le richieste di congedo dal localStorage all'avvio
+  useEffect(() => {
+    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    setRequests(storedRequests);
+  }, []);
 
   const openModal = (request, action) => {
     setSelectedRequest(request);
@@ -25,10 +32,19 @@ const LeaveRequestsList = ({ requests, onApprove, onDeny }) => {
     const index = requests.indexOf(selectedRequest);
     if (actionType === "approve") {
       onApprove(index);
+      updateRequestStatus(index, "Approved");
     } else if (actionType === "deny") {
       onDeny(index);
+      updateRequestStatus(index, "Denied");
     }
     closeModal();
+  };
+
+  const updateRequestStatus = (index, status) => {
+    const updatedRequests = [...requests];
+    updatedRequests[index].status = status;
+    setRequests(updatedRequests);
+    localStorage.setItem("leaveRequests", JSON.stringify(updatedRequests));
   };
 
   const pendingRequests = requests.filter(
@@ -39,7 +55,7 @@ const LeaveRequestsList = ({ requests, onApprove, onDeny }) => {
     <div className="leave-requests-list">
       <h3>Leave Requests:</h3>
       {pendingRequests.length === 0 ? (
-        <p id="notification">The are no new notifications</p>
+        <p id="notification">There are no new notifications</p>
       ) : (
         <ul>
           {pendingRequests.map((request, index) => (
