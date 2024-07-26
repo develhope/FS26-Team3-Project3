@@ -8,6 +8,8 @@ import reportWebVitals from './reportWebVitals';
 const resetLocalStorage = () => {
   localStorage.removeItem('leaveRequests');
   localStorage.removeItem('onDutyWorkers');
+  localStorage.removeItem('startTime');
+  localStorage.removeItem('endTime');
   const users = JSON.parse(localStorage.getItem('users')) || [];
   users.forEach(user => {
     localStorage.removeItem(`${user.email}-startTime`);
