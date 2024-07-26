@@ -1,37 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "./AuthContext";
-import "./PaySlip.css";
 
 const PaySlip = () => {
-  const { loggedInUser } = useAuth();
   const [paySlips, setPaySlips] = useState([]);
 
   useEffect(() => {
+    // Recupera i pay slip dal localStorage
     const storedPaySlips = JSON.parse(localStorage.getItem("paySlips")) || [];
-    const userPaySlips = storedPaySlips.filter(
-      (paySlip) => paySlip.employee === loggedInUser.email
-    );
-    setPaySlips(userPaySlips);
-  }, [loggedInUser]);
+    setPaySlips(storedPaySlips);
+  }, []);
 
   return (
-    <div className="payslip-card">
+    <div className="pay-slip-container">
+      <h3>My Pay Slips</h3>
       {paySlips.length === 0 ? (
-        <p>No pay slips available</p>
+        <p>No pay slips available.</p>
       ) : (
         <ul>
           {paySlips.map((paySlip, index) => (
             <li key={index}>
-              <p>
-                <strong>Month:</strong> {paySlip.month}
-              </p>
-              <p>
-                <strong>Year:</strong> {paySlip.year}
-              </p>
-              <p>
-                <strong>Amount:</strong> ${paySlip.amount}
-              </p>
-              {index < paySlips.length - 1 && <hr />} 
+              <span>Email: {paySlip.email}</span><br />
+              <span>Amount: {paySlip.amount}</span><br />
+              <span>Month: {paySlip.month}</span><br />
+              <span>Year: {paySlip.year}</span>
             </li>
           ))}
         </ul>
@@ -41,3 +31,4 @@ const PaySlip = () => {
 };
 
 export default PaySlip;
+

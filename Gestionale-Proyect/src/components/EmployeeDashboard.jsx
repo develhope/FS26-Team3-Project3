@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import RequestLeaveForm from "./RequestLeaveForm";
-import TimeClock from "./TimeClock";  
-import PaySlip from "./PaySlip";  
+import TimeClock from "./TimeClock";
+import PaySlip from "./PaySlip";
 import {
   addMonths,
   subMonths,
@@ -13,7 +13,7 @@ import {
   getDay,
 } from "date-fns";
 import "./EmployeeDashboard.css";
-import "./PaySlip.css";  
+import "./PaySlip.css";
 
 const EmployeeDashboard = () => {
   const { loggedInUser } = useAuth();
@@ -21,8 +21,9 @@ const EmployeeDashboard = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [daysOff, setDaysOff] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [showPopup, setShowPopup] = useState(false); 
+  const [showPopup, setShowPopup] = useState(false);
   const [onDutyWorkers, setOnDutyWorkers] = useState([]);
+  const [paySlips, setPaySlips] = useState([]); // Stato per i pay slip
 
   useEffect(() => {
     if (loggedInUser) {
@@ -46,18 +47,24 @@ const EmployeeDashboard = () => {
         }
       });
       setDaysOff(offDays);
-      console.log("Updated Days Off:", offDays);
+
+      // Carica i pay slip esistenti
+      const storedPaySlips = JSON.parse(localStorage.getItem("paySlips")) || [];
+      const userPaySlips = storedPaySlips.filter(
+        (paySlip) => paySlip.employee === loggedInUser.email
+      );
+      setPaySlips(userPaySlips);
+
+      const fetchOnDutyWorkers = () => {
+        const allUsers = JSON.parse(localStorage.getItem("users")) || [];
+        const onDutyEmails = JSON.parse(localStorage.getItem("onDutyWorkers")) || [];
+        const onDuty = allUsers.filter(user => onDutyEmails.includes(user.email));
+        const onDutyExcludingSelf = onDuty.filter(worker => worker.email !== loggedInUser.email);
+        setOnDutyWorkers(onDutyExcludingSelf);
+      };
+
+      fetchOnDutyWorkers();
     }
-
-    const fetchOnDutyWorkers = () => {
-      const allUsers = JSON.parse(localStorage.getItem("users")) || [];
-      const onDutyEmails = JSON.parse(localStorage.getItem("onDutyWorkers")) || [];
-      const onDuty = allUsers.filter(user => onDutyEmails.includes(user.email));
-      const onDutyExcludingSelf = onDuty.filter(worker => worker.email !== loggedInUser.email);
-      setOnDutyWorkers(onDutyExcludingSelf);
-    };
-
-    fetchOnDutyWorkers();
   }, [loggedInUser]);
 
   const handleRequestSubmit = (request) => {
@@ -107,7 +114,6 @@ const EmployeeDashboard = () => {
       }
     });
     setDaysOff(offDays);
-    console.log("Updated Days Off after submission:", offDays);
   };
 
   const renderMonth = () => {
@@ -228,7 +234,23 @@ const EmployeeDashboard = () => {
         </div>
         <div className="card">
           <h3>My Pay Slips</h3>
-          <PaySlip />
+          <div className="pay-slip-container">
+            {paySlips.length > 0 ? (
+              <ul>
+                {paySlips.map((paySlip, index) => (
+                  <li key={index}>
+                    <div className="pay-slip-item">
+                      <span>Date: {paySlip.date}</span>
+                      <span>Amount: {paySlip.amount}</span>
+                      <span>Details: {paySlip.details}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No pay slips available.</p>
+            )}
+          </div>
         </div>
       </div>
       {showPopup && (
