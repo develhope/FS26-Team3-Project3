@@ -161,8 +161,7 @@
 
 .statistics,
 .user-list,
-.on-duty-workers,
-.history {
+.on-duty-workers {
   background-color: white;
   padding: 20px;
   border-radius: 8px;

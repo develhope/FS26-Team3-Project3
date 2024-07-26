@@ -100,22 +100,6 @@ const DashboardSupervisor = () => {
     };
   }, [showSidebar]);
 
-  const calculateMonthlyHours = (email) => {
-    const startTimeKey = `${email}-startTime`;
-    const endTimeKey = `${email}-endTime`;
-    const monthlyStartTimes = JSON.parse(localStorage.getItem(startTimeKey)) || [];
-    const monthlyEndTimes = JSON.parse(localStorage.getItem(endTimeKey)) || [];
-    let totalHours = 0;
-
-    for (let i = 0; i < monthlyStartTimes.length; i++) {
-      const startTime = new Date(monthlyStartTimes[i]);
-      const endTime = new Date(monthlyEndTimes[i]);
-      const hoursWorked = (endTime - startTime) / 1000 / 60 / 60;
-      totalHours += hoursWorked;
-    }
-    return totalHours.toFixed(2); // Keep two decimal places for hours
-  };
-
   return (
     <div className="dashboard-wrapper">
       <div className="header">
@@ -203,19 +187,6 @@ const DashboardSupervisor = () => {
             </div>
           </div>
 
-          <div className="dashboard-grid">
-            <div className="history card">
-              <h2>Monthly Work Hours</h2>
-              <ul>
-                {users.map((user) => (
-                  <li key={user.email}>
-                    {user.firstName} {user.lastName} - Hours Worked: {calculateMonthlyHours(user.email)}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
           {selectedUser && (
             <EditEmployee
               employee={selectedUser}
@@ -251,5 +222,4 @@ const DashboardSupervisor = () => {
 };
 
 export default DashboardSupervisor;
-
 
