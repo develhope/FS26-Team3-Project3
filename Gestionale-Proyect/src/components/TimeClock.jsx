@@ -14,11 +14,14 @@ const TimeClock = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    console.log('Loading clock in/out times from localStorage');
-    const storedStartTime = localStorage.getItem(`${loggedInUser.email}-startTime`);
-    const storedEndTime = localStorage.getItem(`${loggedInUser.email}-endTime`);
-    if (storedStartTime) setStartTime(new Date(storedStartTime));
-    if (storedEndTime) setEndTime(new Date(storedEndTime));
+    const loadData = () => {
+      console.log('Loading clock in/out times from localStorage');
+      const storedStartTime = localStorage.getItem(`${loggedInUser.email}-startTime`);
+      const storedEndTime = localStorage.getItem(`${loggedInUser.email}-endTime`);
+      if (storedStartTime) setStartTime(new Date(storedStartTime));
+      if (storedEndTime) setEndTime(new Date(storedEndTime));
+    };
+    loadData();
   }, [loggedInUser]);
 
   const updateOnDutyWorkers = (email, action) => {
@@ -123,4 +126,5 @@ const TimeClock = () => {
 };
 
 export default TimeClock;
+
 

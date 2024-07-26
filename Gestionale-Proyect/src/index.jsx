@@ -7,18 +7,14 @@ import reportWebVitals from './reportWebVitals';
 // Funzione per resettare i dati di localStorage
 const resetLocalStorage = () => {
   console.log('Resetting localStorage for development environment');
-  localStorage.removeItem('leaveRequests');
-  localStorage.removeItem('onDutyWorkers');
-  localStorage.removeItem('startTime');
-  localStorage.removeItem('endTime');
-  const users = JSON.parse(localStorage.getItem('users')) || [];
-  users.forEach(user => {
-    localStorage.removeItem(`${user.email}-startTime`);
-    localStorage.removeItem(`${user.email}-endTime`);
-    localStorage.removeItem(`${user.email}-startTimes`);
-    localStorage.removeItem(`${user.email}-endTimes`);
-  });
-  localStorage.setItem('clockInStatus', 'false'); // Resetta lo stato di ClockIn
+  localStorage.clear();
+  const users = [
+    { firstName: 'Riccardo', lastName: 'Cuomo', email: 'cuomo.riccardo@gmail.com', password: 'qwerty', id: 'RC', role: 'user' },
+    { firstName: 'Francesca', lastName: 'Pischedda', email: 'francesca.pischedda@gmail.com', password: 'asdfgh', id: 'FP', role: 'supervisor' },
+    { firstName: 'Mario', lastName: 'Rossi', email: 'mario.rossi@gmail.com', password: 'zxcvbn', id: 'MR', role: 'user' }
+  ];
+  localStorage.setItem('users', JSON.stringify(users));
+  console.log('localStorage reset with users:', users);
 };
 
 // Resetta i dati di localStorage se l'app è in modalità sviluppo
@@ -34,5 +30,3 @@ ReactDOM.render(
 );
 
 reportWebVitals();
-
-

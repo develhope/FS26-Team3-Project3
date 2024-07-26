@@ -121,3 +121,4 @@ const LeaveRequestsList = ({ onApprove, onDeny }) => {
 };
 
 export default LeaveRequestsList;
+
