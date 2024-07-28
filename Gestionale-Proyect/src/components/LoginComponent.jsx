@@ -1,17 +1,29 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 import "./LoginComponent.css";
 
-const LoginComponent = ({ onLogin, error }) => {
+const LoginComponent = ({ error }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activeTab, setActiveTab] = useState("company");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin(email, password, activeTab);
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const user = users.find(
+      (u) => u.email === email && u.password === password && u.role === activeTab
+    );
+    if (user) {
+      login(user);
+      navigate("/dashboard");
+    } else {
+      // handle login error, possibly setting an error state here
+      console.error("Invalid credentials or user role mismatch");
+    }
   };
 
   return (
@@ -68,10 +80,7 @@ const LoginComponent = ({ onLogin, error }) => {
 };
 
 LoginComponent.propTypes = {
-  onLogin: PropTypes.func.isRequired,
   error: PropTypes.string,
 };
 
 export default LoginComponent;
-
-

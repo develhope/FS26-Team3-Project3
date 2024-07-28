@@ -31,4 +31,3 @@ const PaySlip = () => {
 };
 
 export default PaySlip;
-

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import RequestLeaveForm from "./RequestLeaveForm";
 import TimeClock from "./TimeClock";
-import PaySlip from "./PaySlip";
 import {
   addMonths,
   subMonths,
@@ -51,7 +50,7 @@ const EmployeeDashboard = () => {
       // Carica i pay slip esistenti
       const storedPaySlips = JSON.parse(localStorage.getItem("paySlips")) || [];
       const userPaySlips = storedPaySlips.filter(
-        (paySlip) => paySlip.employee === loggedInUser.email
+        (paySlip) => paySlip.email === loggedInUser.email
       );
       setPaySlips(userPaySlips);
 
@@ -240,9 +239,8 @@ const EmployeeDashboard = () => {
                 {paySlips.map((paySlip, index) => (
                   <li key={index}>
                     <div className="pay-slip-item">
-                      <span>Date: {paySlip.date}</span>
-                      <span>Amount: {paySlip.amount}</span>
-                      <span>Details: {paySlip.details}</span>
+                      <span>Month/Year: {paySlip.month}/{paySlip.year}</span>
+                      <span>Amount: ${paySlip.amount}</span>
                     </div>
                   </li>
                 ))}
