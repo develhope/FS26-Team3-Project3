@@ -1,4 +1,4 @@
-.w body {
+body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
@@ -49,6 +49,7 @@
 }
 
 .card {
+  background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
@@ -69,7 +70,7 @@
 }
 
 .summary-item {
-  background-color: #f8f8f8;
+  background-color: white;
   border-radius: 4px;
   text-align: center;
 }
@@ -107,7 +108,7 @@
 }
 
 .day-card.occupied {
-  background-color: #f8f8f8;
+  background-color: white;
 }
 
 .day-card span:first-child {
@@ -214,11 +215,27 @@
 .on-duty-workers,
 .request-leave,
 .summary,
-.my-leave-requests {
-  background-color: white; /* Aggiungi questa riga */
-  padding: 20px; /* Aggiungi questa riga se non c'è padding */
-  border-radius: 8px; /* Aggiungi questa riga per arrotondare i bordi */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi questa riga per l'ombra */
+.my-leave-requests,
+.pay-slip-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pay-slip-container ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pay-slip-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.pay-slip-item:last-child {
+  border-bottom: none;
 }
 
 @media (max-width: 600px) {

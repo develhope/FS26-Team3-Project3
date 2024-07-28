@@ -204,7 +204,7 @@ const EmployeeDashboard = () => {
         <div className="scrolling-container">
           {renderMonth()}
         </div>
-        <div className="card">
+        <div className="card on-duty-workers">
           <h3>On Duty Workers</h3>
           <ul>
             {onDutyWorkers.map(worker => (
@@ -214,11 +214,11 @@ const EmployeeDashboard = () => {
             ))}
           </ul>
         </div>
-        <div className="card">
+        <div className="card request-leave">
           <h3>Request Leave</h3>
           <RequestLeaveForm onSubmit={handleRequestSubmit} />
         </div>
-        <div className="card">
+        <div className="card my-leave-requests">
           <h3>My Leave Requests</h3>
           <ul>
             {leaveRequests.map((request, index) => (
@@ -231,17 +231,15 @@ const EmployeeDashboard = () => {
             ))}
           </ul>
         </div>
-        <div className="card">
+        <div className="card pay-slip-container">
           <h3>My Pay Slips</h3>
-          <div className="pay-slip-container">
+          <div>
             {paySlips.length > 0 ? (
               <ul>
                 {paySlips.map((paySlip, index) => (
-                  <li key={index}>
-                    <div className="pay-slip-item">
-                      <span>Month/Year: {paySlip.month}/{paySlip.year}</span>
-                      <span>Amount: ${paySlip.amount}</span>
-                    </div>
+                  <li key={index} className="pay-slip-item">
+                    <span>Month/Year: {paySlip.month}/{paySlip.year}</span>
+                    <span>Amount: ${paySlip.amount}</span>
                   </li>
                 ))}
               </ul>

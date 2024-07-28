@@ -10,6 +10,7 @@ const ManagePaySlips = () => {
   const [amount, setAmount] = useState('');
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
+  const [showPaySlips, setShowPaySlips] = useState(false);
 
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
@@ -36,47 +37,62 @@ const ManagePaySlips = () => {
     }
   };
 
+  const togglePaySlips = () => {
+    setShowPaySlips(!showPaySlips);
+  };
+
   return (
-    <div className="manage-pay-slips">
+    <div className="manage-pay-slips card">
       <h2>Manage Pay Slips</h2>
-      <div className="pay-slip-form">
-        <select onChange={e => setSelectedUser(users.find(user => user.email === e.target.value))} value={selectedUser ? selectedUser.email : ''}>
-          <option value="">Select Employee</option>
-          {users.filter(user => user.role === 'user').map(user => (
-            <option key={user.email} value={user.email}>{user.firstName} {user.lastName}</option>
-          ))}
-        </select>
-        <input
-          type="number"
-          placeholder="Amount"
-          value={amount}
-          onChange={e => setAmount(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Month"
-          value={month}
-          onChange={e => setMonth(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Year"
-          value={year}
-          onChange={e => setYear(e.target.value)}
-        />
-        <button onClick={handleAddPaySlip}>Add Pay Slip</button>
-      </div>
-      <h3>Existing Pay Slips</h3>
-      <ul>
-        {paySlips.map((paySlip, index) => (
-          <li key={index} className="pay-slip-item">
-            <p><strong>Employee:</strong> {paySlip.email}</p>
-            <p><strong>Month:</strong> {paySlip.month}</p>
-            <p><strong>Year:</strong> {paySlip.year}</p>
-            <p><strong>Amount:</strong> ${paySlip.amount}</p>
-          </li>
+      <select 
+        className="select-field"
+        onChange={e => setSelectedUser(users.find(user => user.email === e.target.value))} 
+        value={selectedUser ? selectedUser.email : ''}
+      >
+        <option value="">Select Employee</option>
+        {users.filter(user => user.role === 'user').map(user => (
+          <option key={user.email} value={user.email}>{user.firstName} {user.lastName}</option>
         ))}
-      </ul>
+      </select>
+      <input
+        className="input-field"
+        type="number"
+        placeholder="Amount"
+        value={amount}
+        onChange={e => setAmount(e.target.value)}
+      />
+      <input
+        className="input-field"
+        type="text"
+        placeholder="Month"
+        value={month}
+        onChange={e => setMonth(e.target.value)}
+      />
+      <input
+        className="input-field"
+        type="text"
+        placeholder="Year"
+        value={year}
+        onChange={e => setYear(e.target.value)}
+      />
+      <button className="add-button" onClick={handleAddPaySlip}>Add Pay Slip</button>
+      <div className="existing-pay-slips">
+        <button className="dropdown-button" onClick={togglePaySlips}>
+          Existing Pay Slips
+        </button>
+        {showPaySlips && (
+          <ul className="pay-slip-list">
+            {paySlips.map((paySlip, index) => (
+              <li key={index} className="pay-slip-item">
+                <p><strong>Employee:</strong> {paySlip.email}</p>
+                <p><strong>Month:</strong> {paySlip.month}</p>
+                <p><strong>Year:</strong> {paySlip.year}</p>
+                <p><strong>Amount:</strong> ${paySlip.amount}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };
