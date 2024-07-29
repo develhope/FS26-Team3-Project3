@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   );
 
   const login = (user) => {
+    console.log("Logging in user:", user);
     setIsAuthenticated(true);
     setUserRole(user.role);
     setLoggedInUser(user);
@@ -21,6 +22,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    console.log("Logging out");
     setIsAuthenticated(false);
     setUserRole(null);
     setLoggedInUser(null);

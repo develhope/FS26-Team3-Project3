@@ -26,6 +26,7 @@ const App = () => {
         password: "12345",
         id: "E0941518441",
         role: "user",
+        gender: "male",
       },
       {
         firstName: "Francesca",
@@ -34,6 +35,7 @@ const App = () => {
         password: "girasole",
         id: "ECARTADIEDENTITA",
         role: "supervisor",
+        gender: "female",
       },
       {
         firstName: "Riccardo",
@@ -42,19 +44,13 @@ const App = () => {
         password: "qwerty",
         id: "RC",
         role: "user",
+        gender: "male",
       },
     ];
 
     const storedUsers = localStorage.getItem("users");
     if (!storedUsers) {
       localStorage.setItem("users", JSON.stringify(members));
-    }
-
-    if (process.env.NODE_ENV === "development") {
-      localStorage.removeItem("clockInTimes");
-      localStorage.removeItem("clockOutTimes");
-      localStorage.removeItem("leaveRequests");
-      localStorage.setItem("onDutyWorkers", JSON.stringify([]));
     }
   }, []);
 
@@ -74,7 +70,10 @@ const App = () => {
           <Route
             path="/dashboard-supervisor"
             element={
-              <PrivateRoute role="supervisor" element={<DashboardSupervisor />} />
+              <PrivateRoute
+                role="supervisor"
+                element={<DashboardSupervisor />}
+              />
             }
           />
           <Route

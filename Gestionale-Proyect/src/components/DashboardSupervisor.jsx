@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import EditEmployee from "./EditEmployee";
 import LeaveRequestsList from "./LeaveRequestsList";
-import ManagePaySlips from "./ManagePaySlips";  
+import ManagePaySlips from "./ManagePaySlips";
 import "./DashboardSupervisor.css";
 
 const DashboardSupervisor = () => {
@@ -14,23 +14,26 @@ const DashboardSupervisor = () => {
   const [onDutyWorkers, setOnDutyWorkers] = useState([]);
   const { loggedInUser, logout } = useAuth();
   const navigate = useNavigate();
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [selectedRecipients, setSelectedRecipients] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState(""); 
+  const [popupMessage, setPopupMessage] = useState("");
 
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
 
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
-    const filteredRequests = storedRequests.filter(
-      (req) => req.recipients.includes(loggedInUser.email)
+    const storedRequests =
+      JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    console.log("Stored Requests: ", storedRequests);
+    const filteredRequests = storedRequests.filter((req) =>
+      req.recipients.includes(loggedInUser.email)
     );
 
     setUsers(storedUsers);
     setLeaveRequests(filteredRequests);
+    console.log("Loaded leaveRequests from localStorage: ", filteredRequests);
 
     const workers = storedUsers.map((user) => {
       const startTime = localStorage.getItem(`${user.email}-startTime`);
@@ -61,17 +64,22 @@ const DashboardSupervisor = () => {
   };
 
   const handleApprove = (index) => {
-    const newRequests = [...leaveRequests];
-    newRequests[index].status = "Approved";
-    setLeaveRequests(newRequests);
-    localStorage.setItem("leaveRequests", JSON.stringify(newRequests));
+    console.log("Approving request at index:", index);
+    const updatedRequests = [...leaveRequests];
+    updatedRequests[index].status = "Approved";
+    updateRequests(updatedRequests);
   };
 
   const handleDeny = (index) => {
-    const newRequests = [...leaveRequests];
-    newRequests[index].status = "Denied";
-    setLeaveRequests(newRequests);
-    localStorage.setItem("leaveRequests", JSON.stringify(newRequests));
+    console.log("Denying request at index:", index);
+    const updatedRequests = [...leaveRequests];
+    updatedRequests[index].status = "Denied";
+    updateRequests(updatedRequests);
+  };
+
+  const updateRequests = (updatedRequests) => {
+    setLeaveRequests(updatedRequests);
+    localStorage.setItem("leaveRequests", JSON.stringify(updatedRequests));
   };
 
   const handleAcknowledge = (notificationId) => {
@@ -79,7 +87,8 @@ const DashboardSupervisor = () => {
       (notification) => notification.id !== notificationId
     );
     setNotifications(updatedNotifications);
-    const allNotifications = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    const allNotifications =
+      JSON.parse(localStorage.getItem("leaveRequests")) || [];
     const notificationIndex = allNotifications.findIndex(
       (notification) => notification.id === notificationId
     );
@@ -114,12 +123,12 @@ const DashboardSupervisor = () => {
     const dailyHoursKey = `${email}-dailyHours`;
     const dailyHours = JSON.parse(localStorage.getItem(dailyHoursKey)) || {};
     let totalHours = 0;
-  
-    Object.values(dailyHours).forEach(hours => {
+
+    Object.values(dailyHours).forEach((hours) => {
       totalHours += hours;
     });
 
-    return totalHours.toFixed(2); 
+    return totalHours.toFixed(2);
   };
 
   const handleSendNotification = () => {
@@ -127,15 +136,16 @@ const DashboardSupervisor = () => {
       id: Date.now(),
       message,
       recipients: selectedRecipients,
-      readBy: []
+      readBy: [],
     };
-    const allNotifications = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    const allNotifications =
+      JSON.parse(localStorage.getItem("leaveRequests")) || [];
     allNotifications.push(newNotification);
     localStorage.setItem("leaveRequests", JSON.stringify(allNotifications));
-    setMessage('');
+    setMessage("");
     setSelectedRecipients([]);
-    setPopupMessage("Message sent"); 
-    setShowPopup(true); 
+    setPopupMessage("Message sent");
+    setShowPopup(true);
   };
 
   return (
@@ -172,12 +182,15 @@ const DashboardSupervisor = () => {
           <h3>Notifications</h3>
           {notifications.length > 0 ? (
             <ul>
-              {notifications.map(notification => (
+              {notifications.map((notification) => (
                 <li key={notification.id}>
                   <div className="notification-message">
                     {notification.message}
                   </div>
-                  <button className="confirm-button" onClick={() => handleAcknowledge(notification.id)}>
+                  <button
+                    className="confirm-button"
+                    onClick={() => handleAcknowledge(notification.id)}
+                  >
                     Confirm
                   </button>
                 </li>
@@ -191,7 +204,7 @@ const DashboardSupervisor = () => {
       <div className="dashboard-container">
         <div className="dashboard-content">
           <div className="dashboard-grid">
-            <div className="user-list card">
+            <div className="user-list">
               <h2>User List</h2>
               <ul>
                 {users
@@ -202,6 +215,7 @@ const DashboardSupervisor = () => {
                         {user.firstName} {user.lastName}
                       </div>
                       <div>Email: {user.email}</div>
+                      <div>Gender:{user.gender}</div>
                     </li>
                   ))}
               </ul>
@@ -209,16 +223,14 @@ const DashboardSupervisor = () => {
           </div>
 
           <div className="dashboard-grid">
-            <div className="on-duty-workers card">
+            <div className="card">
               <h2>On Duty Workers</h2>
               <ul>
-                {onDutyWorkers
-                  .filter((worker) => worker.role !== "supervisor")
-                  .map((worker) => (
-                    <li key={worker.email}>
-                      {worker.firstName} {worker.lastName} - Clocked in at:{" "}
-                      {worker.startTime.toLocaleTimeString()}
-                    </li>
+                {onDutyWorkers.map((worker) => (
+                  <li key={worker.email}>
+                    {worker.firstName} {worker.lastName} - Clocked in at:{" "}
+                    {worker.startTime.toLocaleTimeString()}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -232,14 +244,23 @@ const DashboardSupervisor = () => {
                   .filter((user) => user.role !== "supervisor")
                   .map((user) => (
                     <li key={user.email}>
-                      {user.firstName} {user.lastName} : {calculateMonthlyHours(user.email)}
+                      {user.firstName} {user.lastName} :{" "}
+                      {calculateMonthlyHours(user.email)}
                     </li>
-                ))}
+                  ))}
               </ul>
             </div>
           </div>
 
           <div className="dashboard-grid">
+            <div className={`sidebar ${showSidebar ? "open" : ""}`}>
+              <LeaveRequestsList
+                requests={leaveRequests}
+                onApprove={handleApprove}
+                onDeny={handleDeny}
+              />
+            </div>
+
             <div className="pay-slips card">
               <h2>Manage Pay Slips</h2>
               <ManagePaySlips />
@@ -267,27 +288,24 @@ const DashboardSupervisor = () => {
               className="recipients-select"
               value={selectedRecipients}
               onChange={(e) =>
-                setSelectedRecipients(Array.from(e.target.selectedOptions, option => option.value))
+                setSelectedRecipients(
+                  Array.from(e.target.selectedOptions, (option) => option.value)
+                )
               }
             >
-              {users.filter(user => user.role !== 'supervisor').map((user) => (
-                <option key={user.id} value={user.email}>
-                  {user.firstName} {user.lastName}
-                </option>
-              ))}
+              {users
+                .filter((user) => user.role !== "supervisor")
+                .map((user) => (
+                  <option key={user.id} value={user.email}>
+                    {user.firstName} {user.lastName}
+                  </option>
+                ))}
             </select>
             <button className="send-button" onClick={handleSendNotification}>
               Send
             </button>
           </div>
         </div>
-      </div>
-      <div className={`sidebar ${showSidebar ? "open" : ""}`}>
-        <LeaveRequestsList
-          requests={leaveRequests}
-          onApprove={handleApprove}
-          onDeny={handleDeny}
-        />
       </div>
       {showPopup && (
         <div className="popup">

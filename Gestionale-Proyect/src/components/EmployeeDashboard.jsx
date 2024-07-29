@@ -31,7 +31,8 @@ const EmployeeDashboard = () => {
   useEffect(() => {
     if (loggedInUser) {
       setUser(loggedInUser);
-      const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+      const storedRequests =
+        JSON.parse(localStorage.getItem("leaveRequests")) || [];
       const userRequests = storedRequests.filter(
         (request) => request.employee === loggedInUser.email
       );
@@ -56,17 +57,25 @@ const EmployeeDashboard = () => {
       );
       setPaySlips(userPaySlips);
 
-      const storedNotifications = JSON.parse(localStorage.getItem("notifications")) || [];
+      const storedNotifications =
+        JSON.parse(localStorage.getItem("notifications")) || [];
       const userNotifications = storedNotifications.filter(
-        (notification) => notification.recipients.includes(loggedInUser.email)
+        (notification) =>
+          notification.recipients.includes(loggedInUser.email) &&
+          !notification.readBy.includes(loggedInUser.email)
       );
       setNotifications(userNotifications);
 
       const fetchOnDutyWorkers = () => {
         const allUsers = JSON.parse(localStorage.getItem("users")) || [];
-        const onDutyEmails = JSON.parse(localStorage.getItem("onDutyWorkers")) || [];
-        const onDuty = allUsers.filter(user => onDutyEmails.includes(user.email));
-        const onDutyExcludingSelf = onDuty.filter(worker => worker.email !== loggedInUser.email);
+        const onDutyEmails =
+          JSON.parse(localStorage.getItem("onDutyWorkers")) || [];
+        const onDuty = allUsers.filter((user) =>
+          onDutyEmails.includes(user.email)
+        );
+        const onDutyExcludingSelf = onDuty.filter(
+          (worker) => worker.email !== loggedInUser.email
+        );
         setOnDutyWorkers(onDutyExcludingSelf);
       };
 
@@ -81,7 +90,8 @@ const EmployeeDashboard = () => {
 
     setTimeout(() => {
       if (scrollingContainerRef.current) {
-        const todayElement = scrollingContainerRef.current.children[daysFromStart];
+        const todayElement =
+          scrollingContainerRef.current.children[daysFromStart];
         if (todayElement) {
           scrollingContainerRef.current.scrollLeft = todayElement.offsetLeft;
         }
@@ -102,7 +112,8 @@ const EmployeeDashboard = () => {
       (notification) => notification.id !== notificationId
     );
     setNotifications(updatedNotifications);
-    const allNotifications = JSON.parse(localStorage.getItem("notifications")) || [];
+    const allNotifications =
+      JSON.parse(localStorage.getItem("notifications")) || [];
     const notificationIndex = allNotifications.findIndex(
       (notification) => notification.id === notificationId
     );
@@ -114,7 +125,8 @@ const EmployeeDashboard = () => {
 
   const handleRequestSubmit = (request) => {
     const newRequest = { ...request, employee: user.email };
-    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    const storedRequests =
+      JSON.parse(localStorage.getItem("leaveRequests")) || [];
     const updatedRequests = [...storedRequests, newRequest];
 
     const uniqueRequests = updatedRequests.filter(
@@ -178,11 +190,12 @@ const EmployeeDashboard = () => {
       daysArray.push(
         <div
           key={date}
-          className={`day-card ${isOffDay ? "free" : "occupied"} ${isToday ? "highlight-today" : ""}`}
+          className={`day-card ${isOffDay ? "free" : "occupied"} ${
+            isToday ? "highlight-today" : ""
+          }`}
         >
           <span>{dayOfWeek}</span>
           <span>{format(day, dateFormat)}</span>
-          <span>{isOffDay ? "Free" : "Occupied"}</span>
         </div>
       );
       day = addDays(day, 1);
@@ -215,7 +228,10 @@ const EmployeeDashboard = () => {
       <div className="header">
         <div className="header-container">
           <h1>Home</h1>
-          <div className="bell-icon" onClick={() => setShowNotifications(!showNotifications)}>
+          <div
+            className="bell-icon"
+            onClick={() => setShowNotifications(!showNotifications)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -270,7 +286,9 @@ const EmployeeDashboard = () => {
             Prev
           </button>
           <h2>{format(currentMonth, "MMMM yyyy")}</h2>
-          <button className="nav-button" onClick={nextMonth}>Next</button>
+          <button className="nav-button" onClick={nextMonth}>
+            Next
+          </button>
         </div>
         <div className="scrolling-container" ref={scrollingContainerRef}>
           {renderMonth()}
@@ -278,9 +296,12 @@ const EmployeeDashboard = () => {
         <div className="card on-duty-workers">
           <h3>On Duty Workers</h3>
           <ul>
-            {onDutyWorkers.map(worker => (
+            {onDutyWorkers.map((worker) => (
               <li key={worker.email}>
-                {worker.firstName} {worker.lastName} - Clocked in at: {new Date(localStorage.getItem(`${worker.email}-startTime`)).toLocaleTimeString()}
+                {worker.firstName} {worker.lastName} - Clocked in at:{" "}
+                {new Date(
+                  localStorage.getItem(`${worker.email}-startTime`)
+                ).toLocaleTimeString()}
               </li>
             ))}
           </ul>
@@ -309,7 +330,9 @@ const EmployeeDashboard = () => {
               <ul>
                 {paySlips.map((paySlip, index) => (
                   <li key={index} className="pay-slip-item">
-                    <span>{paySlip.month} {paySlip.year}</span>
+                    <span>
+                      {paySlip.month} {paySlip.year}
+                    </span>
                     <span> Amount: ${paySlip.amount}</span>
                   </li>
                 ))}
@@ -330,12 +353,15 @@ const EmployeeDashboard = () => {
           <h3>Notifications</h3>
           {notifications.length > 0 ? (
             <ul>
-              {notifications.map(notification => (
+              {notifications.map((notification) => (
                 <li key={notification.id}>
                   <div className="notification-message">
                     {notification.message}
                   </div>
-                  <button className="confirm-button" onClick={() => handleAcknowledge(notification.id)}>
+                  <button
+                    className="confirm-button"
+                    onClick={() => handleAcknowledge(notification.id)}
+                  >
                     Confirm
                   </button>
                 </li>

@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import "./LeaveRequestsList.css";
 
 Modal.setAppElement("#root");
 
-const LeaveRequestsList = ({ onApprove, onDeny }) => {
-  const [requests, setRequests] = useState([]);
+const LeaveRequestsList = ({ requests, onApprove, onDeny }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [actionType, setActionType] = useState("");
-
-  useEffect(() => {
-    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
-    setRequests(storedRequests);
-  }, []);
 
   const openModal = (request, action) => {
     setSelectedRequest(request);
@@ -30,20 +24,13 @@ const LeaveRequestsList = ({ onApprove, onDeny }) => {
   const handleConfirm = () => {
     const index = requests.indexOf(selectedRequest);
     if (actionType === "approve") {
+      console.log("Approving request at index:", index);
       onApprove(index);
-      updateRequestStatus(index, "Approved");
     } else if (actionType === "deny") {
+      console.log("Denying request at index:", index);
       onDeny(index);
-      updateRequestStatus(index, "Denied");
     }
     closeModal();
-  };
-
-  const updateRequestStatus = (index, status) => {
-    const updatedRequests = [...requests];
-    updatedRequests[index].status = status;
-    setRequests(updatedRequests);
-    localStorage.setItem("leaveRequests", JSON.stringify(updatedRequests));
   };
 
   const pendingRequests = requests.filter(
@@ -119,4 +106,3 @@ const LeaveRequestsList = ({ onApprove, onDeny }) => {
 };
 
 export default LeaveRequestsList;
-
