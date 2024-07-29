@@ -43,7 +43,6 @@ const ManagePaySlips = () => {
 
   return (
     <div className="manage-pay-slips card">
-      <h2>Manage Pay Slips</h2>
       <select 
         className="select-field"
         onChange={e => setSelectedUser(users.find(user => user.email === e.target.value))} 

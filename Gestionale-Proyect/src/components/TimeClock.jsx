@@ -70,6 +70,18 @@ const TimeClock = () => {
     if (startTime) {
       const diff = (end - startTime) / (1000 * 60 * 60); 
       setHoursWorked(diff.toFixed(2));
+
+      const today = new Date().toISOString().split('T')[0];
+      const dailyHoursKey = `${loggedInUser.email}-dailyHours`;
+      const dailyHours = JSON.parse(localStorage.getItem(dailyHoursKey)) || {};
+
+      if (dailyHours[today]) {
+        dailyHours[today] += diff;
+      } else {
+        dailyHours[today] = diff;
+      }
+
+      localStorage.setItem(dailyHoursKey, JSON.stringify(dailyHours));
     }
   };
 

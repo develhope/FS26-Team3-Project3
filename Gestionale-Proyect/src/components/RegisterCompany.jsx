@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RegisterCompany.css";
-import Header from "./Header";
 
 const RegisterCompany = () => {
   const [companyName, setCompanyName] = useState("");

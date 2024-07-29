@@ -4,7 +4,6 @@ const PaySlip = () => {
   const [paySlips, setPaySlips] = useState([]);
 
   useEffect(() => {
-    // Recupera i pay slip dal localStorage
     const storedPaySlips = JSON.parse(localStorage.getItem("paySlips")) || [];
     setPaySlips(storedPaySlips);
   }, []);

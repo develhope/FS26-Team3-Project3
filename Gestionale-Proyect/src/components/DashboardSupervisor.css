@@ -139,6 +139,134 @@
   margin-top: 20px;
 }
 
+.send-notification {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  margin-bottom: 80px;
+}
+
+.send-notification h3 {
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.message-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.recipients-select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.send-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+}
+
+.notifications {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notifications h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+.notifications ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notifications li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.notifications li:last-child {
+  border-bottom: none;
+}
+
+.notifications button {
+  background: none;
+  border: none;
+  color: green;
+  cursor: pointer;
+}
+
+.notifications button:hover {
+  color: darkgreen;
+}
+
+.notification-message {
+  flex: 1;
+}
+
+.confirm-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.confirm-button:hover {
+  background-color: #0056b3;
+}
+
+.popup {
+  position: fixed;
+  bottom: 20%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  text-align: center;
+  max-width: 300px;
+  width: auto;
+}
+
 .footer {
   background-color: #007bff;
   color: white;
@@ -151,13 +279,14 @@
   transform: translateX(-50%);
   display: flex;
   justify-content: space-around;
+  padding: 15px 0;
 }
 
 .footer a {
   color: white;
   text-align: center;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -165,11 +294,11 @@
 
 .footer a span {
   display: block;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .footer i {
-  font-size: 18px;
+  font-size: 22px;
 }
 
 @media (max-width: 600px) {

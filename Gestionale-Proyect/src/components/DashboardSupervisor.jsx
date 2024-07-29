@@ -14,30 +14,23 @@ const DashboardSupervisor = () => {
   const [onDutyWorkers, setOnDutyWorkers] = useState([]);
   const { loggedInUser, logout } = useAuth();
   const navigate = useNavigate();
+  const [message, setMessage] = useState('');
+  const [selectedRecipients, setSelectedRecipients] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState(""); 
+
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   useEffect(() => {
-    console.log("Fetching users and leave requests from local storage");
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    let storedRequests =
-      JSON.parse(localStorage.getItem("leaveRequests")) || [];
-
-    storedRequests = storedRequests.filter(
-      (req, index, self) =>
-        index ===
-        self.findIndex(
-          (r) =>
-            r.startDate === req.startDate &&
-            r.endDate === req.endDate &&
-            r.employee === req.employee &&
-            r.reason === req.reason &&
-            r.status === req.status
-        )
+    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    const filteredRequests = storedRequests.filter(
+      (req) => req.recipients.includes(loggedInUser.email)
     );
 
-    localStorage.setItem("leaveRequests", JSON.stringify(storedRequests));
-
     setUsers(storedUsers);
-    setLeaveRequests(storedRequests);
+    setLeaveRequests(filteredRequests);
 
     const workers = storedUsers.map((user) => {
       const startTime = localStorage.getItem(`${user.email}-startTime`);
@@ -51,13 +44,9 @@ const DashboardSupervisor = () => {
     setOnDutyWorkers(
       workers.filter((worker) => worker.startTime && !worker.endTime)
     );
-    console.log("Users loaded:", storedUsers);
-    console.log("Leave requests loaded:", storedRequests);
-    console.log("On duty workers:", workers.filter((worker) => worker.startTime && !worker.endTime));
-  }, []);
+  }, [loggedInUser]);
 
   const updateUser = (updatedUser) => {
-    console.log("Updating user:", updatedUser);
     const updatedUsers = users.map((user) =>
       user.id === updatedUser.id ? updatedUser : user
     );
@@ -72,7 +61,6 @@ const DashboardSupervisor = () => {
   };
 
   const handleApprove = (index) => {
-    console.log("Approving leave request at index:", index);
     const newRequests = [...leaveRequests];
     newRequests[index].status = "Approved";
     setLeaveRequests(newRequests);
@@ -80,11 +68,25 @@ const DashboardSupervisor = () => {
   };
 
   const handleDeny = (index) => {
-    console.log("Denying leave request at index:", index);
     const newRequests = [...leaveRequests];
     newRequests[index].status = "Denied";
     setLeaveRequests(newRequests);
     localStorage.setItem("leaveRequests", JSON.stringify(newRequests));
+  };
+
+  const handleAcknowledge = (notificationId) => {
+    const updatedNotifications = notifications.filter(
+      (notification) => notification.id !== notificationId
+    );
+    setNotifications(updatedNotifications);
+    const allNotifications = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    const notificationIndex = allNotifications.findIndex(
+      (notification) => notification.id === notificationId
+    );
+    if (notificationIndex !== -1) {
+      allNotifications[notificationIndex].readBy.push(loggedInUser.email);
+    }
+    localStorage.setItem("leaveRequests", JSON.stringify(allNotifications));
   };
 
   const pendingRequests = leaveRequests.filter(
@@ -109,30 +111,38 @@ const DashboardSupervisor = () => {
   }, [showSidebar]);
 
   const calculateMonthlyHours = (email) => {
-    const startTimeKey = `${email}-startTimes`;
-    const endTimeKey = `${email}-endTimes`;
-    const monthlyStartTimes = JSON.parse(localStorage.getItem(startTimeKey)) || [];
-    const monthlyEndTimes = JSON.parse(localStorage.getItem(endTimeKey)) || [];
+    const dailyHoursKey = `${email}-dailyHours`;
+    const dailyHours = JSON.parse(localStorage.getItem(dailyHoursKey)) || {};
     let totalHours = 0;
   
-    for (let i = 0; i < monthlyStartTimes.length; i++) {
-      const startTime = new Date(monthlyStartTimes[i]);
-      const endTime = new Date(monthlyEndTimes[i]);
-      if (!isNaN(startTime) && !isNaN(endTime)) {
-        const hoursWorked = (endTime - startTime) / 1000 / 60 / 60;
-        totalHours += hoursWorked;
-      } else {
-        console.warn(`Invalid date format for start or end time: ${startTime}, ${endTime}`);
-      }
-    }
+    Object.values(dailyHours).forEach(hours => {
+      totalHours += hours;
+    });
+
     return totalHours.toFixed(2); 
+  };
+
+  const handleSendNotification = () => {
+    const newNotification = {
+      id: Date.now(),
+      message,
+      recipients: selectedRecipients,
+      readBy: []
+    };
+    const allNotifications = JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    allNotifications.push(newNotification);
+    localStorage.setItem("leaveRequests", JSON.stringify(allNotifications));
+    setMessage('');
+    setSelectedRecipients([]);
+    setPopupMessage("Message sent"); 
+    setShowPopup(true); 
   };
 
   return (
     <div className="dashboard-wrapper">
       <div className="header">
         <div className="header-container">
-          <h1>Supervisor Dashboard</h1>
+          <h1>Home</h1>
           <div
             className="bell-icon"
             onClick={() => setShowSidebar(!showSidebar)}
@@ -157,26 +167,30 @@ const DashboardSupervisor = () => {
           </div>
         </div>
       </div>
+      {showNotifications && (
+        <div className="notifications">
+          <h3>Notifications</h3>
+          {notifications.length > 0 ? (
+            <ul>
+              {notifications.map(notification => (
+                <li key={notification.id}>
+                  <div className="notification-message">
+                    {notification.message}
+                  </div>
+                  <button className="confirm-button" onClick={() => handleAcknowledge(notification.id)}>
+                    Confirm
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No new notifications</p>
+          )}
+        </div>
+      )}
       <div className="dashboard-container">
         <div className="dashboard-content">
-          {loggedInUser && (
-            <h2>
-              Welcome, {loggedInUser.firstName} {loggedInUser.lastName}!
-            </h2>
-          )}
           <div className="dashboard-grid">
-            <div className="statistics card">
-              <h2>Statistics</h2>
-              <div>Total Users: {users.length}</div>
-              <div>
-                Total Supervisors:{" "}
-                {users.filter((user) => user.role === "supervisor").length}
-              </div>
-              <div>
-                Total Employees:{" "}
-                {users.filter((user) => user.role === "user").length}
-              </div>
-            </div>
             <div className="user-list card">
               <h2>User List</h2>
               <ul>
@@ -188,10 +202,6 @@ const DashboardSupervisor = () => {
                         {user.firstName} {user.lastName}
                       </div>
                       <div>Email: {user.email}</div>
-                      <div>Role: {user.role}</div>
-                      <div className="hours-edit">
-                        <div>Daily Hours Worked: {user.hoursWorked}</div>
-                      </div>
                     </li>
                   ))}
               </ul>
@@ -202,11 +212,13 @@ const DashboardSupervisor = () => {
             <div className="on-duty-workers card">
               <h2>On Duty Workers</h2>
               <ul>
-                {onDutyWorkers.map((worker) => (
-                  <li key={worker.email}>
-                    {worker.firstName} {worker.lastName} - Clocked in at:{" "}
-                    {worker.startTime.toLocaleTimeString()}
-                  </li>
+                {onDutyWorkers
+                  .filter((worker) => worker.role !== "supervisor")
+                  .map((worker) => (
+                    <li key={worker.email}>
+                      {worker.firstName} {worker.lastName} - Clocked in at:{" "}
+                      {worker.startTime.toLocaleTimeString()}
+                    </li>
                 ))}
               </ul>
             </div>
@@ -214,12 +226,14 @@ const DashboardSupervisor = () => {
 
           <div className="dashboard-grid">
             <div className="history card">
-              <h2>Monthly Work Hours</h2>
+              <h2>Hours Worked</h2>
               <ul>
-                {users.map((user) => (
-                  <li key={user.email}>
-                    {user.firstName} {user.lastName} - Hours Worked: {calculateMonthlyHours(user.email)}
-                  </li>
+                {users
+                  .filter((user) => user.role !== "supervisor")
+                  .map((user) => (
+                    <li key={user.email}>
+                      {user.firstName} {user.lastName} : {calculateMonthlyHours(user.email)}
+                    </li>
                 ))}
               </ul>
             </div>
@@ -239,6 +253,33 @@ const DashboardSupervisor = () => {
               onCancel={() => setSelectedUser(null)}
             />
           )}
+
+          <div className="send-notification card">
+            <h3>Send Notification</h3>
+            <textarea
+              className="message-input"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Type your message here"
+            />
+            <select
+              multiple
+              className="recipients-select"
+              value={selectedRecipients}
+              onChange={(e) =>
+                setSelectedRecipients(Array.from(e.target.selectedOptions, option => option.value))
+              }
+            >
+              {users.filter(user => user.role !== 'supervisor').map((user) => (
+                <option key={user.id} value={user.email}>
+                  {user.firstName} {user.lastName}
+                </option>
+              ))}
+            </select>
+            <button className="send-button" onClick={handleSendNotification}>
+              Send
+            </button>
+          </div>
         </div>
       </div>
       <div className={`sidebar ${showSidebar ? "open" : ""}`}>
@@ -248,6 +289,11 @@ const DashboardSupervisor = () => {
           onDeny={handleDeny}
         />
       </div>
+      {showPopup && (
+        <div className="popup">
+          <p>{popupMessage}</p>
+        </div>
+      )}
       <div className="footer">
         <a href="#">
           <i className="fas fa-home"></i>

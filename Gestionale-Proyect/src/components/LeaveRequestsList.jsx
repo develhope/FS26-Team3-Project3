@@ -10,9 +10,7 @@ const LeaveRequestsList = ({ onApprove, onDeny }) => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [actionType, setActionType] = useState("");
 
-  // Carica le richieste di congedo dal localStorage all'avvio
   useEffect(() => {
-    console.log('Loading leave requests from localStorage');
     const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
     setRequests(storedRequests);
   }, []);
@@ -121,3 +119,4 @@ const LeaveRequestsList = ({ onApprove, onDeny }) => {
 };
 
 export default LeaveRequestsList;
+

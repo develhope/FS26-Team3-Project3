@@ -11,14 +11,19 @@ const RequestLeaveForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const supervisors = JSON.parse(localStorage.getItem('users')).filter(user => user.role === 'supervisor').map(user => user.email);
     const request = { 
       leaveType, 
       startDate, 
       endDate, 
       reason, 
       status: 'Pending', 
-      employee: loggedInUser.email 
+      employee: loggedInUser.email,
+      recipients: supervisors 
     };
+    const storedRequests = JSON.parse(localStorage.getItem('leaveRequests')) || [];
+    storedRequests.push(request);
+    localStorage.setItem('leaveRequests', JSON.stringify(storedRequests));
     onSubmit(request);
     setLeaveType('Vacation');
     setStartDate('');
@@ -46,7 +51,13 @@ const RequestLeaveForm = ({ onSubmit }) => {
       </div>
       <div>
         <label>Reason:</label>
-        <textarea value={reason} onChange={(e) => setReason(e.target.value)} required className="textarea-field" />
+        <textarea 
+          value={reason} 
+          onChange={(e) => setReason(e.target.value)} 
+          required 
+          className="textarea-field" 
+          placeholder="Type your message here"
+        />
       </div>
       <button type="submit" className="submit-button">Submit Request</button>
     </form>

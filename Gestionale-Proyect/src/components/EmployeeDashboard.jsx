@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useAuth } from "./AuthContext";
 import RequestLeaveForm from "./RequestLeaveForm";
 import TimeClock from "./TimeClock";
@@ -10,6 +10,7 @@ import {
   addDays,
   format,
   getDay,
+  differenceInCalendarDays,
 } from "date-fns";
 import "./EmployeeDashboard.css";
 import "./PaySlip.css";
@@ -22,13 +23,15 @@ const EmployeeDashboard = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showPopup, setShowPopup] = useState(false);
   const [onDutyWorkers, setOnDutyWorkers] = useState([]);
-  const [paySlips, setPaySlips] = useState([]); // Stato per i pay slip
+  const [paySlips, setPaySlips] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const scrollingContainerRef = useRef(null);
 
   useEffect(() => {
     if (loggedInUser) {
       setUser(loggedInUser);
-      const storedRequests =
-        JSON.parse(localStorage.getItem("leaveRequests")) || [];
+      const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
       const userRequests = storedRequests.filter(
         (request) => request.employee === loggedInUser.email
       );
@@ -47,12 +50,17 @@ const EmployeeDashboard = () => {
       });
       setDaysOff(offDays);
 
-      // Carica i pay slip esistenti
       const storedPaySlips = JSON.parse(localStorage.getItem("paySlips")) || [];
       const userPaySlips = storedPaySlips.filter(
         (paySlip) => paySlip.email === loggedInUser.email
       );
       setPaySlips(userPaySlips);
+
+      const storedNotifications = JSON.parse(localStorage.getItem("notifications")) || [];
+      const userNotifications = storedNotifications.filter(
+        (notification) => notification.recipients.includes(loggedInUser.email)
+      );
+      setNotifications(userNotifications);
 
       const fetchOnDutyWorkers = () => {
         const allUsers = JSON.parse(localStorage.getItem("users")) || [];
@@ -66,10 +74,47 @@ const EmployeeDashboard = () => {
     }
   }, [loggedInUser]);
 
+  useEffect(() => {
+    const today = new Date();
+    setCurrentMonth(startOfMonth(today));
+    const daysFromStart = differenceInCalendarDays(today, startOfMonth(today));
+
+    setTimeout(() => {
+      if (scrollingContainerRef.current) {
+        const todayElement = scrollingContainerRef.current.children[daysFromStart];
+        if (todayElement) {
+          scrollingContainerRef.current.scrollLeft = todayElement.offsetLeft;
+        }
+      }
+    }, 0);
+  }, []);
+
+  const scrollToStartOfMonth = () => {
+    setTimeout(() => {
+      if (scrollingContainerRef.current) {
+        scrollingContainerRef.current.scrollLeft = 0;
+      }
+    }, 0);
+  };
+
+  const handleAcknowledge = (notificationId) => {
+    const updatedNotifications = notifications.filter(
+      (notification) => notification.id !== notificationId
+    );
+    setNotifications(updatedNotifications);
+    const allNotifications = JSON.parse(localStorage.getItem("notifications")) || [];
+    const notificationIndex = allNotifications.findIndex(
+      (notification) => notification.id === notificationId
+    );
+    if (notificationIndex !== -1) {
+      allNotifications[notificationIndex].readBy.push(loggedInUser.email);
+    }
+    localStorage.setItem("notifications", JSON.stringify(allNotifications));
+  };
+
   const handleRequestSubmit = (request) => {
     const newRequest = { ...request, employee: user.email };
-    const storedRequests =
-      JSON.parse(localStorage.getItem("leaveRequests")) || [];
+    const storedRequests = JSON.parse(localStorage.getItem("leaveRequests")) || [];
     const updatedRequests = [...storedRequests, newRequest];
 
     const uniqueRequests = updatedRequests.filter(
@@ -120,18 +165,20 @@ const EmployeeDashboard = () => {
     const monthEnd = endOfMonth(monthStart);
     const dateFormat = "d";
     const daysArray = [];
+    const today = new Date();
 
     let day = monthStart;
 
     while (day <= monthEnd) {
       const date = format(day, "yyyy-MM-dd");
-
       const dayOfWeek = format(day, "EEEE");
       const isOffDay = daysOff.includes(date) || getDay(day) === 0;
+      const isToday = format(day, "yyyy-MM-dd") === format(today, "yyyy-MM-dd");
+
       daysArray.push(
         <div
           key={date}
-          className={`day-card ${isOffDay ? "free" : "occupied"}`}
+          className={`day-card ${isOffDay ? "free" : "occupied"} ${isToday ? "highlight-today" : ""}`}
         >
           <span>{dayOfWeek}</span>
           <span>{format(day, dateFormat)}</span>
@@ -144,11 +191,19 @@ const EmployeeDashboard = () => {
   };
 
   const nextMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, 1));
+    setCurrentMonth((prevMonth) => {
+      const next = addMonths(prevMonth, 1);
+      scrollToStartOfMonth();
+      return next;
+    });
   };
 
   const prevMonth = () => {
-    setCurrentMonth(subMonths(currentMonth, 1));
+    setCurrentMonth((prevMonth) => {
+      const prev = subMonths(prevMonth, 1);
+      scrollToStartOfMonth();
+      return prev;
+    });
   };
 
   if (!user) {
@@ -158,12 +213,28 @@ const EmployeeDashboard = () => {
   return (
     <div className="container-employee">
       <div className="header">
-        <i className="fas fa-bars"></i>
-        <h1>Dashboard</h1>
-        <h3>
-          Welcome, {user.firstName} {user.lastName}!
-        </h3>
-        <i className="fas fa-bell"></i>
+        <div className="header-container">
+          <h1>Home</h1>
+          <div className="bell-icon" onClick={() => setShowNotifications(!showNotifications)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+              />
+            </svg>
+            {notifications.length > 0 && (
+              <div className="notification-dot"></div>
+            )}
+          </div>
+        </div>
       </div>
       <div className="content">
         <div className="card">
@@ -201,7 +272,7 @@ const EmployeeDashboard = () => {
           <h2>{format(currentMonth, "MMMM yyyy")}</h2>
           <button className="nav-button" onClick={nextMonth}>Next</button>
         </div>
-        <div className="scrolling-container">
+        <div className="scrolling-container" ref={scrollingContainerRef}>
           {renderMonth()}
         </div>
         <div className="card on-duty-workers">
@@ -238,8 +309,8 @@ const EmployeeDashboard = () => {
               <ul>
                 {paySlips.map((paySlip, index) => (
                   <li key={index} className="pay-slip-item">
-                    <span>Month/Year: {paySlip.month}/{paySlip.year}</span>
-                    <span>Amount: ${paySlip.amount}</span>
+                    <span>{paySlip.month} {paySlip.year}</span>
+                    <span> Amount: ${paySlip.amount}</span>
                   </li>
                 ))}
               </ul>
@@ -252,6 +323,27 @@ const EmployeeDashboard = () => {
       {showPopup && (
         <div className="popup">
           <p>Your request has been sent!</p>
+        </div>
+      )}
+      {showNotifications && (
+        <div className="notifications">
+          <h3>Notifications</h3>
+          {notifications.length > 0 ? (
+            <ul>
+              {notifications.map(notification => (
+                <li key={notification.id}>
+                  <div className="notification-message">
+                    {notification.message}
+                  </div>
+                  <button className="confirm-button" onClick={() => handleAcknowledge(notification.id)}>
+                    Confirm
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No new notifications</p>
+          )}
         </div>
       )}
       <div className="footer">
